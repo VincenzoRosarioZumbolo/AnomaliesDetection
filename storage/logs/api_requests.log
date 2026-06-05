@@ -282,3 +282,29 @@ giu 05, 2026 2:15:18 PM app.util.LoggerUtil logApiRequest
 INFORMAZIONI: [YahooFinance] Symbol: Gold | Response: Data fetched from API and saved to CSV.
 giu 05, 2026 5:50:53 PM app.util.LoggerUtil logApiRequest
 INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 05, 2026 8:18:32 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1748736000&period2=1780617600&interval=1h
+giu 05, 2026 8:18:33 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 05, 2026 8:18:33 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 05, 2026 8:18:36 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1748736000&period2=1780617600&interval=1d
+giu 05, 2026 8:18:37 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 05, 2026 8:18:37 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 05, 2026 8:18:51 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1748736000&period2=1751241600&interval=1d
+giu 05, 2026 8:18:51 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 05, 2026 8:18:51 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 05, 2026 8:18:59 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1780272000&period2=1780617600&interval=1d
+giu 05, 2026 8:18:59 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 05, 2026 8:18:59 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 05, 2026 8:19:09 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.

@@ -9,11 +9,32 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 
+/**
+ * Service utility layer responsible for handling persistent disk input/output operations.
+ * <p>Manages saving, merging, and retrieving historical asset market pricing blocks and calculated
+ * technical financial indicator metrics using local CSV storage files.</p>
+ */
 public class CsvStorageService {
 
+    /**
+     * Relative path directory location mapping where local asset pricing data records are stored.
+     */
     private static final String DATA_PATH = "storage/data/";
+
+    /**
+     * Relative path directory location mapping where historical calculated technical indicator values are stored.
+     */
     private static final String INDICATORS_PATH = "storage/indicators/";
 
+    /**
+     * Saves a list of historical pricing data records into a dedicated CSV file.
+     * If the file already exists, it reads any existing lines, merges them chronologically
+     * with the new arrivals, eliminates data overrides, and rewrites the complete collection.
+     *
+     * @param fileName   The destination name of the target CSV file.
+     * @param newRecords The list containing new market data record rows to store.
+     * @throws IOException If disk folders cannot be generated or file write streams fail.
+     */
     public static void saveDataRecordsToCsv(String fileName, List<DataRecord> newRecords) throws IOException {
 
         File dir = new File(DATA_PATH);
@@ -50,6 +71,16 @@ public class CsvStorageService {
         }
     }
 
+    /**
+     * Reads and parses a financial dataset CSV file, filtering the records based on an
+     * optional bounding start and end date criteria timeframe.
+     *
+     * @param fileName  The name of the target source database file.
+     * @param startDate The lower timeline boundary filter context. If null, starts from the oldest entry.
+     * @param endDate   The upper timeline boundary filter context. If null, parses up to maximum values.
+     * @return A sorted {@link List} containing parsed domain {@link DataRecord} instances.
+     * @throws IOException If the target resource experiences stream processing file extraction runtime errors.
+     */
     public static List<DataRecord> loadDataRecordsFromCsv(String fileName, LocalDateTime startDate, LocalDateTime endDate) throws IOException {
 
         List<DataRecord> records = new ArrayList<>();
@@ -87,6 +118,17 @@ public class CsvStorageService {
         return records;
     }
 
+    /**
+     * Logs calculated indicator parameters into a designated technical indicators tracking CSV file.
+     * It tracks calculations using a combined unique reference tracking key composed of the timestamp
+     * and the size of the underlying evaluation dataset.
+     *
+     * @param fileName            The destination filename targeting an indicator sheet.
+     * @param timeStamp           The exact epoch instant associated with this indicator assessment entry.
+     * @param dataSize            The size or record row count of the sample set used during computation.
+     * @param financialIndicators The dataset containing computed values for RSI, MACD, ATR, and CMF.
+     * @throws IOException        If folder initialization blocks occur or write handles are rejected by the OS.
+     */
     public static void saveIndicatorsToCsv(String fileName, Instant timeStamp, int dataSize, FinancialIndicators financialIndicators) throws IOException {
 
         File dir = new File(INDICATORS_PATH);
@@ -123,6 +165,16 @@ public class CsvStorageService {
         }
     }
 
+    /**
+     * Searches an indicator log file to retrieve a map of calculated indicator values.
+     * Matches logs using a compound lookup key of the target timestamp and context dataset row size.
+     *
+     * @param fileName      The name of the indicator log file to search.
+     * @param timeStamp     The specific evaluation instant required for lookup matching.
+     * @param dataSize      The volume size bounds of the database rows matching the calculation scope.
+     * @return A {@link Map} pairing technical indicators names to their numeric values, or null if no record matches.
+     * @throws IOException  If file streaming or read actions are interrupted.
+     */
     public static Map<String, Double> loadIndicatorsFromCsv(String fileName, Instant timeStamp, int dataSize) throws IOException {
 
         File file = new File(INDICATORS_PATH + fileName);

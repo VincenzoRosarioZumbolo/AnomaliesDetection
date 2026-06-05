@@ -9,10 +9,24 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Concrete implementation of {@link DataSourceParser} tailored to handle and map
+ * the JSON payload responses specifically returned by the Yahoo Finance API.
+ * <p>Extracts market charting metrics, filters out incomplete timelines, and translates nodes
+ * into internal domain models.</p>
+ */
 public class YahooFinanceParser implements DataSourceParser {
 
+    /**
+     * Extracts multi-layer historical transactional pricing sequences from a Yahoo Finance
+     * hierarchical JSON structural document tree, mapping valid lines into a continuous index.
+     *
+     * @param data The root Jackson {@link JsonNode} representing the raw server payload.
+     * @return A mapped chronological {@link List} of entity model {@link DataRecord} instances.
+     * @throws DataParsingException If structural elements fail schema validation constraints or if expected sub-nodes are missing.
+     */
     @Override
-    public List<DataRecord> parseData(JsonNode data) throws DataParsingException{
+    public List<DataRecord> parseData(JsonNode data) throws DataParsingException {
 
         try {
             List<DataRecord> records = new ArrayList<>();

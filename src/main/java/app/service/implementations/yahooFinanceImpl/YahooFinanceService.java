@@ -18,8 +18,28 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
+/**
+ * Concrete implementation of {@link DataSourceService} interacting with Yahoo Finance
+ * to source historical asset equity metrics.
+ * <p>Features local multi-tier architecture mapping that checks existing local CSV file cache segments
+ * before dispatching outbound HTTP client request handshakes to the server endpoints.</p>
+ */
 public class YahooFinanceService implements DataSourceService {
 
+    /**
+     * Synchronizes and acquires a historical data record array matching specific asset parameters.
+     * Evaluates local folder rows first. If cache metrics are insufficient, it initiates a fresh remote handshake,
+     * parses the response text, merges records seamlessly, writes back to disk storage, and returns the list.
+     *
+     * @param asset       The target financial ticker label descriptor.
+     * @param granularity The timeline frequency bar resolution interval.
+     * @param startDate   The baseline beginning calendar date boundary marking requests.
+     * @param endDate     The terminal concluding calendar date boundary marking requests.
+     * @return A consolidated chronological {@link List} containing matching {@link DataRecord} results.
+     * @throws NetworkException     If the remote host handshake breaks or times out.
+     * @throws ApiRequestException  If the destination processing server responds with error headers.
+     * @throws DataParsingException If structural payloads from remote systems violate mapping formats.
+     */
     @Override
     public List<DataRecord> fetchData(String asset, String granularity, LocalDateTime startDate, LocalDateTime endDate)
             throws NetworkException, ApiRequestException, DataParsingException {
@@ -34,50 +54,45 @@ public class YahooFinanceService implements DataSourceService {
                 return localData;
             }
         } catch (IOException e) {
-
-            LoggerUtil.logError("DataService", "Local cache read error: " + e.getMessage());
+            LoggerUtil.logError("DataService", "Local cache reading error: " + e.getMessage());
         }
 
-        return handleApiRequest(fileName, asset, granularity, startDate, endDate);
-    }
-
-    private List<DataRecord> handleApiRequest(String fileName, String asset, String granularity, LocalDateTime startDate, LocalDateTime endDate)
-            throws NetworkException, ApiRequestException, DataParsingException {
-
+        long period1 = startDate.toEpochSecond(ZoneOffset.UTC);
+        long period2 = endDate.toEpochSecond(ZoneOffset.UTC);
         String ticker = mapAssetToTicker(asset);
-
         String interval = mapGranularityToInterval(granularity);
 
-        String url = String.format("https://query1.finance.yahoo.com/v8/finance/chart/%s?interval=%s&period1=%d&period2=%d",
-                ticker, interval, startDate.toEpochSecond(ZoneOffset.UTC), endDate.toEpochSecond(ZoneOffset.UTC));
+        String url = String.format("https://query1.finance.yahoo.com/v8/finance/chart/%s?period1=%d&period2=%d&interval=%s",
+                ticker, period1, period2, interval);
 
-        HttpRequest.Builder builder = HttpRequest.newBuilder()
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("User-Agent", "Mozilla/5.0")
                 .GET();
 
-        String responseBody = ApiClient.getInstance().sendRequest(builder).body();
-
-        JsonNode root;
-        try {
-            root = ApiClient.getInstance().getObjectMapper().readTree(responseBody);
-        } catch (IOException e) {
-            throw new DataParsingException("Critical error in JSON reply structure.");
-        }
-
-        List<DataRecord> dataRecords = new YahooFinanceParser().parseData(root);
+        var response = ApiClient.getInstance().sendRequest(requestBuilder);
 
         try {
-            CsvStorageService.saveDataRecordsToCsv(fileName, dataRecords);
-            LoggerUtil.logApiRequest("YahooFinance", asset, "Data fetched from API and saved to CSV.");
-        } catch (IOException e) {
-            LoggerUtil.logError("YahooFinance", "Unable to save data to local CSV cache. Running in-memory only. Error: " + e.getMessage());
-        }
+            JsonNode rootNode = ApiClient.getInstance().getObjectMapper().readTree(response.body());
+            YahooFinanceParser parser = new YahooFinanceParser();
+            List<DataRecord> remoteRecords = parser.parseData(rootNode);
 
-        return dataRecords;
+            CsvStorageService.saveDataRecordsToCsv(fileName, remoteRecords);
+
+            return CsvStorageService.loadDataRecordsFromCsv(fileName, startDate, endDate);
+
+        } catch (IOException e) {
+            LoggerUtil.logError("DataService", "Error managing data storage: " + e.getMessage());
+            throw new DataParsingException("Failed to save or process local data serialization.");
+        }
     }
 
-    private static String mapGranularityToInterval(String granularity) {
+    /**
+     * Translates application user interface frequency names into explicit Yahoo Finance API structural format tags.
+     *
+     * @param granularity The plain text timeline bar resolution context.
+     * @return The API matching shorthand code keyword mapping.
+     */
+    private String mapGranularityToInterval(String granularity) {
 
         return switch (granularity) {
             case "Minutely" -> "1m";
@@ -87,8 +102,14 @@ public class YahooFinanceService implements DataSourceService {
         };
     }
 
+    /**
+     * Maps user-friendly financial security naming descriptions into corresponding market ticker lookup codes.
+     *
+     * @param asset The user interface targeted readable parameter keyword.
+     * @return The matching standard financial symbol shorthand.
+     */
     private String mapAssetToTicker(String asset) {
-        
+
         return switch (asset) {
             case "S&P 500" -> "%5EGSPC";
             case "Gold" -> "GC=F";
@@ -99,6 +120,16 @@ public class YahooFinanceService implements DataSourceService {
         };
     }
 
+    /**
+     * Performs a deterministic coverage verification check to confirm whether local data rows are sufficient
+     * to fulfill a specified temporal range without triggering remote handshakes.
+     *
+     * @param localData   The active structural dataset collection pulled from disk storage files.
+     * @param start       The requested tracking start constraint parameter.
+     * @param end         The requested tracking end constraint parameter.
+     * @param granularity The data spacing tracking metric configuration.
+     * @return {@code true} if local data sequences reliably bridge limits, otherwise {@code false}.
+     */
     public boolean isCacheSufficient(List<DataRecord> localData, LocalDateTime start, LocalDateTime end, String granularity) {
 
         if (localData == null || localData.isEmpty()) return false;
@@ -115,10 +146,12 @@ public class YahooFinanceService implements DataSourceService {
         long unitSeconds = switch (granularity) {
             case "Minutely" -> 60L;
             case "Hourly" -> 3600L;
-            default -> 86400L;
+            case "Daily" -> 86400L;
+            default -> Long.MAX_VALUE;
         };
 
-        long expectedRecords = secondsDifference / unitSeconds;
-        return inRange.size() >= (expectedRecords * 0.7);
+        long expectedCount = (secondsDifference / unitSeconds);
+
+        return inRange.size() >= (expectedCount * 0.95);
     }
 }
