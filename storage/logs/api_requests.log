@@ -280,3 +280,5 @@ giu 05, 2026 2:15:17 PM app.util.LoggerUtil logInfo
 INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1h&period1=1767225600&period2=1782259200
 giu 05, 2026 2:15:18 PM app.util.LoggerUtil logApiRequest
 INFORMAZIONI: [YahooFinance] Symbol: Gold | Response: Data fetched from API and saved to CSV.
+giu 05, 2026 5:50:53 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
