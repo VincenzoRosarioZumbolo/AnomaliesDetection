@@ -4,10 +4,12 @@ import app.gui.style.AppColors;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class PrimaryButton extends JButton {
 
     public PrimaryButton(String text) {
+
         super(text);
 
         //behaviour
@@ -23,6 +25,13 @@ public class PrimaryButton extends JButton {
         putClientProperty("JButton.buttonType", "roundRect");
         setBackground(AppColors.PRIMARY_HOVER);
         setBorderPainted(false);
+    }
+
+    public PrimaryButton(String text, ActionListener actionListener) {
+
+        this(text);
+
+        this.addActionListener(actionListener);
     }
 }
 

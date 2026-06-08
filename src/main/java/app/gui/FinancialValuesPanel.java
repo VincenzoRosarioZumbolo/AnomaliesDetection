@@ -81,9 +81,7 @@ public class FinancialValuesPanel extends InvisiblePanel {
 
     private void addCalculateButton() {
 
-        calculateButton = new PrimaryButton("CALCULATE");
-
-        calculateButton.addActionListener(e -> calculate());
+        calculateButton = new PrimaryButton("CALCULATE", e -> calculate());
 
         this.add(calculateButton, new GridBagConstraints(0, 8, 3, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_LARGE, 0, 0));

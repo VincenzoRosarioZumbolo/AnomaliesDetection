@@ -1,6 +1,6 @@
 package app.service;
 
-import app.exception.ApiRequestException;
+import app.exception.ApiException;
 import app.exception.DataParsingException;
 import app.exception.NetworkException;
 import app.model.DataRecord;
@@ -24,9 +24,9 @@ public interface DataSourceService {
      * @param endDate     The terminal concluding calendar date boundary marking requests.
      * @return A structured {@link List} consisting of populated chronological {@link DataRecord} instances.
      * @throws NetworkException     If the connection fails or drops due to local/remote networking errors.
-     * @throws ApiRequestException  If the data vendor processes requests but returns an unsuccesful or forbidden response status code.
+     * @throws ApiException  If the data vendor processes requests but returns an unsuccesful or forbidden response status code.
      * @throws DataParsingException If the returned structured payload fails structural parsing requirements.
      */
     List<DataRecord> fetchData(String asset, String granularity, LocalDateTime startDate, LocalDateTime endDate)
-            throws NetworkException, ApiRequestException, DataParsingException;
+            throws NetworkException, ApiException, DataParsingException;
 }

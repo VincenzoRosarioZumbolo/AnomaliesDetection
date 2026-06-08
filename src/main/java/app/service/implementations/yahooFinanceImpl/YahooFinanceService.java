@@ -1,7 +1,7 @@
 package app.service.implementations.yahooFinanceImpl;
 
 import app.client.ApiClient;
-import app.exception.ApiRequestException;
+import app.exception.ApiException;
 import app.exception.DataParsingException;
 import app.exception.NetworkException;
 import app.model.DataRecord;
@@ -37,12 +37,12 @@ public class YahooFinanceService implements DataSourceService {
      * @param endDate     The terminal concluding calendar date boundary marking requests.
      * @return A consolidated chronological {@link List} containing matching {@link DataRecord} results.
      * @throws NetworkException     If the remote host handshake breaks or times out.
-     * @throws ApiRequestException  If the destination processing server responds with error headers.
+     * @throws ApiException  If the destination processing server responds with error headers.
      * @throws DataParsingException If structural payloads from remote systems violate mapping formats.
      */
     @Override
     public List<DataRecord> fetchData(String asset, String granularity, LocalDateTime startDate, LocalDateTime endDate)
-            throws NetworkException, ApiRequestException, DataParsingException {
+            throws NetworkException, ApiException, DataParsingException {
 
         String fileName = mapAssetToTicker(asset).replace("%5E", "^") + "_" + granularity + ".csv";
 

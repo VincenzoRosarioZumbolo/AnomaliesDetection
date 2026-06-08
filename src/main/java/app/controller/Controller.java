@@ -54,11 +54,11 @@ public class Controller {
      * @param endDate     The end of the timeframe to query. Must not be null or before the startDate.
      * @throws ValidationException  If either date is null, or if the startDate occurs after the endDate.
      * @throws NetworkException     If a network-related connection failure occurs during data fetching.
-     * @throws ApiRequestException  If the remote data provider returns an error response code.
+     * @throws ApiException  If the remote data provider returns an error response code.
      * @throws DataParsingException If the incoming raw data cannot be successfully mapped to {@link DataRecord} models.
      */
     public void searchData(String asset, String granularity, LocalDateTime startDate, LocalDateTime endDate)
-            throws ValidationException, NetworkException, ApiRequestException, DataParsingException {
+            throws ValidationException, NetworkException, ApiException, DataParsingException {
 
         if (startDate == null || endDate == null)
             throw new ValidationException("Please select both start and end dates.");
@@ -98,12 +98,12 @@ public class Controller {
      * @param threshold      The numerical sensitivity/contamination threshold represented as a String to evaluate deviations.
      * @throws ValidationException       If parameters fail initialization requirements during building.
      * @throws NetworkException          If a connection issue blocks retrieving necessary background training data.
-     * @throws ApiRequestException       If the data server explicitly rejects the historical training data request.
+     * @throws ApiException       If the data server explicitly rejects the historical training data request.
      * @throws DataParsingException      If historical records from the data provider cannot be successfully deserialized.
      * @throws AnomalyDetectionException If a `RuntimeException` occurs wrapping the underlying training or scanning routines.
      */
     public void searchForAnomaly(String implementation, LocalDateTime startDate, String threshold)
-            throws ValidationException, NetworkException, ApiRequestException, DataParsingException, AnomalyDetectionException {
+            throws ValidationException, NetworkException, ApiException, DataParsingException, AnomalyDetectionException {
 
         AppState appState = AppState.getInstance();
 

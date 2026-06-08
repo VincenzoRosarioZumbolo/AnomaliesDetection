@@ -1,6 +1,8 @@
 package app.client;
 
-import app.exception.ApiRequestException;
+import app.exception.ApiClientException;
+import app.exception.ApiException;
+import app.exception.ApiServerException;
 import app.exception.NetworkException;
 import app.util.LoggerUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,18 +76,28 @@ public class ApiClient {
      * @param requestBuilder The pre-configured {@link HttpRequest.Builder} containing the URI, parameters, and headers.
      * @return An {@link HttpResponse} containing the server response as a String.
      * @throws NetworkException If an I/O connection error occurs or if the request is interrupted.
-     * @throws ApiRequestException If the server responds with an error status code (greater than or equal to 400).
+     * @throws ApiException If the server responds with an error status code (greater than or equal to 400).
      */
-    public HttpResponse<String> sendRequest(HttpRequest.Builder requestBuilder) throws NetworkException, ApiRequestException {
+    public HttpResponse<String> sendRequest(HttpRequest.Builder requestBuilder) throws NetworkException, ApiException {
         try {
             HttpRequest request = requestBuilder.build();
             LoggerUtil.logInfo("Sending request to:" + request.uri());
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() >= 400) {
+            if (response.statusCode() >= 400 && response.statusCode() <= 499) {
+
                 LoggerUtil.logError("API_CLIENT", "Status: " + response.statusCode() + " | Body: " + response.body());
-                throw new ApiRequestException("Server returned an error (Status code: " + response.statusCode() + ")");
+
+                if (response.statusCode() == 429)
+                    throw new ApiClientException("Too Many Requests, try again later");
+
+                throw new ApiException("Server returned an error (Status code: " + response.statusCode() + ")");
+            } else if(response.statusCode() >= 500) {
+
+                LoggerUtil.logError("API_SERVER", "Status: " + response.statusCode() + " | Body: " + response.body());
+
+                throw new ApiServerException("Server returned an error (Status code: " + response.statusCode() + ")");
             }
 
             return response;
@@ -97,7 +109,6 @@ public class ApiClient {
         } catch (InterruptedException e) {
             LoggerUtil.logError("API_CLIENT", "Request interrupted: " + e.getMessage());
 
-            // Restore the interrupted status of the current thread
             Thread.currentThread().interrupt();
 
             throw new NetworkException("The connection was interrupted.");

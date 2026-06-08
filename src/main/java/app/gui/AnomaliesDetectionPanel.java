@@ -18,21 +18,13 @@ import org.jfree.data.time.TimeSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class AnomaliesDetectionPanel extends InvisiblePanel {
 
-    private enum ViewMode { VERTICAL, HORIZONTAL, SINGLE_FOCUS }
-    private ViewMode currentMode = ViewMode.VERTICAL;
-    private int focusedChartIndex = -1;
-    private List<AnomalyResult> lastResults;
-    private String lastThreshold;
-
-    private JPanel displayContainer;
-    private JPanel chartsPanel;
+    private DynamicChartContainer chartContainer;
 
     private JTextField thresholdTextField;
     private DateTimePicker startDatePicker;
@@ -41,45 +33,49 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
     private JButton searchButton;
 
     public AnomaliesDetectionPanel() {
+
+        super(new GridBagLayout());
+
         addComponents();
         this.setVisible(true);
     }
 
     private void addComponents() {
 
-        searchButton = new PrimaryButton("SEARCH FOR ANOMALY");
-        thresholdTextField = new UnderlinedTextField("0.6");
-        startDatePicker = new UnderlinedDateTimePicker();
-        implementationComboBox = new UnderlinedComboBox<>(implementations);
+        addControlPanel();
 
-        searchButton.addActionListener(e -> searchForAnomaly());
+        chartContainer = new DynamicChartContainer();
+        add(chartContainer, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH, PaddingConstants.PADDING_NONE, 0, 0));
+    }
+
+    private void addControlPanel() {
 
         JPanel componentsPanel = new InvisiblePanel(new GridBagLayout());
+
+        startDatePicker = new UnderlinedDateTimePicker();
         componentsPanel.add(new LabeledComponent("Start training date:", startDatePicker), new GridBagConstraints(0, 0, 1, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
+
+        thresholdTextField = new UnderlinedTextField("0.6");
         componentsPanel.add(new LabeledComponent("Anomaly threshold:", thresholdTextField), new GridBagConstraints(1, 0, 1, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
+
+        implementationComboBox = new UnderlinedComboBox<>(implementations);
         componentsPanel.add(new LabeledComponent("Implementation:", implementationComboBox), new GridBagConstraints(2, 0, 1, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
+
+        searchButton = new PrimaryButton("SEARCH FOR ANOMALY", e -> searchForAnomaly());
         componentsPanel.add(searchButton, new GridBagConstraints(0, 1, 3, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
 
         add(componentsPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, PaddingConstants.PADDING_LARGE, 0, 0));
-
-        displayContainer = new InvisiblePanel(new GridBagLayout());
-        add(displayContainer, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH, PaddingConstants.PADDING_NONE, 0, 0));
     }
 
     private void searchForAnomaly() {
-
         try {
             Controller.getInstance().searchForAnomaly((String) implementationComboBox.getSelectedItem(), startDatePicker.getDateTimePermissive(), thresholdTextField.getText());
-
-            this.lastResults = AppState.getInstance().getAnomalyResults();
-            this.lastThreshold = thresholdTextField.getText();
-
             updateChartsView();
 
         } catch (ValidationException | AnomalyDetectionException e) {
@@ -93,95 +89,18 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
 
     private void updateChartsView() {
 
-        displayContainer.removeAll();
+        List<AnomalyResult> results = AppState.getInstance().getAnomalyResults();
+        double threshold = Double.parseDouble(thresholdTextField.getText());
 
-        if (currentMode != ViewMode.SINGLE_FOCUS)
-            addControlPanel();
+        List<JFreeChart> chartsToDisplay = new ArrayList<>();
 
-        chartsPanel = new InvisiblePanel(new GridBagLayout());
-        chartsPanel.setBackground(Color.white);
-
-        displayContainer.add(chartsPanel, new GridBagConstraints(0, (currentMode == ViewMode.SINGLE_FOCUS) ? 0 : 1, 1, 1,
-                1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, PaddingConstants.PADDING_NONE, 0, 0));
-
-        if (currentMode == ViewMode.SINGLE_FOCUS)
-            addSingleFocusedChart();
-        else
-            addAllCharts();
-
-        displayContainer.revalidate();
-        displayContainer.repaint();
-    }
-
-    private void addControlPanel() {
-
-        JPanel controlPanel = new InvisiblePanel(new BorderLayout());
-        JButton changeViewButton = new PrimaryButton(currentMode == ViewMode.VERTICAL ? "Horizontal view" : "Vertical view");
-
-        changeViewButton.addActionListener(e -> {
-            currentMode = (currentMode == ViewMode.VERTICAL) ? ViewMode.HORIZONTAL : ViewMode.VERTICAL;
-            focusedChartIndex = -1;
-            updateChartsView();
-        });
-
-        controlPanel.add(changeViewButton, BorderLayout.CENTER);
-        displayContainer.add(controlPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, PaddingConstants.PADDING_STANDARD, 0, 0));
-    }
-
-    private void addAllCharts() {
-
-        int gridX = 0;
-        int gridY = 0;
-
-        addChartToGrid(createScoreChart(lastResults, Double.parseDouble(lastThreshold)), 0, gridX, gridY);
-
-        if (currentMode == ViewMode.VERTICAL) gridY++; else gridX++;
+        chartsToDisplay.add(createScoreChart(results, threshold));
 
         String[] features = {"Open", "Close", "High", "Low", "Volume"};
-        for (int i = 0; i < features.length; i++) {
-            addChartToGrid(createContributionChart(lastResults, features[i]), i + 1, gridX, gridY);
-            if (currentMode == ViewMode.VERTICAL) gridY++; else gridX++;
-        }
-    }
+        for (String feature : features)
+            chartsToDisplay.add(createContributionChart(results, feature));
 
-    private void addSingleFocusedChart() {
-
-        JFreeChart chart;
-
-        if (focusedChartIndex == 0) {
-            chart = createScoreChart(lastResults, Double.parseDouble(lastThreshold));
-        } else {
-            String[] features = {"Open", "Close", "High", "Low", "Volume"};
-            chart = createContributionChart(lastResults, features[focusedChartIndex - 1]);
-        }
-
-        addChartToGrid(chart, focusedChartIndex, 0, 0);
-    }
-
-    private void addChartToGrid(JFreeChart chart, int index, int x, int y) {
-
-        StyledChartPanel chartPanel = new StyledChartPanel(chart);
-
-        chartPanel.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                if (currentMode == ViewMode.SINGLE_FOCUS) {
-                    currentMode = ViewMode.HORIZONTAL;
-                    focusedChartIndex = -1;
-                } else {
-                    currentMode = ViewMode.SINGLE_FOCUS;
-                    focusedChartIndex = index;
-                }
-
-                updateChartsView();
-            }
-        });
-
-        chartsPanel.add(chartPanel, new GridBagConstraints(x, y, 1, 1, 1.0, 1.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH, PaddingConstants.PADDING_STANDARD, 0, 0));
+        chartContainer.setCharts(chartsToDisplay);
     }
 
     private JFreeChart createScoreChart(List<AnomalyResult> results, double threshold) {

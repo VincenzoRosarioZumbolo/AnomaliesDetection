@@ -9,7 +9,6 @@ import com.github.lgooddatepicker.components.DateTimePicker;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.InvalidParameterException;
 
 public class SearchPanel extends CardPanel {
 
@@ -77,7 +76,7 @@ public class SearchPanel extends CardPanel {
 
     private void addSearchButton() {
 
-        searchButton = new PrimaryButton("SEARCH");
+        searchButton = new PrimaryButton("SEARCH", e -> search());
         searchButton.addActionListener(e -> search());
         searchButton.setVisible(true);
 
@@ -98,7 +97,7 @@ public class SearchPanel extends CardPanel {
 
             mainPage.createCharts();
 
-        } catch (ValidationException | ApiRequestException | NetworkException | DataParsingException e) {
+        } catch (ValidationException | ApiException | NetworkException | DataParsingException e) {
 
             LoggerUtil.logInfo("Search interrupted: " + e.getMessage());
             new FloatingMessage(e.getMessage(), searchButton, FloatingMessage.ERROR_MESSAGE);

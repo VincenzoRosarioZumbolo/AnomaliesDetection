@@ -308,3 +308,67 @@ giu 05, 2026 8:18:59 PM app.util.LoggerUtil logInfo
 INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
 giu 05, 2026 8:19:09 PM app.util.LoggerUtil logApiRequest
 INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:03:44 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:04:11 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:05:20 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:05:33 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:09:48 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 5:09:49 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:09:49 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 08, 2026 5:09:53 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 5:09:53 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:09:53 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 08, 2026 5:10:04 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780790400&interval=1d
+giu 08, 2026 5:10:04 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:10:04 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 08, 2026 5:10:14 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 5:10:14 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:10:14 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 08, 2026 5:11:37 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:12:59 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1780272000&period2=1780531200&interval=1d
+giu 08, 2026 5:13:00 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:13:00 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 08, 2026 5:17:31 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/CL=F?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 5:17:31 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:17:31 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 08, 2026 5:17:57 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/CL=F?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 5:17:57 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:17:57 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Server returned an error (Status code: 429)
+giu 08, 2026 5:29:27 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/CL=F?period1=1780272000&period2=1780531200&interval=1d
+giu 08, 2026 5:29:27 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:29:27 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 5:29:27 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/CL=F?period1=1780272000&period2=1780531200&interval=1d
+giu 08, 2026 5:29:27 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:29:27 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
