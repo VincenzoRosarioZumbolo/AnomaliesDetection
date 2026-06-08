@@ -17,6 +17,7 @@ public class StyledBarChart extends StyledChart {
         XYBarRenderer renderer = new XYBarRenderer();
         renderer.setBarPainter(new StandardXYBarPainter());
         renderer.setShadowVisible(false);
+        renderer.setSeriesPaint(0, AppColors.CHART_SCORE);
 
         ((XYPlot)getPlot()).setRenderer(renderer);
     }

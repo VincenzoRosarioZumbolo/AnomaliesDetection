@@ -114,12 +114,6 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
         dataset.addSeries(scoreSerie);
 
         JFreeChart chart = new StyledBarChart("Anomaly Scores per Record", "Time", "Score", dataset);
-        org.jfree.chart.plot.XYPlot plot = chart.getXYPlot();
-        org.jfree.chart.renderer.xy.XYBarRenderer renderer = (org.jfree.chart.renderer.xy.XYBarRenderer) plot.getRenderer();
-
-        renderer.setBarPainter(new org.jfree.chart.renderer.xy.StandardXYBarPainter());
-        renderer.setShadowVisible(false);
-        renderer.setSeriesPaint(0, AppColors.CHART_SCORE);
 
         org.jfree.chart.plot.ValueMarker marker = new org.jfree.chart.plot.ValueMarker(threshold);
         marker.setPaint(AppColors.CHART_ANOMALY);
@@ -127,7 +121,7 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
         marker.setLabel("Threshold (" + threshold + ")");
         marker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
         marker.setLabelTextAnchor(TextAnchor.BOTTOM_RIGHT);
-        plot.addRangeMarker(marker);
+        chart.getXYPlot().addRangeMarker(marker);
 
         return chart;
     }
@@ -146,10 +140,6 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
         dataset.addSeries(contributionSerie);
 
         JFreeChart chart = new StyledBarChart(featureName + " Contribution(%)", "Time", "Deviation Weight", dataset);
-        org.jfree.chart.renderer.xy.XYBarRenderer renderer = (org.jfree.chart.renderer.xy.XYBarRenderer) chart.getXYPlot().getRenderer();
-        renderer.setBarPainter(new org.jfree.chart.renderer.xy.StandardXYBarPainter());
-        renderer.setShadowVisible(false);
-        renderer.setSeriesPaint(0, AppColors.CHART_SCORE);
         chart.getXYPlot().getRangeAxis().setRange(0.0, 100.0);
 
         return chart;

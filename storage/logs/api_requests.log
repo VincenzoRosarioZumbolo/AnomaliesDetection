@@ -372,3 +372,31 @@ giu 08, 2026 5:29:27 PM app.util.LoggerUtil logError
 GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
 giu 08, 2026 5:29:27 PM app.util.LoggerUtil logInfo
 INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 5:51:21 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 5:51:21 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:51:21 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 5:51:21 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 5:51:22 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 5:51:22 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 5:51:25 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:51:25 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:51:33 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:51:33 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:51:46 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:55:16 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:55:16 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 5:55:24 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.

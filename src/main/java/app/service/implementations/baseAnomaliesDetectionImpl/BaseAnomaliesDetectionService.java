@@ -63,13 +63,12 @@ public class BaseAnomaliesDetectionService implements app.service.AnomaliesDetec
         for (int i = 0; i < data.size(); i++) {
             double score = isolationForest.score(parsedData[i]);
 
-            if (score > threshold) {
-                anomalies.add(new AnomalyResult(
-                        data.get(i),
-                        score,
-                        calculateContributions(isolationForest, parsedData[i], trainingDataMap.get(isolationForest))
-                ));
-            }
+            anomalies.add(new AnomalyResult(
+                    data.get(i),
+                    score,
+                    calculateContributions(isolationForest, parsedData[i], trainingDataMap.get(isolationForest))
+            ));
+
         }
 
         return anomalies;
