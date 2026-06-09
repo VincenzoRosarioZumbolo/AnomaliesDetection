@@ -502,3 +502,7 @@ giu 09, 2026 10:59:39 AM app.util.LoggerUtil logError
 GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
 giu 09, 2026 10:59:39 AM app.util.LoggerUtil logInfo
 INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 09, 2026 3:25:07 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780963200&interval=1d
+giu 09, 2026 3:25:10 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/CL=F?period1=1780272000&period2=1780963200&interval=1d
