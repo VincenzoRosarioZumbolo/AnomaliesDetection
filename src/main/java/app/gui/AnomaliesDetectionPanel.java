@@ -22,26 +22,52 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * A GUI panel dedicated to configuring, triggering, and visualizing anomaly detection operations.
+ * <p>
+ * This panel provides user input controls for setting a training start date, anomaly threshold,
+ * and selecting the underlying detection algorithm implementation (e.g., Base or Quantum).
+ * Upon executing a search, it renders the resulting anomaly scores and individual feature contributions
+ * using dynamic JFreeChart visualizations.
+ * </p>
+ * * @see InvisiblePanel
+ * @see JFreeChart
+ */
 public class AnomaliesDetectionPanel extends InvisiblePanel {
 
+    /** Container responsible for dynamically holding and rendering the JFreeChart instances. */
     private DynamicChartContainer chartContainer;
 
+    /** Input field for entering the numerical threshold above which a record is flagged as an anomaly. */
     private JTextField thresholdTextField;
+
+    /** Date and time picker to specify the start boundary for training data. */
     private DateTimePicker startDatePicker;
+
+    /** ComboBox allowing selection between different anomaly detection implementations. */
     private JComboBox<String> implementationComboBox;
+
+    /** Available algorithm implementations for anomaly detection. */
     private static final String[] implementations = {"Base implementation", "Quantum implementation"};
+
+    /** Button that triggers the anomaly detection routine. */
     private JButton searchButton;
 
+    /**
+     * Constructs a new {@code AnomaliesDetectionPanel} with a GridBagLayout.
+     * Initializes the user interface components and sets the panel visibility to true.
+     */
     public AnomaliesDetectionPanel() {
-
         super(new GridBagLayout());
-
         addComponents();
         this.setVisible(true);
     }
 
+    /**
+     * Initializes and arranges the main structural components of the panel,
+     * dividing it into a control configuration section and a chart visualization section.
+     */
     private void addComponents() {
-
         addControlPanel();
 
         chartContainer = new DynamicChartContainer();
@@ -49,8 +75,11 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH, PaddingConstants.PADDING_NONE, 0, 0));
     }
 
+    /**
+     * Constructs the control panel containing the configuration inputs
+     * (date picker, threshold field, implementation selector) and the execution button.
+     */
     private void addControlPanel() {
-
         JPanel componentsPanel = new InvisiblePanel(new GridBagLayout());
 
         startDatePicker = new UnderlinedDateTimePicker();
@@ -73,6 +102,14 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, PaddingConstants.PADDING_LARGE, 0, 0));
     }
 
+    /**
+     * Gathers user inputs from the UI, delegates the anomaly detection processing to
+     * the system {@link Controller}, and triggers a view refresh upon success.
+     * <p>
+     * Catches expected business/validation exceptions to display user-friendly contextual
+     * notifications, and catches generic exceptions to prevent application crashes.
+     * </p>
+     */
     private void searchForAnomaly() {
         try {
             Controller.getInstance().searchForAnomaly((String) implementationComboBox.getSelectedItem(), startDatePicker.getDateTimePermissive(), thresholdTextField.getText());
@@ -87,8 +124,12 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
         }
     }
 
+    /**
+     * Fetches the latest processing results from the {@link AppState}, generates
+     * both the overall score chart and individual feature contribution charts,
+     * and pushes them to the active chart container component.
+     */
     private void updateChartsView() {
-
         List<AnomalyResult> results = AppState.getInstance().getAnomalyResults();
         double threshold = Double.parseDouble(thresholdTextField.getText());
 
@@ -103,8 +144,15 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
         chartContainer.setCharts(chartsToDisplay);
     }
 
+    /**
+     * Creates a bar chart representing the anomaly scores over time.
+     * Includes a visual range marker reflecting the designated anomaly threshold.
+     *
+     * @param results   the list of {@link AnomalyResult} items to plot
+     * @param threshold the numerical value marking the boundary of anomalous behavior
+     * @return a configured {@link JFreeChart} displaying anomaly scores
+     */
     private JFreeChart createScoreChart(List<AnomalyResult> results, double threshold) {
-
         TimeSeries scoreSerie = new TimeSeries("Anomaly Score");
 
         for (AnomalyResult anomalyResult : results)
@@ -126,8 +174,15 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
         return chart;
     }
 
+    /**
+     * Creates a chart representing the relative deviation impact percentage of a specific
+     * data feature (e.g., Open, Close, Volume) over time.
+     *
+     * @param results     the list of {@link AnomalyResult} items containing metrics
+     * @param featureName the name of the specific feature to chart
+     * @return a configured {@link JFreeChart} displaying feature contribution trends
+     */
     private JFreeChart createContributionChart(List<AnomalyResult> results, String featureName) {
-
         TimeSeries contributionSerie = new TimeSeries(featureName + " Contribution");
 
         for (AnomalyResult anomalyResult : results) {

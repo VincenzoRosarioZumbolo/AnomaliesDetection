@@ -12,16 +12,34 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.Locale;
 
+/**
+ * A sleek, flat-designed version of the {@link DateTimePicker} widget.
+ * <p>
+ * This composite picker strips default input framing in favor of minimalist bottom-underline fields.
+ * It sets explicit calendar color matrices matching the app design language, enforces a standard
+ * 24-hour display layout format (HH:mm), and adjusts calendar/time popup button states.
+ * </p>
+ *
+ * @see DateTimePicker
+ * @see DatePickerSettings
+ * @see TimePickerSettings
+ */
 public class UnderlinedDateTimePicker extends DateTimePicker {
 
+    /**
+     * Constructs a pre-configured, styled date-time picker preset to an English formatting locale.
+     */
     public UnderlinedDateTimePicker() {
-
         super(createDateSettings(), createTimeSettings());
         initStyle();
     }
 
+    /**
+     * Constructs default layout variables for the dropdown date picker popup grid.
+     *
+     * @return a configured {@link DatePickerSettings} layout context map
+     */
     private static DatePickerSettings createDateSettings() {
-
         DatePickerSettings settings = new DatePickerSettings(Locale.ENGLISH);
 
         settings.setColor(DatePickerSettings.DateArea.BackgroundOverallCalendarPanel, Color.WHITE);
@@ -41,8 +59,12 @@ public class UnderlinedDateTimePicker extends DateTimePicker {
         return settings;
     }
 
+    /**
+     * Constructs operational settings for time menus, locking input patterns to 24-hour clocks.
+     *
+     * @return a configured {@link TimePickerSettings} layout block
+     */
     private static TimePickerSettings createTimeSettings() {
-
         TimePickerSettings settings = new TimePickerSettings(Locale.ENGLISH);
 
         settings.setFormatForDisplayTime("HH:mm");
@@ -53,8 +75,11 @@ public class UnderlinedDateTimePicker extends DateTimePicker {
         return settings;
     }
 
+    /**
+     * Applies corporate style adjustments across parent panels, embedded sub-pickers,
+     * inputs, and toggles.
+     */
     private void initStyle() {
-
         this.setOpaque(false);
         this.setBackground(AppColors.EMPTY);
 
@@ -70,8 +95,12 @@ public class UnderlinedDateTimePicker extends DateTimePicker {
         styleButton(getTimePicker().getComponentToggleTimeMenuButton());
     }
 
+    /**
+     * Strips a text field down and maps an underline matte layout border that shifts colors interactively on focus.
+     *
+     * @param field the input {@link JTextField} instance to target
+     */
     private void styleField(JTextField field) {
-
         field.setOpaque(false);
         field.setBackground(AppColors.EMPTY);
         field.putClientProperty("JComponent.focusWidth", 0);
@@ -89,8 +118,12 @@ public class UnderlinedDateTimePicker extends DateTimePicker {
         });
     }
 
+    /**
+     * Alters popup control toggle structures into transparent icons utilizing pointer hand cursors.
+     *
+     * @param button the trigger {@link JButton} component to target
+     */
     private void styleButton(JButton button) {
-
         button.setContentAreaFilled(false);
         button.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));

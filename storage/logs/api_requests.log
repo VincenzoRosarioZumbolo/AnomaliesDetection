@@ -400,3 +400,105 @@ giu 08, 2026 5:55:16 PM app.util.LoggerUtil logApiRequest
 INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
 giu 08, 2026 5:55:24 PM app.util.LoggerUtil logApiRequest
 INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:09 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:09 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:18 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:38 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:38 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:39 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:39 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:40 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:40 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:41 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:41 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:41 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:42 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:42 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:43 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:44 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:44 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:45 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:19:46 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:27:16 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 6:27:16 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 6:27:16 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 6:27:18 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 6:27:19 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 6:27:19 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 6:27:24 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 6:27:24 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 6:27:24 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 6:27:29 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780790400&interval=1d
+giu 08, 2026 6:27:29 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 6:27:29 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 6:27:42 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780876800&interval=1d
+giu 08, 2026 6:27:42 PM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 08, 2026 6:27:42 PM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 08, 2026 6:27:49 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 08, 2026 6:27:56 PM app.util.LoggerUtil logApiRequest
+INFORMAZIONI: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+giu 09, 2026 10:59:08 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/CL=F?period1=1780272000&period2=1780963200&interval=1d
+giu 09, 2026 10:59:08 AM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 09, 2026 10:59:08 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 09, 2026 10:59:31 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1780963200&interval=1d
+giu 09, 2026 10:59:32 AM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 09, 2026 10:59:32 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 09, 2026 10:59:35 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1780272000&period2=1780963200&interval=1d
+giu 09, 2026 10:59:35 AM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 09, 2026 10:59:35 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 09, 2026 10:59:37 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/GC=F?period1=1780272000&period2=1780963200&interval=1d
+giu 09, 2026 10:59:37 AM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 09, 2026 10:59:37 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later
+giu 09, 2026 10:59:39 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1780272000&period2=1780963200&interval=1d
+giu 09, 2026 10:59:39 AM app.util.LoggerUtil logError
+GRAVE: [API_CLIENT] ERROR: Status: 429 | Body: Edge: Too Many Requests
+giu 09, 2026 10:59:39 AM app.util.LoggerUtil logInfo
+INFORMAZIONI: Search interrupted: Too Many Requests, try again later

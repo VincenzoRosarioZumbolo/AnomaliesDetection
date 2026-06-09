@@ -5,12 +5,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+/**
+ * A specialized {@link JFrame} that provides built-in support for full-screen mode toggling.
+ * <p>
+ * Pressing the <b>F11</b> key natively triggers a smooth transition between standard windowed mode
+ * (maximized window boundaries with native decorations) and a seamless, undecorated true
+ * full-screen mode utilizing the system's default graphics device.
+ * </p>
+ *
+ * @see JFrame
+ * @see GraphicsDevice
+ */
 public class FullScreenFrame extends JFrame {
 
+    /** Tracks whether the window is currently rendering in full-screen mode. */
     private boolean isFullScreen = false;
+
+    /** Caches the window bounds prior to toggling full-screen mode to allow faithful restoration. */
     private Rectangle screenBounds;
+
+    /** Stores the extended state window tracking flag (e.g., MAXIMIZED_BOTH). */
     private int screenState = JFrame.MAXIMIZED_BOTH;
 
+    /**
+     * Constructs a FullScreenFrame with a window title, starts it in a maximized state,
+     * and initializes full-screen key bindings.
+     *
+     * @param title the title displayed on the native window title bar
+     */
     public FullScreenFrame(String title) {
         super(title);
 
@@ -20,8 +42,10 @@ public class FullScreenFrame extends JFrame {
         setBehaviour();
     }
 
+    /**
+     * Configures the key binding map to capture the F11 key stroke globally inside the focused window.
+     */
     private void setBehaviour() {
-
         KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0);
         String actionName = "toggleFullScreen";
 
@@ -37,12 +61,19 @@ public class FullScreenFrame extends JFrame {
         });
     }
 
+    /**
+     * Switches the application window between standard windowed/maximized presentation
+     * and undecorated true hardware full-screen mode.
+     * <p>
+     * The frame is temporarily disposed and re-validated during this state change to safely modify
+     * its decoration state without throwing exceptions.
+     * </p>
+     */
     private void toggleFullScreen() {
-
         this.dispose();
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
-        if(isFullScreen) {
+        if (isFullScreen) {
             this.setUndecorated(false);
             gd.setFullScreenWindow(null);
             setBounds(screenBounds);
