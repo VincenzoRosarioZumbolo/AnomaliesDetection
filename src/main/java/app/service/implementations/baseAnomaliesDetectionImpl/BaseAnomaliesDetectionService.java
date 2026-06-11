@@ -36,7 +36,7 @@ public class BaseAnomaliesDetectionService implements app.service.AnomaliesDetec
 
         IsolationForest isolationForest = IsolationForest.fit(
                 parseData(data),
-                500,
+                1500,
                 (int) Math.ceil(Math.log(data.size() * Math.min(0.9, 256.0 / data.size())) / Math.log(2)),
                 Math.min(0.9, 256.0 / data.size()),
                 1);
@@ -158,13 +158,14 @@ public class BaseAnomaliesDetectionService implements app.service.AnomaliesDetec
     private double[][] parseData(List<DataRecord> data) {
 
         double[][] parsedData = new double[data.size()][5];
+        int i = 0;
 
-        for (int i = 0; i < data.size(); i++) {
-            parsedData[i][0] = data.get(i).getOpen();
-            parsedData[i][1] = data.get(i).getHigh();
-            parsedData[i][2] = data.get(i).getLow();
-            parsedData[i][3] = data.get(i).getClose();
-            parsedData[i][4] = data.get(i).getVolume();
+        for (DataRecord dataRecord : data) {
+            parsedData[i][0] = dataRecord.getOpen();
+            parsedData[i][1] = dataRecord.getHigh();
+            parsedData[i][2] = dataRecord.getLow();
+            parsedData[i][3] = dataRecord.getClose();
+            parsedData[i++][4] = dataRecord.getVolume();
         }
 
         return parsedData;
