@@ -38,6 +38,7 @@ public abstract class StyledChart extends JFreeChart {
      * </p>
      */
     private void formatChart() {
+
         this.setAntiAlias(true);
         this.setTextAntiAlias(true);
 

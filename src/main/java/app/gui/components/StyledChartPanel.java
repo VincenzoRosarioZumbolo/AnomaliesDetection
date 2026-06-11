@@ -24,7 +24,6 @@ public class StyledChartPanel extends ChartPanel {
     public StyledChartPanel(JFreeChart chart) {
         super(chart);
 
-        // Sets the container background to match application styling
         setBackground(AppColors.EMPTY);
     }
 }

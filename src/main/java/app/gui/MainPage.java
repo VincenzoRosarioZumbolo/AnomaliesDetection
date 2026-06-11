@@ -8,6 +8,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * The master application layout coordinator initializing top-level window structures.
@@ -51,6 +52,7 @@ public class MainPage {
      * Configures universal FlatLaf theme skin metrics and registers system color variables.
      */
     private void setFlatLaf() {
+        Locale.setDefault(Locale.ENGLISH);
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         FlatLightLaf.setup();
