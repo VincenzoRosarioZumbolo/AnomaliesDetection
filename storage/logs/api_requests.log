@@ -830,3 +830,47 @@ Jun 11, 2026 3:10:17 PM app.util.LoggerUtil logApiRequest
 INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
 Jun 11, 2026 3:10:17 PM app.util.LoggerUtil logApiRequest
 INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 11, 2026 3:14:56 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1767225600&period2=1781136000&interval=1d
+Jun 11, 2026 3:15:07 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:55 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:55 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:56 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:56 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:57 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:57 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:58 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:16:58 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:01 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:12 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:21 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:22 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:22 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:23 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:23 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:23 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1735689600&period2=1767364200&interval=1d
+Jun 11, 2026 3:17:29 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1767225600&period2=1781136000&interval=1d
+Jun 11, 2026 3:17:37 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1735689600&period2=1767330000&interval=1d
+Jun 11, 2026 3:17:43 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1735689600&period2=1767330000&interval=1d
+Jun 11, 2026 3:17:50 PM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1735689600&period2=1767330000&interval=1d
