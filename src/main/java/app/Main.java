@@ -1,6 +1,6 @@
 package app;
 
-import app.gui.MainPage;
+import app.gui.views.MainPage;
 
 public class Main {
 

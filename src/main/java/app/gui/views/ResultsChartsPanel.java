@@ -1,4 +1,4 @@
-package app.gui;
+package app.gui.views;
 
 import app.gui.components.DynamicChartContainer;
 import app.gui.components.InvisiblePanel;

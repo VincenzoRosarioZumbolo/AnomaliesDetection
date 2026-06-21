@@ -3,8 +3,8 @@ package app.service;
 import app.exception.AnomalyDetectionException;
 import app.exception.ValidationException;
 import app.model.AppState;
-import app.service.implementations.quantumAnomaliesDetectionImpl.QuantumAnomaliesDetectionService;
-import app.service.implementations.baseAnomaliesDetectionImpl.BaseAnomaliesDetectionService;
+import app.service.impl.anomalies.QuantumAnomaliesDetectionService;
+import app.service.impl.anomalies.BaseAnomaliesDetectionService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

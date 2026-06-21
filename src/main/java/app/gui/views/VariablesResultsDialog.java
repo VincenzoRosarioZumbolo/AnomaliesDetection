@@ -1,6 +1,5 @@
-package app.gui;
+package app.gui.views;
 
-import app.controller.Controller;
 import app.model.AppState;
 
 import javax.swing.*;

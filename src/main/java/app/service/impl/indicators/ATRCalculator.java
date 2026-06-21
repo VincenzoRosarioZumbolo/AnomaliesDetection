@@ -1,4 +1,4 @@
-package app.service.implementations.baseIndicatorsCalculatorsImpl;
+package app.service.impl.indicators;
 
 import java.util.ArrayList;
 import java.util.List;

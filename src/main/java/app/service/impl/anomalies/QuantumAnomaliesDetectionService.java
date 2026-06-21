@@ -1,4 +1,4 @@
-package app.service.implementations.quantumAnomaliesDetectionImpl;
+package app.service.impl.anomalies;
 
 import app.model.AnomalyResult;
 import app.model.DataRecord;

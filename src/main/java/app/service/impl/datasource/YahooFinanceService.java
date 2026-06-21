@@ -1,4 +1,4 @@
-package app.service.implementations.yahooFinanceImpl;
+package app.service.impl.datasource;
 
 import app.client.ApiClient;
 import app.exception.ApiException;
