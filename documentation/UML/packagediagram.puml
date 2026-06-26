@@ -1,0 +1,55 @@
+@startuml
+
+skinparam packageStyle rect
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+package app {
+
+    class Main
+    
+    package client {
+    }
+    
+    package controller {
+    }
+    
+    package exception {
+    }
+    
+    package gui {
+    }
+    
+    package model {
+    }
+    
+    package service {
+    }
+    
+    package util {
+    }
+
+    Main ..> gui : <<create>>
+    service ..> util : <<call>>
+    client ..> util : <<call>>
+    gui ..> util : <<call>>
+    controller ..> exception : <<use>>
+    client ..> exception : <<create>>
+    service ..> exception : <<create>>
+    gui ..> exception : <<use>>
+    service ..> client : <<call>>
+    gui ..> controller : <<call>>
+    gui ..> model : <<use>>
+    service ..> model : <<create>>
+    controller ..> model : <<use>>
+    util ..> model : <<use>>
+
+}
+
+@enduml
