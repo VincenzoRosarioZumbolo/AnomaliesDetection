@@ -1,0 +1,49 @@
+@startuml
+
+skinparam ClassAttributeIconSize 0
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+class exception.ApiException {
++ <<Create>> ApiException(String)
+}
+
+class exception.ApiServerException {
++ <<Create>> ApiServerException(String)
+}
+
+class exception.ApiClientException {
++ <<Create>> ApiClientException(String)
+}
+
+class exception.NetworkException {
++ <<Create>> NetworkException(String)
+}
+
+class exception.ValidationException {
++ <<Create>> ValidationException(String)
+}
+
+class exception.AnomalyDetectionException {
++ <<Create>> AnomalyDetectionException(String)
++ <<Create>> AnomalyDetectionException(String,Throwable)
+}
+
+class exception.DataParsingException {
++ <<Create>> DataParsingException(String)
+}
+
+exception.Exception <|-- exception.ApiException
+exception.ApiException <|-- exception.ApiServerException
+exception.ApiException <|-- exception.ApiClientException
+exception.Exception <|-- exception.NetworkException
+exception.Exception <|-- exception.ValidationException
+exception.Exception <|-- exception.AnomalyDetectionException
+exception.Exception <|-- exception.DataParsingException
+@enduml

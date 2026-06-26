@@ -1,0 +1,31 @@
+@startuml
+
+skinparam ClassAttributeIconSize 0
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+class util.CsvStorageService {
+- {static} String DATA_PATH
+- {static} String INDICATORS_PATH
++ {static} void saveDataRecordsToCsv(String,List<DataRecord>)
++ {static} List<DataRecord> loadDataRecordsFromCsv(String,LocalDateTime,LocalDateTime)
++ {static} void saveIndicatorsToCsv(String,Instant,int,FinancialIndicators)
++ {static} Map<String,Double> loadIndicatorsFromCsv(String,Instant,int)
+}
+
+
+class util.LoggerUtil {
+- {static} Logger logger
++ {static} void logApiRequest(String,String,String)
++ {static} void logInfo(String)
++ {static} void logError(String,String)
+}
+
+
+@enduml

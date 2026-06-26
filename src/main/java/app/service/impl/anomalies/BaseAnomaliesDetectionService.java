@@ -2,6 +2,7 @@ package app.service.impl.anomalies;
 
 import app.model.AnomalyResult;
 import app.model.DataRecord;
+import app.service.AnomaliesDetectionService;
 import smile.anomaly.IsolationForest;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Map;
  * maps multidimensional records into double primitives, evaluates anomaly scores against a percentage
  * sensitivity ceiling, and calculates feature impact contributions to explain detected anomalies.</p>
  */
-public class BaseAnomaliesDetectionService implements app.service.AnomaliesDetectionService {
+public class BaseAnomaliesDetectionService implements AnomaliesDetectionService {
 
     /**
      * An internal cache mapping each instantiated {@link IsolationForest} engine back to the specific

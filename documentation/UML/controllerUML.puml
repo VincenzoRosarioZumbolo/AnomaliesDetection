@@ -1,0 +1,23 @@
+@startuml
+
+skinparam ClassAttributeIconSize 0
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+class controller.Controller {
+- {static} Controller instance
+- <<Create>> Controller()
++ {static} Controller getInstance()
++ void searchData(String,String,LocalDateTime,LocalDateTime)
++ void calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods)
++ void searchForAnomaly(String,LocalDateTime,String)
+}
+
+
+@enduml

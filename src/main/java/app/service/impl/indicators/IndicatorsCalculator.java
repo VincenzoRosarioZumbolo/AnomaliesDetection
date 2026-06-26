@@ -4,6 +4,7 @@ import app.model.AppState;
 import app.model.DataRecord;
 import app.model.FinancialIndicators;
 import app.model.FinancialIndicatorsPeriods;
+import app.service.IndicatorsService;
 import app.util.CsvStorageService;
 
 import java.io.IOException;
@@ -12,34 +13,42 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * High-level coordination service component designed to manage and calculate
- * multiple technical indicators simultaneously.
- * <p>Integrates with separate sub-calculators (RSI, MACD, ATR, CMF) and handles
- * a local file caching mechanism to minimize recalculation overhead for standard parameter configurations.</p>
+ * High-level coordination service component that implements {@link IndicatorsService}.
+ * <p>
+ * Manages the simultaneous calculation of multiple technical indicators by dispatching data
+ * to dedicated sub-calculators (RSI, MACD, ATR, CMF). It handles a local CSV file caching
+ * mechanism to minimize recalculation overhead for standard parameter configurations.
+ * </p>
+ * <p>This class is structured as a non-thread-safe Singleton using lazy initialization.</p>
  */
-public class IndicatorsCalculator {
+public class IndicatorsCalculator implements IndicatorsService {
 
     /**
-     * Singleton instance tracking reference.
+     * Singleton instance reference tracking handle.
      */
     private static IndicatorsCalculator instance;
 
-    /** Standard default lookback constant for Relative Strength Index evaluations. */
+    /** Standard default lookback constant for Relative Strength Index (RSI) evaluations. */
     private static final int STD_RSI = 14;
 
     /** Standard default Fast, Slow, and Signal smoothing allocations for MACD calculations. */
     private static final int[] STD_MACD = {12, 26, 9};
 
-    /** Standard default lookback window configuration for Average True Range assessments. */
+    /** Standard default lookback window configuration for Average True Range (ATR) assessments. */
     private static final int STD_ATR = 14;
 
-    /** Standard default trailing benchmark timeline configuration for Chaikin Money Flow metrics. */
+    /** Standard default trailing benchmark timeline configuration for Chaikin Money Flow (CMF) metrics. */
     private static final int STD_CMF = 20;
 
     /**
-     * Retrieves or initializes the thread-safe global Singleton instance of the calculator service.
+     * Private constructor to prevent direct external instantiation (Singleton Pattern).
+     */
+    private IndicatorsCalculator() {}
+
+    /**
+     * Retrieves or initializes the global active instance of the calculator service.
      *
-     * @return The active {@link IndicatorsCalculator} reference handle.
+     * @return The active {@link IndicatorsCalculator} Singleton reference handle.
      */
     public static IndicatorsCalculator getInstance() {
         if (instance == null)
@@ -49,15 +58,14 @@ public class IndicatorsCalculator {
     }
 
     /**
-     * Main coordination method that computes values for RSI, MACD, ATR, and CMF technical indicators.
-     * <p>Checks the local CSV storage file cache for existing matching data if standard lookback periods are requested;
-     * otherwise, it triggers a live calculation loop and updates the cache.</p>
-     *
-     * @param asset       The ticker symbol identifying the targeted asset.
-     * @param granularity The time-frequency resolution interval of the dataset.
-     * @param periods     A structural container holding explicit period configurations for the target calculations.
-     * @return A populated {@link FinancialIndicators} model entity containing the results.
+     * {@inheritDoc}
+     * <p>
+     * This implementation checks the local CSV storage cache first if standard lookback periods
+     * are requested. In case of a cache miss or non-standard periods, it triggers a live calculation
+     * loop and updates the disk cache if eligible.
+     * </p>
      */
+    @Override
     public FinancialIndicators calculateRSInMACDnATRnCMF(String asset, String granularity, FinancialIndicatorsPeriods periods) {
 
         String fileName = asset.replace("%5E", "^") + "_" + granularity + "_indicators.csv";
@@ -80,7 +88,8 @@ public class IndicatorsCalculator {
     }
 
     /**
-     * Dispatches data directly to individual sub-calculators to compile the multi-indicator matrix.
+     * Dispatches current application data records directly to individual sub-calculators
+     * to compile the multi-indicator matrix.
      *
      * @param periods Parameter settings container holding period configs.
      * @return A newly built {@link FinancialIndicators} instance containing fresh calculations.
@@ -101,11 +110,11 @@ public class IndicatorsCalculator {
     }
 
     /**
-     * Checks local indicator logs to pull pre-calculated results for standard indicator runs.
+     * Checks local indicator logs on disk to pull pre-calculated results for standard runs.
      *
-     * @param fileName Target reference filename mapped to disk files.
-     * @return Mapped {@link FinancialIndicators} if existing rows match parameters perfectly, or null if a cache miss occurs.
-     * @throws IOException If parsing or streaming files from disk fails.
+     * @param fileName Target destination filename mapped to disk files.
+     * @return The mapped {@link FinancialIndicators} if existing rows match parameters, or {@code null} if a cache miss occurs.
+     * @throws IOException If parsing, reading, or streaming files from disk fails.
      */
     private FinancialIndicators getIndicatorsFromCsv(String fileName) throws IOException {
 
@@ -126,10 +135,10 @@ public class IndicatorsCalculator {
     }
 
     /**
-     * Validates whether a given periods collection context matches standard technical baseline criteria.
+     * Validates whether a given periods context matches standard technical baseline criteria.
      *
-     * @param periods Target indicator intervals object package under review.
-     * @return {@code true} if parameters match system standard values, otherwise {@code false}.
+     * @param periods Target indicator intervals package under review.
+     * @return {@code true} if parameters perfectly match system standard values, otherwise {@code false}.
      */
     private boolean isStandard(FinancialIndicatorsPeriods periods) {
         return periods.getRSIPeriod() == STD_RSI &&
