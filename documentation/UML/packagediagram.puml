@@ -49,7 +49,7 @@ package app {
     service ..> model : <<create>>
     controller ..> model : <<use>>
     util ..> model : <<use>>
-
+    controller ..> service : <<call>>
 }
 
 @enduml
