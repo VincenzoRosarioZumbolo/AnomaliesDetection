@@ -874,3 +874,93 @@ Jun 11, 2026 3:17:43 PM app.util.LoggerUtil logInfo
 INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1735689600&period2=1767330000&interval=1d
 Jun 11, 2026 3:17:50 PM app.util.LoggerUtil logInfo
 INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?period1=1735689600&period2=1767330000&interval=1d
+Jun 29, 2026 10:54:15 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1780272000&period2=1782691200&interval=1d
+Jun 29, 2026 10:54:27 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:04:43 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:04:58 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:05:23 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:06:53 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:07:07 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:07:31 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:07:35 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:09:32 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:09:51 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:09:52 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:09:52 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:09:53 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:09:53 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:09:54 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:17 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:17 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:18 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:18 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:19 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:19 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:20 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:21 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:21 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:22 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:23 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:23 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:42 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:44 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:44 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:45 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:45 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:46 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:47 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:48 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:48 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:49 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:50 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:51 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:53 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:53 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:55 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:10:56 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jun 29, 2026 11:14:08 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
