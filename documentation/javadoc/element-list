@@ -1,0 +1,13 @@
+app
+app.client
+app.controller
+app.exception
+app.gui.components
+app.gui.style
+app.gui.views
+app.model
+app.service
+app.service.impl.anomalies
+app.service.impl.datasource
+app.service.impl.indicators
+app.util
