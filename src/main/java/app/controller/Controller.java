@@ -96,34 +96,38 @@ public class Controller {
      * @param implementation The identifier key for the anomaly detection algorithm implementation strategy.
      * @param startDate      The starting point from which to fetch training data historical context.
      * @param threshold      The numerical sensitivity/contamination threshold represented as a String to evaluate deviations.
+     * @param treesNumber    The number of trees to build during the anomaly detection process.
      * @throws ValidationException       If parameters fail initialization requirements during building.
      * @throws NetworkException          If a connection issue blocks retrieving necessary background training data.
      * @throws ApiException       If the data server explicitly rejects the historical training data request.
      * @throws DataParsingException      If historical records from the data provider cannot be successfully deserialized.
      * @throws AnomalyDetectionException If a `RuntimeException` occurs wrapping the underlying training or scanning routines.
      */
-    public void searchForAnomaly(String implementation, LocalDateTime startDate, String threshold)
+    public void searchForAnomaly(String implementation, LocalDateTime startDate, String threshold, String treesNumber)
             throws ValidationException, NetworkException, ApiException, DataParsingException, AnomalyDetectionException {
 
+        double parsedThreshold = AnomaliesDetectionService.validateThreshold(threshold);
+        int parsedTreesNumber = AnomaliesDetectionService.validateTreesNumber(treesNumber);
         AppState appState = AppState.getInstance();
 
+        AnomaliesDetectionService anomaliesDetectionService = AnomaliesDetectionServiceFactory.
+                buildAnomaliesDetectionService(implementation, startDate);
+
+        DataSourceService dataSourceService = new YahooFinanceService();
+
+        List<DataRecord> trainingDataRecords = dataSourceService.fetchData(
+                appState.getAsset(),
+                appState.getGranularity(),
+                startDate,
+                LocalDateTime.ofInstant(appState.getDataRecords().getFirst().getTimestamp(), ZoneOffset.UTC)
+        );
+
         try {
-            AnomaliesDetectionService anomaliesDetectionService = AnomaliesDetectionServiceFactory.
-                    buildAnomaliesDetectionService(implementation, threshold, startDate);
-
-            DataSourceService dataSourceService = new YahooFinanceService();
-
-            List<DataRecord> trainingDataRecords = dataSourceService.fetchData(
-                    appState.getAsset(),
-                    appState.getGranularity(),
-                    startDate,
-                    LocalDateTime.ofInstant(appState.getDataRecords().getFirst().getTimestamp(), ZoneOffset.UTC)
-            );
-
             appState.setAnomalyResults(anomaliesDetectionService.searchForAnomaly(
-                    anomaliesDetectionService.trainIsolationForest(trainingDataRecords),
+                    anomaliesDetectionService.trainIsolationForest(trainingDataRecords, parsedTreesNumber),
                     appState.getDataRecords(),
-                    Double.parseDouble(threshold)));
+                    parsedThreshold));
+
         } catch (RuntimeException e) {
             throw new AnomalyDetectionException("Internal error during anomaly detection logic", e);
         }

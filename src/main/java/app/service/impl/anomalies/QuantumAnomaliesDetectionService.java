@@ -14,7 +14,7 @@ import java.util.Map;
  * Quantum-inspired anomaly detection service.
  *
  * <p>The public API is intentionally identical to the classical implementation:
- * {@link #trainIsolationForest(List)} still receives historical {@link DataRecord}
+ * {@link #trainIsolationForest(List, int)} still receives historical {@link DataRecord}
  * values and returns a Smile {@link IsolationForest}; {@link #searchForAnomaly(IsolationForest, List, double)}
  * still receives that model, the target records and the UI threshold.</p>
  *
@@ -52,10 +52,11 @@ public class QuantumAnomaliesDetectionService implements AnomaliesDetectionServi
      * Trains an Isolation Forest over simulated quantum measurement probabilities instead of raw OHLCV values.
      *
      * @param data historical records used as normal baseline
+     * @param treesNumber number of trees to build during the anomaly detection process
      * @return trained IsolationForest over quantum-encoded records
      */
     @Override
-    public IsolationForest trainIsolationForest(List<DataRecord> data) {
+    public IsolationForest trainIsolationForest(List<DataRecord> data, int treesNumber) {
         validateTrainingData(data);
 
         QuantumTrainingContext context = QuantumTrainingContext.from(data);
@@ -66,7 +67,7 @@ public class QuantumAnomaliesDetectionService implements AnomaliesDetectionServi
 
         IsolationForest isolationForest = IsolationForest.fit(
                 quantumEncodedTrainingData,
-                500,
+                treesNumber,
                 maxDepth,
                 sampleRate,
                 1
@@ -83,7 +84,7 @@ public class QuantumAnomaliesDetectionService implements AnomaliesDetectionServi
      * <p>The method returns one {@link AnomalyResult} per input record, preserving the current GUI behavior where
      * the threshold is drawn as a chart marker and the full score series is displayed.</p>
      *
-     * @param isolationForest model returned by {@link #trainIsolationForest(List)}
+     * @param isolationForest model returned by {@link #trainIsolationForest(List, int)}
      * @param data target records to score
      * @param threshold UI threshold; validated to keep API semantics, but not used to remove chart points
      * @return scored records with feature contribution percentages

@@ -28,16 +28,17 @@ public class BaseAnomaliesDetectionService implements AnomaliesDetectionService 
 
     /**
      * Fits and builds an Isolation Forest mathematical model configured with an optimized tree ceiling profile
-     * based on the size of the incoming collection. Stores the initialized training context on completion.
+     * based on the size of the incoming collection and the given number of trees. Stores the initialized training context on completion.
      *
      * @param data A {@link List} of historical {@link DataRecord} instances used to establish normal behavior bounds.
+     * @param treesNumber The number of trees to build during the anomaly detection process.
      * @return A fully trained, structurally optimized {@link IsolationForest} model instance.
      */
-    public IsolationForest trainIsolationForest(List<DataRecord> data) {
+    public IsolationForest trainIsolationForest(List<DataRecord> data, int treesNumber) {
 
         IsolationForest isolationForest = IsolationForest.fit(
                 parseData(data),
-                1500,
+                treesNumber,
                 (int) Math.ceil(Math.log(data.size() * Math.min(0.9, 256.0 / data.size())) / Math.log(2)),
                 Math.min(0.9, 256.0 / data.size()),
                 1);

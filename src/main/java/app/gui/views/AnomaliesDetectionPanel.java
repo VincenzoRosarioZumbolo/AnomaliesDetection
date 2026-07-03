@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * A GUI panel dedicated to configuring, triggering, and visualizing anomaly detection operations.
  * <p>
- * This panel provides user input controls for setting a training start date, anomaly threshold,
+ * This panel provides user input controls for setting a training start date, anomaly threshold, number of trees
  * and selecting the underlying detection algorithm implementation (e.g., Base or Quantum).
  * Upon executing a search, it renders the resulting anomaly scores and individual feature contributions
  * using dynamic JFreeChart visualizations.
@@ -40,6 +40,9 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
 
     /** Input field for entering the numerical threshold above which a record is flagged as an anomaly. */
     private JTextField thresholdTextField;
+
+    /** Input field for entering the number of trees to build to find the anomalies. */
+    private JTextField treesNumberTextField;
 
     /** Date and time picker to specify the start boundary for training data. */
     private DateTimePicker startDatePicker;
@@ -77,7 +80,7 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
 
     /**
      * Constructs the control panel containing the configuration inputs
-     * (date picker, threshold field, implementation selector) and the execution button.
+     * (date picker, threshold field, treesNumber field, implementation selector) and the execution button.
      */
     private void addControlPanel() {
         JPanel componentsPanel = new InvisiblePanel(new GridBagLayout());
@@ -90,12 +93,16 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
         componentsPanel.add(new LabeledComponent("Anomaly threshold:", thresholdTextField), new GridBagConstraints(1, 0, 1, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
 
+        treesNumberTextField = new UnderlinedTextField("500");
+        componentsPanel.add(new LabeledComponent("Number of trees:", treesNumberTextField), new GridBagConstraints(2, 0, 1, 1, 0.5, 0.5,
+                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
+
         implementationComboBox = new UnderlinedComboBox<>(implementations);
-        componentsPanel.add(new LabeledComponent("Implementation:", implementationComboBox), new GridBagConstraints(2, 0, 1, 1, 0.5, 0.5,
+        componentsPanel.add(new LabeledComponent("Implementation:", implementationComboBox), new GridBagConstraints(3, 0, 1, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
 
         searchButton = new PrimaryButton("SEARCH FOR ANOMALY", e -> searchForAnomaly());
-        componentsPanel.add(searchButton, new GridBagConstraints(0, 1, 3, 1, 0.5, 0.5,
+        componentsPanel.add(searchButton, new GridBagConstraints(0, 1, 4, 1, 0.5, 0.5,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
 
         add(componentsPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0,
@@ -112,7 +119,8 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
      */
     private void searchForAnomaly() {
         try {
-            Controller.getInstance().searchForAnomaly((String) implementationComboBox.getSelectedItem(), startDatePicker.getDateTimePermissive(), thresholdTextField.getText());
+            Controller.getInstance().searchForAnomaly((String) implementationComboBox.getSelectedItem(),
+                    startDatePicker.getDateTimePermissive(), thresholdTextField.getText(), treesNumberTextField.getText());
             updateChartsView();
 
         } catch (ValidationException | AnomalyDetectionException e) {
