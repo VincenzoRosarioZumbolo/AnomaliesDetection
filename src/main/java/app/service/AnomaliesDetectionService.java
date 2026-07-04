@@ -3,6 +3,7 @@ package app.service;
 import app.exception.ValidationException;
 import app.model.AnomalyResult;
 import app.model.DataRecord;
+import app.model.TimeSeriesRow;
 import smile.anomaly.IsolationForest;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Service interface defining operations for training anomaly detection models
  * and evaluating datasets to identify abnormal financial records.
  */
-public interface AnomaliesDetectionService {
+public interface AnomaliesDetectionService<T extends TimeSeriesRow> {
 
     /**
      * Trains an Isolation Forest model using the provided baseline context training dataset.
@@ -19,7 +20,7 @@ public interface AnomaliesDetectionService {
      * @param treesNumber The number of trees to build during the anomaly detection process.
      * @return A trained {@link IsolationForest} model instance.
      */
-    IsolationForest trainIsolationForest(List<DataRecord> data, int treesNumber);
+    IsolationForest trainIsolationForest(List<T> data, int treesNumber);
 
     /**
      * Evaluates a list of target financial records against a trained Isolation Forest model
@@ -30,7 +31,7 @@ public interface AnomaliesDetectionService {
      * @param threshold       The statistical contamination sensitivity limit mapping anomaly criteria.
      * @return A {@link List} containing the evaluated {@link AnomalyResult} metrics for elements flagged as anomalous.
      */
-    List<AnomalyResult> searchForAnomaly(IsolationForest isolationForest, List<DataRecord> data, double threshold);
+    List<AnomalyResult<T>> searchForAnomaly(IsolationForest isolationForest, List<T> data, double threshold);
 
     /**
      * Validates and parses a string representation of the contamination threshold.

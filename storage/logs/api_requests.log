@@ -1092,3 +1092,23 @@ Jul 03, 2026 12:18:31 PM app.util.LoggerUtil logApiRequest
 INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
 Jul 03, 2026 12:18:38 PM app.util.LoggerUtil logInfo
 INFO: Anomaly detection blocked: Threshold must be a number between 0 and 1
+Jul 04, 2026 4:44:46 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:45:13 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:45:17 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:45:19 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:45:20 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:45:20 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:45:20 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:47:51 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:52:09 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 04, 2026 4:56:46 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.

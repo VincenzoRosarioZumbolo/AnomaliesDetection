@@ -3,8 +3,9 @@ package app.service;
 import app.exception.AnomalyDetectionException;
 import app.exception.ValidationException;
 import app.model.AppState;
-import app.service.impl.anomalies.QuantumAnomaliesDetectionService;
-import app.service.impl.anomalies.BaseAnomaliesDetectionService;
+import app.model.DataRecord;
+import app.service.impl.anomalies.BaseDataRecordAnomaliesDetectionService;
+import app.service.impl.anomalies.QuantumDataRecordAnomaliesDetectionService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -25,7 +26,7 @@ public class AnomaliesDetectionServiceFactory {
      * @throws ValidationException       if the training start date does not occur chronologically before active dataset records.
      * @throws AnomalyDetectionException If active state files contain no records to analyze, or if the specified strategy type cannot be resolved.
      */
-    public static app.service.AnomaliesDetectionService buildAnomaliesDetectionService(String implementation, LocalDateTime startDate)
+    public static AnomaliesDetectionService<DataRecord> buildAnomaliesDetectionService(String implementation, LocalDateTime startDate)
             throws ValidationException, AnomalyDetectionException {
 
         AppState appState = AppState.getInstance();
@@ -37,11 +38,9 @@ public class AnomaliesDetectionServiceFactory {
             throw new ValidationException("Please select a valid start date for training");
 
         return switch (implementation) {
-            case "Base implementation" -> new BaseAnomaliesDetectionService();
-            case "Quantum implementation" -> new QuantumAnomaliesDetectionService();
+            case "Base implementation" -> new BaseDataRecordAnomaliesDetectionService();
+            case "Quantum implementation" -> new QuantumDataRecordAnomaliesDetectionService();
             default -> throw new AnomalyDetectionException("Anomaly detection service not found.");
         };
-
-
     }
 }

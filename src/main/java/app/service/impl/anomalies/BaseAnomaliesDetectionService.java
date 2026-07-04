@@ -2,6 +2,7 @@ package app.service.impl.anomalies;
 
 import app.model.AnomalyResult;
 import app.model.DataRecord;
+import app.model.TimeSeriesRow;
 import app.service.AnomaliesDetectionService;
 import smile.anomaly.IsolationForest;
 
@@ -18,13 +19,13 @@ import java.util.Map;
  * maps multidimensional records into double primitives, evaluates anomaly scores against a percentage
  * sensitivity ceiling, and calculates feature impact contributions to explain detected anomalies.</p>
  */
-public class BaseAnomaliesDetectionService implements AnomaliesDetectionService {
+public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> implements AnomaliesDetectionService<T> {
 
     /**
      * An internal cache mapping each instantiated {@link IsolationForest} engine back to the specific
      * collection list of historical training records used to build and train its baseline context.
      */
-    private final Map<IsolationForest, List<DataRecord>> trainingDataMap = new HashMap<>();
+    private final Map<IsolationForest, List<T>> trainingDataMap = new HashMap<>();
 
     /**
      * Fits and builds an Isolation Forest mathematical model configured with an optimized tree ceiling profile
@@ -34,7 +35,7 @@ public class BaseAnomaliesDetectionService implements AnomaliesDetectionService 
      * @param treesNumber The number of trees to build during the anomaly detection process.
      * @return A fully trained, structurally optimized {@link IsolationForest} model instance.
      */
-    public IsolationForest trainIsolationForest(List<DataRecord> data, int treesNumber) {
+    public IsolationForest trainIsolationForest(List<T> data, int treesNumber) {
 
         IsolationForest isolationForest = IsolationForest.fit(
                 parseData(data),
@@ -57,20 +58,19 @@ public class BaseAnomaliesDetectionService implements AnomaliesDetectionService 
      * @param threshold       The contamination sensitivity ceiling. Records with scores greater than this value are flagged.
      * @return A {@link List} containing parsed {@link AnomalyResult} items detailing the feature contribution breakages for flagged records.
      */
-    public List<AnomalyResult> searchForAnomaly(IsolationForest isolationForest, List<DataRecord> data, double threshold) {
+    public List<AnomalyResult<T>> searchForAnomaly(IsolationForest isolationForest, List<T> data, double threshold) {
 
         double[][] parsedData = parseData(data);
-        List<AnomalyResult> anomalies = new ArrayList<>();
+        List<AnomalyResult<T>> anomalies = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
             double score = isolationForest.score(parsedData[i]);
 
-            anomalies.add(new AnomalyResult(
+            anomalies.add(new AnomalyResult<>(
                     data.get(i),
                     score,
                     calculateContributions(isolationForest, parsedData[i], trainingDataMap.get(isolationForest))
             ));
-
         }
 
         return anomalies;
@@ -87,38 +87,7 @@ public class BaseAnomaliesDetectionService implements AnomaliesDetectionService 
      * @param trainingData    The collection of historical baseline records matching the active model's state.
      * @return A {@link Map} pairing string feature labels (e.g., "Open", "Volume") to their computed impact contribution weight percentages.
      */
-    private Map<String, Double> calculateContributions(IsolationForest isolationForest, double[] record, List<DataRecord> trainingData) {
-
-        double[] means = calculateMeans(trainingData);
-        String[] featureNames = {"Open", "High", "Low", "Close", "Volume"};
-        Map<String, Double> contributions = new HashMap<>();
-
-        double meansScore = isolationForest.score(means);
-        double[] rawImpacts = new double[5];
-        double totalImpact = 0.0;
-
-        for (int i = 0; i < 5; i++) {
-
-            double[] testPoint = means.clone();
-            testPoint[i] = record[i];
-
-            double newScore = isolationForest.score(testPoint);
-            rawImpacts[i] = Math.abs(newScore - meansScore);
-            totalImpact += rawImpacts[i];
-        }
-
-        for (int i = 0; i < 5; i++) {
-
-            double percentage = 0;
-
-            if (totalImpact > 0)
-                percentage = (rawImpacts[i] / totalImpact) * 100;
-
-            contributions.put(featureNames[i], percentage);
-        }
-
-        return contributions;
-    }
+    abstract protected Map<String, Double> calculateContributions(IsolationForest isolationForest, double[] record, List<T> trainingData);
 
     /**
      * Computes the mathematical mean values across all financial data dimensions from
@@ -127,28 +96,7 @@ public class BaseAnomaliesDetectionService implements AnomaliesDetectionService 
      * @param data The baseline source list of {@link DataRecord} structures.
      * @return An array of 5 indices tracking sequentially the calculated average for Open, High, Low, Close, and Volume.
      */
-    private static double[] calculateMeans(List<DataRecord> data) {
-
-        if (data == null || data.isEmpty())
-            return new double[]{0, 0, 0, 0, 0};
-
-        double[] sums = new double[5];
-
-        for (DataRecord dataRecord : data) {
-            sums[0] += dataRecord.getOpen();
-            sums[1] += dataRecord.getHigh();
-            sums[2] += dataRecord.getLow();
-            sums[3] += dataRecord.getClose();
-            sums[4] += dataRecord.getVolume();
-        }
-
-        double[] means = new double[5];
-        for (int i = 0; i < 5; i++) {
-            means[i] = sums[i] / data.size();
-        }
-
-        return means;
-    }
+    abstract protected double[] calculateMeans(List<T> data);
 
     /**
      * Transforms a generic collection list of financial domain record objects into a primitive 2D matrix structure
@@ -157,19 +105,5 @@ public class BaseAnomaliesDetectionService implements AnomaliesDetectionService 
      * @param data The working {@link List} containing {@link DataRecord} instances.
      * @return A primitive 2D double matrix tracking rows mapped to Open, High, Low, Close, and Volume values sequentially.
      */
-    private double[][] parseData(List<DataRecord> data) {
-
-        double[][] parsedData = new double[data.size()][5];
-        int i = 0;
-
-        for (DataRecord dataRecord : data) {
-            parsedData[i][0] = dataRecord.getOpen();
-            parsedData[i][1] = dataRecord.getHigh();
-            parsedData[i][2] = dataRecord.getLow();
-            parsedData[i][3] = dataRecord.getClose();
-            parsedData[i++][4] = dataRecord.getVolume();
-        }
-
-        return parsedData;
-    }
+    abstract protected double[][] parseData(List<T> data);
 }

@@ -39,9 +39,9 @@ public class VariablesResultsDialog extends JDialog {
      * Inspects global variable score parameters to build output text strings within formatting labels.
      */
     private void addResultsLabels() {
-        add(new JLabel("RSI: " + AppState.getInstance().getFinancialIndicators().getRSI()));
+        /*add(new JLabel("RSI: " + AppState.getInstance().getFinancialIndicators().getRSI()));
         add(new JLabel("MACD: " + AppState.getInstance().getFinancialIndicators().getMACD()));
         add(new JLabel("ATR: " + AppState.getInstance().getFinancialIndicators().getATR()));
-        add(new JLabel("CMF: " + AppState.getInstance().getFinancialIndicators().getCMF()));
+        add(new JLabel("CMF: " + AppState.getInstance().getFinancialIndicators().getCMF()));*/
     }
 }

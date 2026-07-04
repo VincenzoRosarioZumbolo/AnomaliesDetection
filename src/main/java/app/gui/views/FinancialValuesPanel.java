@@ -3,132 +3,95 @@ package app.gui.views;
 import app.controller.Controller;
 import app.gui.components.*;
 import app.gui.style.PaddingConstants;
+import app.model.AppState;
 import app.model.FinancialIndicatorsPeriods;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
 import java.security.InvalidParameterException;
+import java.util.Arrays;
+import java.util.Date;
 
-/**
- * A specialized user configuration matrix interface dedicated to mathematical trend tracking intervals.
- * <p>
- * Collects custom epoch periods for financial calculations, including Relative Strength Index (RSI),
- * Moving Average Convergence Divergence (MACD), Average True Range (ATR), and Chaikin Money Flow (CMF).
- * </p>
- *
- * @see InvisiblePanel
- * @see Controller
- * @see VariablesResultsDialog
- */
-public class FinancialValuesPanel extends InvisiblePanel {
+public class FinancialValuesPanel extends AbstractChartsPanel {
 
-    /** Input tracking period string definitions matching RSI evaluation steps. */
     private JTextField RSIPeriodTextField;
-
-    /** Input tracking period string definitions matching the Fast Exponential Moving Average window. */
     private JTextField fastEMAPeriodTextField;
-
-    /** Input tracking period string definitions matching the Slow Exponential Moving Average window. */
     private JTextField slowEMAPeriodTextField;
-
-    /** Input tracking period string definitions matching the MACD Signal Line evaluation phase. */
     private JTextField signalLinePeriodTextField;
-
-    /** Input tracking period string definitions matching the Average True Range validation window. */
     private JTextField ATRPeriodTextField;
-
-    /** Input tracking period string definitions matching Chaikin Money Flow epoch blocks. */
     private JTextField CMFPeriodTextField;
-
-    /** The operational processing trigger launching metric calculation algorithms. */
     private JButton calculateButton;
 
-    /**
-     * Constructs a FinancialValuesPanel, initializing form sections for indicators
-     * and setting layout constraints.
-     */
     public FinancialValuesPanel() {
-        super(new GridBagLayout());
+        super();
 
-        addRSIComponents();
-        addMACDComponents();
-        addATRComponents();
-        addCMFComponents();
-        addCalculateButton();
+        InvisiblePanel inputsPanel = new InvisiblePanel(new GridBagLayout());
 
+        addRSIComponents(inputsPanel);
+        addMACDComponents(inputsPanel);
+        addATRComponents(inputsPanel);
+        addCMFComponents(inputsPanel);
+        addCalculateButton(inputsPanel);
+
+        this.add(inputsPanel, BorderLayout.NORTH);
         this.setVisible(true);
     }
 
-    /**
-     * Initializes structural layout widgets related to Relative Strength Index periods.
-     */
-    private void addRSIComponents() {
-        this.add(new TitleLabel("RELATIVE STRENGTH INDEX", "h2"), new GridBagConstraints(0, 0, 3, 1, 0.5, 0.5,
+    private void addRSIComponents(JPanel panel) {
+        panel.add(new TitleLabel("RELATIVE STRENGTH INDEX", "h2"), new GridBagConstraints(0, 0, 1, 1, 0.16, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_TOP, 0, 0));
 
         RSIPeriodTextField = new UnderlinedTextField("14");
-        this.add(new LabeledComponent("RSI period:", RSIPeriodTextField), new GridBagConstraints(0, 1, 3, 1, 0.5, 0.5,
+        panel.add(new LabeledComponent("RSI period:", RSIPeriodTextField), new GridBagConstraints(0, 1, 1, 1, 0.16, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
     }
 
-    /**
-     * Initializes structural layout widgets related to Moving Average Convergence Divergence configurations.
-     */
-    private void addMACDComponents() {
-        this.add(new TitleLabel("MOVING AVERAGE CONVERGENCE DIVERGENCE", "h2"), new GridBagConstraints(0, 2, 3, 1, 0.5, 0.5,
-                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
+    private void addMACDComponents(JPanel panel) {
+        panel.add(new TitleLabel("MOVING AVERAGE CONVERGENCE DIVERGENCE", "h2"), new GridBagConstraints(1, 0, 3, 1, 0.5, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_TOP, 0, 0));
 
         fastEMAPeriodTextField = new UnderlinedTextField("12");
-        this.add(new LabeledComponent("Fast EMA period:", fastEMAPeriodTextField), new GridBagConstraints(0, 3, 3, 1, 0.5, 0.5,
+        panel.add(new LabeledComponent("Fast EMA period:", fastEMAPeriodTextField), new GridBagConstraints(1, 1, 1, 1, 0.16, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
 
         slowEMAPeriodTextField = new UnderlinedTextField("26");
-        this.add(new LabeledComponent("Slow EMA period:", slowEMAPeriodTextField), new GridBagConstraints(0, 4, 3, 1, 0.5, 0.5,
+        panel.add(new LabeledComponent("Slow EMA period:", slowEMAPeriodTextField), new GridBagConstraints(2, 1, 1, 1, 0.16, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
 
         signalLinePeriodTextField = new UnderlinedTextField("9");
-        this.add(new LabeledComponent("Signal line period:", signalLinePeriodTextField), new GridBagConstraints(0, 5, 3, 1, 0.5, 0.5,
+        panel.add(new LabeledComponent("Signal line period:", signalLinePeriodTextField), new GridBagConstraints(3, 1, 1, 1, 0.16, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
     }
 
-    /**
-     * Initializes structural layout widgets related to Average True Range metrics.
-     */
-    private void addATRComponents() {
-        this.add(new TitleLabel("AVERAGE TRUE RANGE", "h2"), new GridBagConstraints(0, 6, 3, 1, 0.5, 0.5,
-                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
+    private void addATRComponents(JPanel panel) {
+        panel.add(new TitleLabel("AVERAGE TRUE RANGE", "h2"), new GridBagConstraints(4, 0, 1, 1, 0.16, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_TOP, 0, 0));
 
         ATRPeriodTextField = new UnderlinedTextField("14");
-        this.add(new LabeledComponent("ATR period:", ATRPeriodTextField), new GridBagConstraints(0, 7, 3, 1, 0.5, 0.5,
+        panel.add(new LabeledComponent("ATR period:", ATRPeriodTextField), new GridBagConstraints(4, 1, 1, 1, 0.16, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
     }
 
-    /**
-     * Initializes structural layout widgets related to Chaikin Money Flow strategies.
-     */
-    private void addCMFComponents() {
+    private void addCMFComponents(JPanel panel) {
+        panel.add(new TitleLabel("CHAIKIN MONEY FLOW", "h2"), new GridBagConstraints(5, 0, 1, 1, 0.16, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_TOP, 0, 0));
+
         CMFPeriodTextField = new UnderlinedTextField("20");
-        this.add(new LabeledComponent("CMF period:", CMFPeriodTextField), new GridBagConstraints(0, 7, 3, 1, 0.5, 0.5,
-                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_BOTTOM, 0, 0));
+        panel.add(new LabeledComponent("CMF period:", CMFPeriodTextField), new GridBagConstraints(5, 1, 1, 1, 0.16, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_STANDARD, 0, 0));
     }
 
-    /**
-     * Binds action routines to the execution button used to process inputs.
-     */
-    private void addCalculateButton() {
+    private void addCalculateButton(JPanel panel) {
         calculateButton = new PrimaryButton("CALCULATE", e -> calculate());
 
-        this.add(calculateButton, new GridBagConstraints(0, 8, 3, 1, 0.5, 0.5,
+        panel.add(calculateButton, new GridBagConstraints(0, 2, 6, 1, 1.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.NONE, PaddingConstants.PADDING_LARGE, 0, 0));
     }
 
-    /**
-     * Converts form strings into structured data objects, initiates processing routines
-     * via the Controller, and opens a tracking display dialog.
-     * <p>
-     * Displays a contextual error pop-up if values violate field criteria.
-     * </p>
-     */
     private void calculate() {
         try {
             FinancialIndicatorsPeriods periods = new FinancialIndicatorsPeriods(RSIPeriodTextField.getText(),
@@ -137,9 +100,59 @@ public class FinancialValuesPanel extends InvisiblePanel {
 
             Controller.getInstance().calculateRSInMACDnATRnCMF(periods);
 
-            new VariablesResultsDialog((JFrame) SwingUtilities.getWindowAncestor(this));
+            createCharts();
+
         } catch (InvalidParameterException e) {
             new FloatingMessage(e.getMessage(), calculateButton, FloatingMessage.ERROR_MESSAGE);
         }
+    }
+
+    private void createCharts() {
+        setCharts(Arrays.asList(
+                createRSIChart(),
+                createMACDChart(),
+                createATRChart(),
+                createCMFChart()
+        ));
+    }
+
+    private JFreeChart createRSIChart() {
+        TimeSeries rsiSerie = new TimeSeries("RSI");
+        for (int i = 0; i < AppState.getInstance().getFinancialIndicatorsInstants().size(); i++) {
+            rsiSerie.add(new Millisecond(Date.from(AppState.getInstance().getFinancialIndicatorsInstants().get(i))),
+                    AppState.getInstance().getRSIs().get(i));
+        }
+        TimeSeriesCollection dataset = new TimeSeriesCollection(rsiSerie);
+        return new StyledLineChart("Relative Strength Index (RSI)", "Time", "Value", dataset);
+    }
+
+    private JFreeChart createMACDChart() {
+        TimeSeries macdSerie = new TimeSeries("MACD");
+        for (int i = 0; i < AppState.getInstance().getFinancialIndicatorsInstants().size(); i++) {
+            macdSerie.add(new Millisecond(Date.from(AppState.getInstance().getFinancialIndicatorsInstants().get(i))),
+                    AppState.getInstance().getMACDs().get(i));
+        }
+        TimeSeriesCollection dataset = new TimeSeriesCollection(macdSerie);
+        return new StyledLineChart("Moving Average Convergence Divergence (MACD)", "Time", "Value", dataset);
+    }
+
+    private JFreeChart createATRChart() {
+        TimeSeries atrSerie = new TimeSeries("ATR");
+        for (int i = 0; i < AppState.getInstance().getFinancialIndicatorsInstants().size(); i++) {
+            atrSerie.add(new Millisecond(Date.from(AppState.getInstance().getFinancialIndicatorsInstants().get(i))),
+                    AppState.getInstance().getATRs().get(i));
+        }
+        TimeSeriesCollection dataset = new TimeSeriesCollection(atrSerie);
+        return new StyledLineChart("Average True Range (ATR)", "Time", "Value", dataset);
+    }
+
+    private JFreeChart createCMFChart() {
+        TimeSeries cmfSerie = new TimeSeries("CMF");
+        for (int i = 0; i < AppState.getInstance().getFinancialIndicatorsInstants().size(); i++) {
+            cmfSerie.add(new Millisecond(Date.from(AppState.getInstance().getFinancialIndicatorsInstants().get(i))),
+                    AppState.getInstance().getCMFs().get(i));
+        }
+        TimeSeriesCollection dataset = new TimeSeriesCollection(cmfSerie);
+        return new StyledLineChart("Chaikin Money Flow (CMF)", "Time", "Value", dataset);
     }
 }

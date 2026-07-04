@@ -7,6 +7,7 @@ import app.gui.style.AppColors;
 import app.gui.style.PaddingConstants;
 import app.model.AnomalyResult;
 import app.model.AppState;
+import app.model.DataRecord;
 import app.util.LoggerUtil;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import org.jfree.chart.JFreeChart;
@@ -138,7 +139,7 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
      * and pushes them to the active chart container component.
      */
     private void updateChartsView() {
-        List<AnomalyResult> results = AppState.getInstance().getAnomalyResults();
+        List<AnomalyResult<DataRecord>> results = AppState.getInstance().getDataRecordAnomalyResults();
         double threshold = Double.parseDouble(thresholdTextField.getText());
 
         List<JFreeChart> chartsToDisplay = new ArrayList<>();
@@ -160,10 +161,10 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
      * @param threshold the numerical value marking the boundary of anomalous behavior
      * @return a configured {@link JFreeChart} displaying anomaly scores
      */
-    private JFreeChart createScoreChart(List<AnomalyResult> results, double threshold) {
+    private JFreeChart createScoreChart(List<AnomalyResult<DataRecord>> results, double threshold) {
         TimeSeries scoreSerie = new TimeSeries("Anomaly Score");
 
-        for (AnomalyResult anomalyResult : results)
+        for (AnomalyResult<DataRecord> anomalyResult : results)
             scoreSerie.add(new Millisecond(Date.from(anomalyResult.getDataRecord().getTimestamp())), anomalyResult.getScore());
 
         TimeSeriesCollection dataset = new TimeSeriesCollection();
@@ -190,10 +191,10 @@ public class AnomaliesDetectionPanel extends InvisiblePanel {
      * @param featureName the name of the specific feature to chart
      * @return a configured {@link JFreeChart} displaying feature contribution trends
      */
-    private JFreeChart createContributionChart(List<AnomalyResult> results, String featureName) {
+    private JFreeChart createContributionChart(List<AnomalyResult<DataRecord>> results, String featureName) {
         TimeSeries contributionSerie = new TimeSeries(featureName + " Contribution");
 
-        for (AnomalyResult anomalyResult : results) {
+        for (AnomalyResult<DataRecord> anomalyResult : results) {
             Double contribution = anomalyResult.getContributions().get(featureName);
             contributionSerie.add(new Millisecond(Date.from(anomalyResult.getDataRecord().getTimestamp())),
                     contribution != null ? contribution : 0.0);

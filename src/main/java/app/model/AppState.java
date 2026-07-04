@@ -37,17 +37,17 @@ public class AppState {
     @Getter@Setter
     private List<DataRecord> dataRecords;
 
+    @Getter@Setter
+    private List<FinancialIndicators> financialIndicators;
+
     /**
      * The working list tracking the results of the anomaly scanning operations.
      */
     @Getter@Setter
-    private List<AnomalyResult> anomalyResults;
+    private List<AnomalyResult<DataRecord>> dataRecordAnomalyResults;
 
-    /**
-     * The structured wrapper hosting computed algorithmic financial indicators (RSI, MACD, etc.).
-     */
     @Getter@Setter
-    private FinancialIndicators financialIndicators;
+    private List<AnomalyResult<FinancialIndicators>> financialIndicatorsAnomalyResults;
 
     /**
      * Private constructor to enforce exclusive instantiation via the Singleton instance method.
@@ -72,8 +72,12 @@ public class AppState {
      *
      * @return A {@link List} of {@link Instant} values representing record dates.
      */
-    public List<Instant> getInstants() {
+    public List<Instant> getDataRecordsInstants() {
         return dataRecords.stream().map(DataRecord::getTimestamp).collect(Collectors.toList());
+    }
+
+    public List<Instant> getFinancialIndicatorsInstants() {
+        return financialIndicators.stream().map(FinancialIndicators::getTimestamp).collect(Collectors.toList());
     }
 
     /**
@@ -119,5 +123,21 @@ public class AppState {
      */
     public List<Long> getVolumes() {
         return dataRecords.stream().map(DataRecord::getVolume).collect(Collectors.toList());
+    }
+
+    public List<Double> getMACDs() {
+        return financialIndicators.stream().map(FinancialIndicators::getMACD).collect(Collectors.toList());
+    }
+
+    public List<Double> getATRs() {
+        return financialIndicators.stream().map(FinancialIndicators::getATR).collect(Collectors.toList());
+    }
+
+    public List<Double> getRSIs() {
+        return financialIndicators.stream().map(FinancialIndicators::getRSI).collect(Collectors.toList());
+    }
+
+    public List<Double> getCMFs() {
+        return financialIndicators.stream().map(FinancialIndicators::getCMF).collect(Collectors.toList());
     }
 }

@@ -39,11 +39,9 @@ public class LabeledComponent extends InvisiblePanel {
         this.label = new BoldLabel(label);
         this.component = component;
 
-        // Adds the text descriptor to the grid (column 0)
         this.add(this.label, new GridBagConstraints(0, 0, 1, 1, 0.5, 0.5,
                 GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(10, 10, 10, 0), 0, 0));
 
-        // Adds the target input component to the grid (column 1)
         this.add(this.component, new GridBagConstraints(1, 0, 1, 1, 0.5, 0.5,
                 GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(10, 0, 10, 10), 0, 0));
     }

@@ -11,7 +11,7 @@ import java.time.Instant;
  */
 @Data
 @Builder
-public class DataRecord {
+public class DataRecord implements TimeSeriesRow {
 
     /**
      * The point in time tracking when this particular snapshot record occurs.

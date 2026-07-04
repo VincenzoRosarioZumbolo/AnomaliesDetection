@@ -84,8 +84,8 @@ public class Controller {
 
         AppState appState = AppState.getInstance();
 
-        appState.setFinancialIndicators(IndicatorsCalculator.getInstance().
-                calculateRSInMACDnATRnCMF(appState.getAsset(), appState.getGranularity(), periods));
+        appState.setFinancialIndicators(new IndicatorsServiceImpl().
+                calculateRSInMACDnATRnCMF(periods));
     }
 
     /**
@@ -110,7 +110,7 @@ public class Controller {
         int parsedTreesNumber = AnomaliesDetectionService.validateTreesNumber(treesNumber);
         AppState appState = AppState.getInstance();
 
-        AnomaliesDetectionService anomaliesDetectionService = AnomaliesDetectionServiceFactory.
+        AnomaliesDetectionService<DataRecord> anomaliesDetectionService = AnomaliesDetectionServiceFactory.
                 buildAnomaliesDetectionService(implementation, startDate);
 
         DataSourceService dataSourceService = new YahooFinanceService();
@@ -123,7 +123,7 @@ public class Controller {
         );
 
         try {
-            appState.setAnomalyResults(anomaliesDetectionService.searchForAnomaly(
+            appState.setDataRecordAnomalyResults(anomaliesDetectionService.searchForAnomaly(
                     anomaliesDetectionService.trainIsolationForest(trainingDataRecords, parsedTreesNumber),
                     appState.getDataRecords(),
                     parsedThreshold));

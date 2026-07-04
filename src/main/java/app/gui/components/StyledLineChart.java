@@ -31,14 +31,11 @@ public class StyledLineChart extends StyledChart {
     public StyledLineChart(String title, String xAxisLabel, String yAxisLabel, XYDataset dataset) {
         super(title, new XYPlot(dataset, new DateAxis(xAxisLabel), new NumberAxis(yAxisLabel), null));
 
-        // Create a renderer that draws lines but hides data point shapes
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
 
-        // Configure the primary data series
         renderer.setSeriesPaint(0, AppColors.CHART_LINE1);
         renderer.setSeriesStroke(0, new BasicStroke(2.5f));
 
-        // Configure the secondary data series
         renderer.setSeriesPaint(1, AppColors.CHART_LINE2);
         renderer.setSeriesStroke(1, new BasicStroke(2.5f));
 

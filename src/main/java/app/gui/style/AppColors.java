@@ -13,15 +13,11 @@ import java.awt.Color;
  */
 public class AppColors {
 
-    // Primary branding design constraints
-
     /** The core primary branding accent color. */
     public static final Color PRIMARY = new Color(0, 102, 204);
 
     /** The interactive hover highlight variation of the primary brand color. */
     public static final Color PRIMARY_HOVER = new Color(0, 120, 215);
-
-    // Semantic status alert color definitions
 
     /** Semantic feedback color signaling successful processes or normal operational boundaries. */
     public static final Color SUCCESS = new Color(40, 167, 69);
@@ -32,8 +28,6 @@ public class AppColors {
     /** Semantic feedback color signaling mild warnings, pending tasks, or cautious threshold violations. */
     public static final Color WARNING = new Color(255, 193, 7);
 
-    // Structural background canvas layers
-
     /** The standard stark white backdrop surface fill applied across cards and primary components. */
     public static final Color BACKGROUND_WHITE = Color.WHITE;
 
@@ -43,12 +37,8 @@ public class AppColors {
     /** A completely transparent color map used to strip default frame fills or layer outlines. */
     public static final Color EMPTY = new Color(0, 0, 0, 0);
 
-    // Typographic rendering variations
-
     /** The standard baseline dark gray font paint applied across structural labels and input borders. */
     public static final Color TEXT = new Color(108, 117, 125);
-
-    // Chart component visualization channels
 
     /** The highlight color channel used for anomaly thresholds. */
     public static final Color CHART_ANOMALY = new Color(209, 20, 20);

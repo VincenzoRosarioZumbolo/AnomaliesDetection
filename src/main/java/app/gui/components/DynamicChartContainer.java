@@ -94,10 +94,8 @@ public class DynamicChartContainer extends InvisiblePanel {
         chartPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Ignore right-clicks to preserve default chart context menu actions
                 if (SwingUtilities.isRightMouseButton(e)) return;
 
-                // Toggle focus: maximize the chart or revert to full grid view
                 focusedChartIndex = (focusedChartIndex == -1) ? index : -1;
 
                 renderCharts();

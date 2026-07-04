@@ -28,7 +28,6 @@ public class CardPanel extends JPanel {
         super(layout);
         setBackground(AppColors.BACKGROUND_WHITE);
 
-        // Applies a rounded corner styling using FlatLaf specific properties
         putClientProperty("FlatLaf.style", "arc: 16");
 
         if (shadow) {

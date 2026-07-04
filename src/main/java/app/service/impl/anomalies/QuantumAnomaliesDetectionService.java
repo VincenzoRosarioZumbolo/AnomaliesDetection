@@ -2,6 +2,7 @@ package app.service.impl.anomalies;
 
 import app.model.AnomalyResult;
 import app.model.DataRecord;
+import app.model.TimeSeriesRow;
 import app.service.AnomaliesDetectionService;
 import smile.anomaly.IsolationForest;
 
@@ -33,13 +34,13 @@ import java.util.Map;
  * and compatible with the existing controller/factory, while still using quantum-style angle encoding, superposition,
  * entanglement phases and interference before the isolation step.</p>
  */
-public class QuantumAnomaliesDetectionService implements AnomaliesDetectionService {
+public abstract class QuantumAnomaliesDetectionService<T extends TimeSeriesRow> implements AnomaliesDetectionService<T> {
 
-    private static final int ORIGINAL_FEATURE_COUNT = 5;
-    private static final int QUBITS = ORIGINAL_FEATURE_COUNT;
-    private static final int QUANTUM_STATE_SIZE = 1 << QUBITS;
+    protected static int ORIGINAL_FEATURE_COUNT;
+    protected static int QUBITS;
+    protected static int QUANTUM_STATE_SIZE;
     private static final double EPSILON = 1.0e-12;
-    private static final String[] FEATURE_NAMES = {"Open", "High", "Low", "Close", "Volume"};
+    protected static String[] FEATURE_NAMES;
 
     /**
      * Keeps the scaler and training context associated with each trained forest.
@@ -56,10 +57,10 @@ public class QuantumAnomaliesDetectionService implements AnomaliesDetectionServi
      * @return trained IsolationForest over quantum-encoded records
      */
     @Override
-    public IsolationForest trainIsolationForest(List<DataRecord> data, int treesNumber) {
+    public IsolationForest trainIsolationForest(List<T> data, int treesNumber) {
         validateTrainingData(data);
 
-        QuantumTrainingContext context = QuantumTrainingContext.from(data);
+        QuantumTrainingContext context = QuantumTrainingContext.from(parseData(data));
         double[][] quantumEncodedTrainingData = context.encode(parseData(data));
 
         double sampleRate = Math.min(0.9, 256.0 / data.size());
@@ -90,7 +91,7 @@ public class QuantumAnomaliesDetectionService implements AnomaliesDetectionServi
      * @return scored records with feature contribution percentages
      */
     @Override
-    public List<AnomalyResult> searchForAnomaly(IsolationForest isolationForest, List<DataRecord> data, double threshold) {
+    public List<AnomalyResult<T>> searchForAnomaly(IsolationForest isolationForest, List<T> data, double threshold) {
         if (isolationForest == null)
             throw new IllegalArgumentException("IsolationForest cannot be null.");
 
@@ -107,12 +108,12 @@ public class QuantumAnomaliesDetectionService implements AnomaliesDetectionServi
         double[][] rawTargetData = parseData(data);
         double[][] quantumEncodedTargetData = context.encode(rawTargetData);
 
-        List<AnomalyResult> results = new ArrayList<>();
+        List<AnomalyResult<T>> results = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
             double score = isolationForest.score(quantumEncodedTargetData[i]);
 
-            results.add(new AnomalyResult(
+            results.add(new AnomalyResult<>(
                     data.get(i),
                     score,
                     calculateContributions(isolationForest, rawTargetData[i], context)
@@ -154,34 +155,21 @@ public class QuantumAnomaliesDetectionService implements AnomaliesDetectionServi
         return contributions;
     }
 
-    private static void validateTrainingData(List<DataRecord> data) {
+    private void validateTrainingData(List<T> data) {
         if (data == null || data.isEmpty())
             throw new IllegalArgumentException("Training data cannot be empty.");
     }
 
-    private static double[][] parseData(List<DataRecord> data) {
-        double[][] parsedData = new double[data.size()][ORIGINAL_FEATURE_COUNT];
-
-        for (int i = 0; i < data.size(); i++) {
-            parsedData[i][0] = data.get(i).getOpen();
-            parsedData[i][1] = data.get(i).getHigh();
-            parsedData[i][2] = data.get(i).getLow();
-            parsedData[i][3] = data.get(i).getClose();
-            parsedData[i][4] = data.get(i).getVolume();
-        }
-
-        return parsedData;
-    }
+    abstract protected double[][] parseData(List<T> data);
 
     /**
      * Immutable preprocessing state for a trained quantum feature map.
      */
     private record QuantumTrainingContext(double[] means, double[] standardDeviations) {
 
-        static QuantumTrainingContext from(List<DataRecord> data) {
-            double[][] rawData = parseData(data);
-            double[] means = calculateMeans(rawData);
-            double[] standardDeviations = calculateStandardDeviations(rawData, means);
+        static QuantumTrainingContext from(double[][] parsedData) {
+            double[] means = calculateMeans(parsedData);
+            double[] standardDeviations = calculateStandardDeviations(parsedData, means);
 
             return new QuantumTrainingContext(means, standardDeviations);
         }

@@ -10,12 +10,12 @@ import java.util.Map;
  * explaining the structural feature contributions toward the score.</p>
  */
 @Data
-public class AnomalyResult {
+public class AnomalyResult<T> {
 
     /**
      * The targeted financial data record that underwent anomaly evaluation.
      */
-    private DataRecord dataRecord;
+    private T dataRecord;
 
     /**
      * The numerical score indicating the degree of abnormality assigned by the detection algorithm.
@@ -34,7 +34,7 @@ public class AnomalyResult {
      * @param score         The computed anomaly degree score.
      * @param contributions The structural parameter feature contribution weights map.
      */
-    public AnomalyResult(DataRecord dataRecord, double score, Map<String, Double> contributions) {
+    public AnomalyResult(T dataRecord, double score, Map<String, Double> contributions) {
         this.dataRecord = dataRecord;
         this.score = score;
         this.contributions = contributions;
