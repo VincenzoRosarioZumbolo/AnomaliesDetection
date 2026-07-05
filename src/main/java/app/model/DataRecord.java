@@ -42,4 +42,9 @@ public class DataRecord implements TimeSeriesRow {
      * The aggregate amount count of units or tokens traded within the interval timeframe.
      */
     private long volume;
+
+    @Override
+    public Instant getTimestamp() {
+        return timestamp;
+    }
 }

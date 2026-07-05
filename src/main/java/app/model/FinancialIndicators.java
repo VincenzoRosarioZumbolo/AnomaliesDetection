@@ -38,4 +38,9 @@ public class FinancialIndicators implements TimeSeriesRow {
      * The Chaikin Money Flow metric aggregating accumulation vs distribution weight signals over time.
      */
     private double CMF;
+
+    @Override
+    public Instant getTimestamp() {
+        return timestamp;
+    }
 }

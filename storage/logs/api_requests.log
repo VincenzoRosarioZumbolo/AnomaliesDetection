@@ -1112,3 +1112,23 @@ Jul 04, 2026 4:52:09 PM app.util.LoggerUtil logApiRequest
 INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
 Jul 04, 2026 4:56:46 PM app.util.LoggerUtil logApiRequest
 INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 05, 2026 11:55:44 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1782864000&period2=1783209600&interval=1d
+Jul 05, 2026 11:57:17 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 05, 2026 11:57:42 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 05, 2026 12:19:57 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 05, 2026 12:20:06 PM app.util.LoggerUtil logInfo
+INFO: Anomaly detection blocked: Please select a valid start date for training
+Jul 05, 2026 12:20:16 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 05, 2026 12:20:29 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 05, 2026 12:20:44 PM app.util.LoggerUtil logInfo
+INFO: Anomaly detection blocked: Please select a valid start date for training
+Jul 05, 2026 12:20:53 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 05, 2026 12:21:09 PM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.

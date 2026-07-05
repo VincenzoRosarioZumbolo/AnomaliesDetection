@@ -34,18 +34,19 @@ public class MenuPanel extends CardPanel {
      * Populates structural components array maps, establishing click handler mappings and layout constraints.
      */
     private void addComponents() {
-        components = new ButtonPanelPair[3];
+        components = new ButtonPanelPair[4]; // Ora è da 4 elementi
 
         components[0] = new ButtonPanelPair(new MenuTabButton("Results Charts"), new ResultsChartsPanel());
-        components[1] = new ButtonPanelPair(new MenuTabButton("Anomalies Detection"), new AnomaliesDetectionPanel());
+        components[1] = new ButtonPanelPair(new MenuTabButton("Anomalies Detection"), new DataRecordAnomalyDetectionPanel());
         components[2] = new ButtonPanelPair(new MenuTabButton("Financial Values"), new FinancialValuesPanel());
+        components[3] = new ButtonPanelPair(new MenuTabButton("Indicators Anomalies"), new FinancialIndicatorsAnomalyDetectionPanel());
 
         for (int i = 0; i < components.length; i++) {
             int finalI = i;
             components[i].button.addActionListener(e -> showPair(finalI));
             add(components[i].button, new GridBagConstraints(finalI, 0, 1, 1, 0.5, 0.1,
                     GridBagConstraints.PAGE_START, GridBagConstraints.HORIZONTAL, PaddingConstants.PADDING_NONE, 0, 0));
-            add(components[i].panel, new GridBagConstraints(0, 1, 3, 1, 0.5, 0.9,
+            add(components[i].panel, new GridBagConstraints(0, 1, 4, 1, 0.5, 0.9,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH, PaddingConstants.PADDING_NONE, 0, 0));
 
             components[i].button.setVisible(false);

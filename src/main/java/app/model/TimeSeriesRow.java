@@ -1,3 +1,8 @@
 package app.model;
 
-public interface TimeSeriesRow {}
+import java.time.Instant;
+
+public interface TimeSeriesRow {
+
+    Instant getTimestamp();
+}

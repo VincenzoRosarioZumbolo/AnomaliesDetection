@@ -1,13 +1,55 @@
 package app.service.impl.anomalies;
 
+import app.model.AnomalyResult;
 import app.model.FinancialIndicators;
 import smile.anomaly.IsolationForest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BaseFinancialIndicatorsAnomaliesDetectionService extends BaseAnomaliesDetectionService<FinancialIndicators> {
+
+    private List<FinancialIndicators> filterWarmupData(List<FinancialIndicators> data) {
+        if (data == null || data.isEmpty()) return data;
+
+        int startIndex = 0;
+        for (int i = 0; i < data.size(); i++) {
+            FinancialIndicators fi = data.get(i);
+
+            if (fi.getRSI() != 0.0 && fi.getMACD() != 0.0 && fi.getATR() != 0.0 && fi.getCMF() != 0.0) {
+                startIndex = i;
+                break;
+            }
+        }
+        return data.subList(startIndex, data.size());
+    }
+
+    @Override
+    public IsolationForest trainIsolationForest(List<FinancialIndicators> data, int treesNumber) {
+
+        return super.trainIsolationForest(filterWarmupData(data), treesNumber);
+    }
+
+    @Override
+    public List<AnomalyResult<FinancialIndicators>> searchForAnomaly(IsolationForest isolationForest, List<FinancialIndicators> data, double threshold) {
+        List<FinancialIndicators> validData = filterWarmupData(data);
+        List<AnomalyResult<FinancialIndicators>> validResults = super.searchForAnomaly(isolationForest, validData, threshold);
+
+        List<AnomalyResult<FinancialIndicators>> fullResults = new ArrayList<>();
+        int warmupCount = data.size() - validData.size();
+
+
+        for (int i = 0; i < warmupCount; i++) {
+            fullResults.add(new AnomalyResult<>(data.get(i), 0.0, new HashMap<>()));
+        }
+
+
+        fullResults.addAll(validResults);
+
+        return fullResults;
+    }
 
     @Override
     protected double[][] parseData(List<FinancialIndicators> data) {

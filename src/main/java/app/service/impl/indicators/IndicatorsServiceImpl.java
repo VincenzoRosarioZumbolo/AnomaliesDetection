@@ -15,10 +15,24 @@ public class IndicatorsServiceImpl implements IndicatorsService {
     public List<FinancialIndicators> calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods periods) {
 
         List<DataRecord> records = AppState.getInstance().getDataRecords();
-        List<FinancialIndicators> results = new ArrayList<>();
 
         if (records == null || records.isEmpty())
-            return results;
+            return new ArrayList<>();
+
+        return calculate(records, periods);
+    }
+    
+    public List<FinancialIndicators> calculateRSInMACDnATRnCMF(List<DataRecord> records) {
+
+        if (records == null || records.isEmpty())
+            return new ArrayList<>();
+
+        return calculate(records, FinancialIndicatorsPeriods.STANDARD_PERIODS);
+    }
+
+    private List<FinancialIndicators> calculate(List<DataRecord> records, FinancialIndicatorsPeriods periods) {
+
+        List<FinancialIndicators> results = new ArrayList<>();
 
         RsiCalculator rsiCalculator = new RsiCalculator(periods.getRSIPeriod());
         MacdCalculator macdCalculator = new MacdCalculator(periods.getMACDPeriod()[0], periods.getMACDPeriod()[1]);
@@ -35,8 +49,13 @@ public class IndicatorsServiceImpl implements IndicatorsService {
             cmfCalculator.update(currentRecord);
 
             double rsiVal = rsiCalculator.isReady() ? rsiCalculator.getValue() : 0.0;
-            double macdVal = macdCalculator.isReady() ? macdCalculator.getValue() : 0.0;
-            double atrVal = atrCalculator.isReady() ? atrCalculator.getValue() : 0.0;
+
+            double macdVal = (macdCalculator.isReady() && currentRecord.getClose() != 0.0) ?
+                    (macdCalculator.getValue() / currentRecord.getClose()) : 0.0;
+
+            double atrVal = (atrCalculator.isReady() && currentRecord.getClose() != 0.0) ?
+                    (atrCalculator.getValue() / currentRecord.getClose()) : 0.0;
+
             double cmfVal = cmfCalculator.isReady() ? cmfCalculator.getValue() : 0.0;
 
             results.add(new FinancialIndicators(

@@ -32,6 +32,9 @@ public class FinancialIndicatorsPeriods {
      */
     int CMFPeriod;
 
+    public static final FinancialIndicatorsPeriods STANDARD_PERIODS = new FinancialIndicatorsPeriods
+            ("14", new String[]{"12", "26", "9"}, "14", "20");
+
     /**
      * Constructs a validated instance of FinancialIndicatorsPeriods by parsing input string data parameters.
      *

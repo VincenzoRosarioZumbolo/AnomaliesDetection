@@ -3,6 +3,7 @@ package app.controller;
 import app.exception.*;
 import app.model.AppState;
 import app.model.DataRecord;
+import app.model.FinancialIndicators;
 import app.model.FinancialIndicatorsPeriods;
 import app.service.AnomaliesDetectionService;
 import app.service.AnomaliesDetectionServiceFactory;
@@ -103,7 +104,7 @@ public class Controller {
      * @throws DataParsingException      If historical records from the data provider cannot be successfully deserialized.
      * @throws AnomalyDetectionException If a `RuntimeException` occurs wrapping the underlying training or scanning routines.
      */
-    public void searchForAnomaly(String implementation, LocalDateTime startDate, String threshold, String treesNumber)
+    public void searchForDataRecordAnomaly(String implementation, LocalDateTime startDate, String threshold, String treesNumber)
             throws ValidationException, NetworkException, ApiException, DataParsingException, AnomalyDetectionException {
 
         double parsedThreshold = AnomaliesDetectionService.validateThreshold(threshold);
@@ -111,7 +112,7 @@ public class Controller {
         AppState appState = AppState.getInstance();
 
         AnomaliesDetectionService<DataRecord> anomaliesDetectionService = AnomaliesDetectionServiceFactory.
-                buildAnomaliesDetectionService(implementation, startDate);
+                buildDataRecordAnomalyDetectionService(implementation, startDate);
 
         DataSourceService dataSourceService = new YahooFinanceService();
 
@@ -126,6 +127,38 @@ public class Controller {
             appState.setDataRecordAnomalyResults(anomaliesDetectionService.searchForAnomaly(
                     anomaliesDetectionService.trainIsolationForest(trainingDataRecords, parsedTreesNumber),
                     appState.getDataRecords(),
+                    parsedThreshold));
+
+        } catch (RuntimeException e) {
+            throw new AnomalyDetectionException("Internal error during anomaly detection logic", e);
+        }
+    }
+
+    public void searchForFinancialIndicatorsAnomaly(String implementation, LocalDateTime startDate, String threshold, String treesNumber)
+        throws ValidationException, NetworkException, ApiException, DataParsingException, AnomalyDetectionException {
+
+        double parsedThreshold = AnomaliesDetectionService.validateThreshold(threshold);
+        int parsedTreesNumber = AnomaliesDetectionService.validateTreesNumber(treesNumber);
+        AppState appState = AppState.getInstance();
+
+        AnomaliesDetectionService<FinancialIndicators> anomaliesDetectionService = AnomaliesDetectionServiceFactory.
+                buildFinancialIndicatorsAnomalyDetectionService(implementation, startDate);
+
+        DataSourceService dataSourceService = new YahooFinanceService();
+
+        List<DataRecord> trainingDataRecords = dataSourceService.fetchData(
+                appState.getAsset(),
+                appState.getGranularity(),
+                startDate,
+                LocalDateTime.ofInstant(appState.getDataRecords().getFirst().getTimestamp(), ZoneOffset.UTC)
+        );
+
+        List<FinancialIndicators> trainingFinancialIndicators = new IndicatorsServiceImpl().calculateRSInMACDnATRnCMF(trainingDataRecords);
+
+        try {
+            appState.setFinancialIndicatorsAnomalyResults(anomaliesDetectionService.searchForAnomaly(
+                    anomaliesDetectionService.trainIsolationForest(trainingFinancialIndicators, parsedTreesNumber),
+                    appState.getFinancialIndicators(),
                     parsedThreshold));
 
         } catch (RuntimeException e) {
