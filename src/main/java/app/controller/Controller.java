@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * The main controller of the application, acting as the orchestrator between the user interface layer,
  * the application state, and the background services (data fetching, indicator calculation, and anomaly detection).
- * * <p>This class implements the <b>Singleton</b> design pattern to ensure unified control across the application.</p>
+ * <p>This class implements the <b>Singleton</b> design pattern to ensure unified control across the application.</p>
  */
 public class Controller {
 
@@ -55,7 +55,7 @@ public class Controller {
      * @param endDate     The end of the timeframe to query. Must not be null or before the startDate.
      * @throws ValidationException  If either date is null, or if the startDate occurs after the endDate.
      * @throws NetworkException     If a network-related connection failure occurs during data fetching.
-     * @throws ApiException  If the remote data provider returns an error response code.
+     * @throws ApiException         If the remote data provider returns an error response code.
      * @throws DataParsingException If the incoming raw data cannot be successfully mapped to {@link DataRecord} models.
      */
     public void searchData(String asset, String granularity, LocalDateTime startDate, LocalDateTime endDate)
@@ -90,9 +90,9 @@ public class Controller {
     }
 
     /**
-     * Performs anomaly detection on the active dataset. It dynamically builds the chosen detection service,
+     * Performs anomaly detection on the active price dataset. It dynamically builds the chosen detection service,
      * queries history for an isolated training dataset context up until the first recorded timestamp of active data,
-     * fits an Isolation Forest model, evaluates the data against the given threshold, and stores the anomalies in {@link AppState}.
+     * fits an Isolation Forest model, evaluates the raw price rows against the given threshold, and stores the anomalies in {@link AppState}.
      *
      * @param implementation The identifier key for the anomaly detection algorithm implementation strategy.
      * @param startDate      The starting point from which to fetch training data historical context.
@@ -100,7 +100,7 @@ public class Controller {
      * @param treesNumber    The number of trees to build during the anomaly detection process.
      * @throws ValidationException       If parameters fail initialization requirements during building.
      * @throws NetworkException          If a connection issue blocks retrieving necessary background training data.
-     * @throws ApiException       If the data server explicitly rejects the historical training data request.
+     * @throws ApiException              If the data server explicitly rejects the historical training data request.
      * @throws DataParsingException      If historical records from the data provider cannot be successfully deserialized.
      * @throws AnomalyDetectionException If a `RuntimeException` occurs wrapping the underlying training or scanning routines.
      */
@@ -134,8 +134,24 @@ public class Controller {
         }
     }
 
+    /**
+     * Performs anomaly detection on the generated financial technical indicators dataset.
+     * It queries historical data records, computes the relative technical indicators to establish a background baseline context,
+     * fits an Isolation Forest model, evaluates the technical indicators series against the designated threshold,
+     * and stores the resulting breakages inside the {@link AppState}.
+     *
+     * @param implementation The identifier key for the anomaly detection algorithm implementation strategy.
+     * @param startDate      The starting point from which to fetch background historical records for training.
+     * @param threshold      The numerical sensitivity/contamination threshold represented as a String to evaluate deviations.
+     * @param treesNumber    The number of trees to build during the anomaly detection process.
+     * @throws ValidationException       If parameters fail initialization requirements during building.
+     * @throws NetworkException          If a connection issue blocks retrieving necessary background training data.
+     * @throws ApiException              If the data server explicitly rejects the historical training data request.
+     * @throws DataParsingException      If historical records from the data provider cannot be successfully deserialized.
+     * @throws AnomalyDetectionException If a `RuntimeException` occurs wrapping the underlying training or scanning routines.
+     */
     public void searchForFinancialIndicatorsAnomaly(String implementation, LocalDateTime startDate, String threshold, String treesNumber)
-        throws ValidationException, NetworkException, ApiException, DataParsingException, AnomalyDetectionException {
+            throws ValidationException, NetworkException, ApiException, DataParsingException, AnomalyDetectionException {
 
         double parsedThreshold = AnomaliesDetectionService.validateThreshold(threshold);
         int parsedTreesNumber = AnomaliesDetectionService.validateTreesNumber(treesNumber);

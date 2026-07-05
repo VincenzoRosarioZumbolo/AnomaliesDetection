@@ -7,8 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Concrete implementation of the {@link BaseAnomaliesDetectionService} specialized for processing
+ * raw sequential pricing data mapped to the {@link DataRecord} structure.
+ * <p>It maps records across 5 structural features: Open, High, Low, Close, and Volume.</p>
+ */
 public class BaseDataRecordAnomaliesDetectionService extends BaseAnomaliesDetectionService<DataRecord> {
 
+    /**
+     * {@inheritDoc}
+     * <p>Parses the 5 base OHLCV attributes (Open, High, Low, Close, Volume) from {@link DataRecord} objects into a matrix.</p>
+     */
     @Override
     protected double[][] parseData(List<DataRecord> data) {
 
@@ -26,6 +35,10 @@ public class BaseDataRecordAnomaliesDetectionService extends BaseAnomaliesDetect
         return parsedData;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>Calculates the absolute mathematical averages for the 5 fundamental OHLCV dimensions.</p>
+     */
     @Override
     protected double[] calculateMeans(List<DataRecord> data) {
 
@@ -50,6 +63,10 @@ public class BaseDataRecordAnomaliesDetectionService extends BaseAnomaliesDetect
         return means;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>Identifies spatial distance variances relative to the 5 baseline OHLCV variables.</p>
+     */
     @Override
     protected Map<String, Double> calculateContributions(IsolationForest isolationForest, double[] record, List<DataRecord> trainingData) {
 

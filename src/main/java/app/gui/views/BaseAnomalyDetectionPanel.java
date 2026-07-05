@@ -23,9 +23,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * An abstract generic panel for configuring, triggering, and visualizing anomaly detection operations.
+ * An abstract generic panel tasked with configuring parameters, triggering execution,
+ * and visually representing anomaly detection processes.
+ * <p>
+ * It provides a standardized dashboard including time pickers, text inputs for contamination
+ * thresholds and tree density, and a dropdown menu to determine the computational engine (Classical or Quantum).
+ * Results are projected into bar charts indicating the global anomaly score and the specific weight of each feature.
+ * </p>
  *
- * @param <T> The type of the data row to analyze, which must implement {@link TimeSeriesRow}.
+ * @param <T> the type of the time-series row under analysis, extending {@link TimeSeriesRow}
  */
 public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends InvisiblePanel {
 
@@ -37,12 +43,19 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
     private static final String[] implementations = {"Base implementation", "Quantum implementation"};
     private JButton searchButton;
 
+    /**
+     * Initializes the panel by configuring the flexible {@link GridBagLayout}, arranging
+     * the top control widgets, and preparing the bottom area dedicated to the chart plots.
+     */
     public BaseAnomalyDetectionPanel() {
         super(new GridBagLayout());
         addComponents();
         this.setVisible(true);
     }
 
+    /**
+     * Orchestrates the spatial insertion of the control module and the dynamic charts canvas.
+     */
     private void addComponents() {
         addControlPanel();
 
@@ -51,6 +64,10 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH, PaddingConstants.PADDING_NONE, 0, 0));
     }
 
+    /**
+     * Generates and positions the input fields for the training start date, the contamination threshold,
+     * the density of the isolation forest, and the type of analysis engine.
+     */
     private void addControlPanel() {
         JPanel componentsPanel = new InvisiblePanel(new GridBagLayout());
 
@@ -78,6 +95,10 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, PaddingConstants.PADDING_LARGE, 0, 0));
     }
 
+    /**
+     * Collects user inputs, delegates processing to the abstract search method catching any
+     * validation exceptions, and updates the charts view upon successful completion.
+     */
     private void executeSearch() {
         try {
             performSearch((String) implementationComboBox.getSelectedItem(),
@@ -93,6 +114,10 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
         }
     }
 
+    /**
+     * Extracts the result vectors and sequentially builds the global anomaly score chart
+     * (enriched by a horizontal threshold marker line) combined with the individual feature breakdown charts.
+     */
     private void updateChartsView() {
         List<AnomalyResult<T>> results = getAnomalyResults();
 
@@ -111,11 +136,17 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
         chartContainer.setCharts(chartsToDisplay);
     }
 
+    /**
+     * Generates a time-series bar chart illustrating the temporal trend of the anomaly score calculated for each individual record.
+     *
+     * @param results   the analysis results to map
+     * @param threshold the limit value beyond which a record is considered anomalous
+     * @return a configured {@link JFreeChart} instance provided with a visual alert marker
+     */
     private JFreeChart createScoreChart(List<AnomalyResult<T>> results, double threshold) {
         TimeSeries scoreSerie = new TimeSeries("Anomaly Score");
 
         for (AnomalyResult<T> anomalyResult : results) {
-
             scoreSerie.add(new Millisecond(Date.from(anomalyResult.getDataRecord().getTimestamp())), anomalyResult.getScore());
         }
 
@@ -135,6 +166,13 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
         return chart;
     }
 
+    /**
+     * Generates a bar chart focusing on the percentage deviation impact exerted by a single specific coordinate or indicator within the series.
+     *
+     * @param results     the result set containing the contribution maps
+     * @param featureName the textual identifier of the variable to isolate in the chart
+     * @return a {@link JFreeChart} instance with the vertical axis constrained within the standard [0, 100] range
+     */
     private JFreeChart createContributionChart(List<AnomalyResult<T>> results, String featureName) {
         TimeSeries contributionSerie = new TimeSeries(featureName + " Contribution");
 
@@ -153,9 +191,28 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
         return chart;
     }
 
+    /**
+     * Abstract method tasked with interfacing with the application's controller layer to actually start the anomaly detection calculations.
+     *
+     * @param implementation the descriptive string of the selected algorithmic model
+     * @param startDate      the start date and time of the training subset
+     * @param threshold      the string containing the sensitivity coefficient
+     * @param treesNumber    the string indicating the density of the estimators (trees)
+     * @throws Exception in case of invalid inputs or internal calculation module failures
+     */
     protected abstract void performSearch(String implementation, LocalDateTime startDate, String threshold, String treesNumber) throws Exception;
 
+    /**
+     * Retrieves the processed data stored in the global application state.
+     *
+     * @return a {@link List} of {@link AnomalyResult} structures associated with the managed generic type
+     */
     protected abstract List<AnomalyResult<T>> getAnomalyResults();
 
+    /**
+     * Returns the list of dimension names examined by the subclass, used to label the contribution charts.
+     *
+     * @return an array of strings representing the feature names
+     */
     protected abstract String[] getFeatureNames();
 }

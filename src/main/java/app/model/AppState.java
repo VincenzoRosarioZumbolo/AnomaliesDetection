@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Holds the centralized operational runtime state of the application.
  * <p>This class implements the <b>Singleton</b> pattern, providing global access to targeted assets,
- * active time granularity, fetched historical data rows, calculated indicators, and detected anomaly results.</p>
+ * active time granularity, fetched historical data rows, calculated indicators, and both variants of detected anomaly results.</p>
  */
 public class AppState {
 
@@ -37,15 +37,21 @@ public class AppState {
     @Getter@Setter
     private List<DataRecord> dataRecords;
 
+    /**
+     * The working collection list of calculated technical analysis financial indicators.
+     */
     @Getter@Setter
     private List<FinancialIndicators> financialIndicators;
 
     /**
-     * The working list tracking the results of the anomaly scanning operations.
+     * The working list tracking the results of the anomaly scanning operations evaluated over raw data records.
      */
     @Getter@Setter
     private List<AnomalyResult<DataRecord>> dataRecordAnomalyResults;
 
+    /**
+     * The working list tracking the results of the anomaly scanning operations evaluated over computed financial indicators.
+     */
     @Getter@Setter
     private List<AnomalyResult<FinancialIndicators>> financialIndicatorsAnomalyResults;
 
@@ -76,6 +82,11 @@ public class AppState {
         return dataRecords.stream().map(DataRecord::getTimestamp).collect(Collectors.toList());
     }
 
+    /**
+     * Extracts and compiles a list containing only the timestamps of the calculated financial indicators.
+     *
+     * @return A {@link List} of {@link Instant} values representing indicator snapshot dates.
+     */
     public List<Instant> getFinancialIndicatorsInstants() {
         return financialIndicators.stream().map(FinancialIndicators::getTimestamp).collect(Collectors.toList());
     }
@@ -125,18 +136,38 @@ public class AppState {
         return dataRecords.stream().map(DataRecord::getVolume).collect(Collectors.toList());
     }
 
+    /**
+     * Extracts and compiles a list containing only the MACD values across the indicator collection.
+     *
+     * @return A {@link List} of {@link Double} values tracking historical MACD points.
+     */
     public List<Double> getMACDs() {
         return financialIndicators.stream().map(FinancialIndicators::getMACD).collect(Collectors.toList());
     }
 
+    /**
+     * Extracts and compiles a list containing only the ATR values across the indicator collection.
+     *
+     * @return A {@link List} of {@link Double} values tracking historical ATR points.
+     */
     public List<Double> getATRs() {
         return financialIndicators.stream().map(FinancialIndicators::getATR).collect(Collectors.toList());
     }
 
+    /**
+     * Extracts and compiles a list containing only the RSI values across the indicator collection.
+     *
+     * @return A {@link List} of {@link Double} values tracking historical RSI points.
+     */
     public List<Double> getRSIs() {
         return financialIndicators.stream().map(FinancialIndicators::getRSI).collect(Collectors.toList());
     }
 
+    /**
+     * Extracts and compiles a list containing only the CMF values across the indicator collection.
+     *
+     * @return A {@link List} of {@link Double} values tracking historical CMF points.
+     */
     public List<Double> getCMFs() {
         return financialIndicators.stream().map(FinancialIndicators::getCMF).collect(Collectors.toList());
     }

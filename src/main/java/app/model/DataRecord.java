@@ -43,6 +43,10 @@ public class DataRecord implements TimeSeriesRow {
      */
     private long volume;
 
+    /**
+     * {@inheritDoc}
+     * <p>Returns the specific timestamp matching this OHLCV historical pricing record.</p>
+     */
     @Override
     public Instant getTimestamp() {
         return timestamp;

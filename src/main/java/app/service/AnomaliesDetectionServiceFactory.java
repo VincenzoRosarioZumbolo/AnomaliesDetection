@@ -20,13 +20,13 @@ import java.time.ZoneOffset;
 public class AnomaliesDetectionServiceFactory {
 
     /**
-     * Dynamically instantiates a specified anomaly detection service implementation after verifying
+     * Dynamically instantiates a specified anomaly detection service implementation for raw data records (prices) after verifying
      * that the provided boundary constraints and application data states are fully valid.
      *
      * @param implementation The case-sensitive identifier name of the target service logic algorithm strategy (e.g., "Base implementation", "Quantum implementation").
      * @param startDate      The beginning timeline date marking historical training contextual data boundaries.
-     * @return A fully initialized concrete implementation instance of {@link AnomaliesDetectionService}.
-     * @throws ValidationException       if the training start date does not occur chronologically before active dataset records.
+     * @return A fully initialized concrete implementation instance of {@link AnomaliesDetectionService} specialized for {@link DataRecord}.
+     * @throws ValidationException       If the training start date does not occur chronologically before active dataset records.
      * @throws AnomalyDetectionException If active state files contain no records to analyze, or if the specified strategy type cannot be resolved.
      */
     public static AnomaliesDetectionService<DataRecord> buildDataRecordAnomalyDetectionService(String implementation, LocalDateTime startDate)
@@ -47,6 +47,16 @@ public class AnomaliesDetectionServiceFactory {
         };
     }
 
+    /**
+     * Dynamically instantiates a specified anomaly detection service implementation for calculated financial technical indicators after verifying
+     * that the provided boundary constraints and application data states are fully valid.
+     *
+     * @param implementation The case-sensitive identifier name of the target service logic algorithm strategy (e.g., "Base implementation", "Quantum implementation").
+     * @param startDate      The beginning timeline date marking historical training contextual data boundaries.
+     * @return A fully initialized concrete implementation instance of {@link AnomaliesDetectionService} specialized for {@link FinancialIndicators}.
+     * @throws ValidationException       If the training start date does not occur chronologically before active dataset records.
+     * @throws AnomalyDetectionException If active state files contain no records to analyze, or if the specified strategy type cannot be resolved.
+     */
     public static AnomaliesDetectionService<FinancialIndicators> buildFinancialIndicatorsAnomalyDetectionService(String implementation, LocalDateTime startDate)
             throws ValidationException, AnomalyDetectionException {
 

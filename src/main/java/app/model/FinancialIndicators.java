@@ -39,6 +39,10 @@ public class FinancialIndicators implements TimeSeriesRow {
      */
     private double CMF;
 
+    /**
+     * {@inheritDoc}
+     * <p>Returns the specific timestamp matching this technical analysis calculation snapshot.</p>
+     */
     @Override
     public Instant getTimestamp() {
         return timestamp;

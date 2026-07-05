@@ -8,10 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A composite dashboard selector container that switches view visibility between tabs.
+ * A composite dashboard selector container that switches view visibility between modules.
  * <p>
- * Implements a card layout behavior via a custom collection array, tracking paired active layout buttons
- * and hidden display panel references (Results, Anomalies, Financial indicators).
+ * Implements a Card Layout logic based on a paired array of control structures, associating
+ * {@link MenuTabButton} selectors with operational panels (Results Charts, Anomalies Detection,
+ * Financial Values, and Indicators Anomalies).
  * </p>
  *
  * @see CardPanel
@@ -19,11 +20,12 @@ import java.awt.*;
  */
 public class MenuPanel extends CardPanel {
 
-    /** The internal lookup map tracking configuration relations linking headers to panels. */
+    /** Internal structural array tracking the button-panel pairs managed by the menu. */
     private ButtonPanelPair[] components;
 
     /**
-     * Constructs a MenuPanel instance, hidden by default until data availability is verified.
+     * Constructs a {@code MenuPanel} instance. By default, the menu remains invisible
+     * until successful data import requires its exposure.
      */
     public MenuPanel() {
         this.setVisible(false);
@@ -31,10 +33,11 @@ public class MenuPanel extends CardPanel {
     }
 
     /**
-     * Populates structural components array maps, establishing click handler mappings and layout constraints.
+     * Initializes the available tabs array (set to 4 elements), instantiates the corresponding
+     * display panels, and aligns the spatial constraints via {@link GridBagConstraints}.
      */
     private void addComponents() {
-        components = new ButtonPanelPair[4]; // Ora è da 4 elementi
+        components = new ButtonPanelPair[4];
 
         components[0] = new ButtonPanelPair(new MenuTabButton("Results Charts"), new ResultsChartsPanel());
         components[1] = new ButtonPanelPair(new MenuTabButton("Anomalies Detection"), new DataRecordAnomalyDetectionPanel());
@@ -58,8 +61,8 @@ public class MenuPanel extends CardPanel {
     }
 
     /**
-     * Reveals the dashboard component container, forces chart plotting routines on the
-     * results canvas, and focuses the primary navigation index.
+     * Reveals the menu structure, orders the initial generation of charts on the historical
+     * results panel, and sets the visual focus on the first tab.
      */
     public void createCharts() {
         this.setVisible(true);
@@ -81,10 +84,10 @@ public class MenuPanel extends CardPanel {
     }
 
     /**
-     * Updates selection states across tab header tracks, setting target panel structures
-     * visible while obscuring alternative variants.
+     * Modifies the selection state of the buttons and toggles the visibility of the panel
+     * corresponding to the specified index, hiding all other alternative elements.
      *
-     * @param index the target integer positioning context identifier matching requested views
+     * @param index the numerical position of the tab within the components array
      */
     private void showPair(int index) {
         for (int j = 0; j < components.length; j++) {
@@ -102,21 +105,21 @@ public class MenuPanel extends CardPanel {
     }
 
     /**
-     * A structural configuration helper binding an explicit navigation button to its content view.
+     * Logical support record aimed at pairing a menu header button with its respective content panel.
      */
     private static class ButtonPanelPair {
 
-        /** The visual layout selection button assigned to this tab tracking node. */
+        /** The toggle button designated for selecting this specific tab. */
         MenuTabButton button;
 
-        /** The visual content presentation canvas block assigned to this tab tracking node. */
+        /** The linked container panel displayed upon button activation. */
         JPanel panel;
 
         /**
-         * Standard assignment constructor pairing design tracks.
+         * Standard direct assignment constructor for the button-panel pair.
          *
-         * @param button the navigation toggle element
-         * @param panel  the corresponding target view component
+         * @param button the navigation button component
+         * @param panel  the destination canvas
          */
         public ButtonPanelPair(MenuTabButton button, JPanel panel) {
             this.button = button;

@@ -1,7 +1,6 @@
 package app.service.impl.anomalies;
 
 import app.model.AnomalyResult;
-import app.model.DataRecord;
 import app.model.TimeSeriesRow;
 import app.service.AnomaliesDetectionService;
 import smile.anomaly.IsolationForest;
@@ -15,24 +14,26 @@ import java.util.Map;
  * Quantum-inspired anomaly detection service.
  *
  * <p>The public API is intentionally identical to the classical implementation:
- * {@link #trainIsolationForest(List, int)} still receives historical {@link DataRecord}
- * values and returns a Smile {@link IsolationForest}; {@link #searchForAnomaly(IsolationForest, List, double)}
+ * {@link #trainIsolationForest(List, int)} still receives historical generic records
+ * and returns a Smile {@link IsolationForest}; {@link #searchForAnomaly(IsolationForest, List, double)}
  * still receives that model, the target records and the UI threshold.</p>
  *
- * <p>The difference is the representation used internally. Before fitting/scoring, each OHLCV row is encoded
- * into a simulated 5-qubit quantum feature map:</p>
+ * <p>The difference is the representation used internally. Before fitting/scoring, each structural time-series row
+ * (e.g., OHLCV pricing or technical indicators) is encoded into a simulated multi-qubit quantum feature map:</p>
  *
  * <ol>
- *     <li>Open, High, Low, Close and Volume are standardized against the training distribution.</li>
+ *     <li>Variables are standardized against the training distribution.</li>
  *     <li>Each standardized feature is angle-encoded into a qubit rotation.</li>
  *     <li>A small variational-like circuit is simulated with Ry rotations, controlled-phase entanglement and
  *     a second mixing layer.</li>
- *     <li>The 32 computational-basis measurement probabilities are used as the feature vector for Isolation Forest.</li>
+ *     <li>The computational-basis measurement probabilities are used as the feature vector for Isolation Forest.</li>
  * </ol>
  *
  * <p>This is a local simulator, not a call to quantum hardware. It is useful when the project must stay dependency-free
  * and compatible with the existing controller/factory, while still using quantum-style angle encoding, superposition,
  * entanglement phases and interference before the isolation step.</p>
+ *
+ * @param <T> The underlying time-series data row type under evaluation, extending {@link TimeSeriesRow}.
  */
 public abstract class QuantumAnomaliesDetectionService<T extends TimeSeriesRow> implements AnomaliesDetectionService<T> {
 
@@ -50,9 +51,9 @@ public abstract class QuantumAnomaliesDetectionService<T extends TimeSeriesRow> 
     private final Map<IsolationForest, QuantumTrainingContext> trainingContextMap = new HashMap<>();
 
     /**
-     * Trains an Isolation Forest over simulated quantum measurement probabilities instead of raw OHLCV values.
+     * Trains an Isolation Forest over simulated quantum measurement probabilities instead of raw dimensional values.
      *
-     * @param data historical records used as normal baseline
+     * @param data historical generic records used as normal baseline
      * @param treesNumber number of trees to build during the anomaly detection process
      * @return trained IsolationForest over quantum-encoded records
      */
@@ -124,7 +125,7 @@ public abstract class QuantumAnomaliesDetectionService<T extends TimeSeriesRow> 
     }
 
     /**
-     * Estimates local feature contributions in the original OHLCV space.
+     * Estimates local feature contributions in the original dimensional space.
      * Each feature is injected one at a time into an average baseline record, then the modified record is passed
      * through the quantum encoder and scored by the forest.
      */
@@ -160,6 +161,12 @@ public abstract class QuantumAnomaliesDetectionService<T extends TimeSeriesRow> 
             throw new IllegalArgumentException("Training data cannot be empty.");
     }
 
+    /**
+     * Transforms a generic collection list of financial domain records into a primitive 2D matrix structure.
+     *
+     * @param data The working {@link List} containing generic time-series instances.
+     * @return A primitive 2D double matrix tracking dimensional mapped values.
+     */
     abstract protected double[][] parseData(List<T> data);
 
     /**
@@ -193,7 +200,7 @@ public abstract class QuantumAnomaliesDetectionService<T extends TimeSeriesRow> 
         }
 
         /**
-         * Maps standardized OHLCV values to [0, PI] rotation angles.
+         * Maps standardized values to [0, PI] rotation angles.
          * tanh keeps extreme market moves finite while preserving their direction and relative magnitude.
          */
         private double[] toQuantumAngles(double[] rawRow) {

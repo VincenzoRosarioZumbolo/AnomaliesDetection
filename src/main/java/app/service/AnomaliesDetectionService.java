@@ -2,7 +2,6 @@ package app.service;
 
 import app.exception.ValidationException;
 import app.model.AnomalyResult;
-import app.model.DataRecord;
 import app.model.TimeSeriesRow;
 import smile.anomaly.IsolationForest;
 import java.util.List;
@@ -10,13 +9,15 @@ import java.util.List;
 /**
  * Service interface defining operations for training anomaly detection models
  * and evaluating datasets to identify abnormal financial records.
+ *
+ * @param <T> The underlying time-series data row type under evaluation, extending {@link TimeSeriesRow}.
  */
 public interface AnomaliesDetectionService<T extends TimeSeriesRow> {
 
     /**
      * Trains an Isolation Forest model using the provided baseline context training dataset.
      *
-     * @param data A {@link List} of historical {@link DataRecord} instances used to establish normal behavior.
+     * @param data A {@link List} of generic historical time-series rows used to establish normal behavior.
      * @param treesNumber The number of trees to build during the anomaly detection process.
      * @return A trained {@link IsolationForest} model instance.
      */
@@ -27,7 +28,7 @@ public interface AnomaliesDetectionService<T extends TimeSeriesRow> {
      * to identify data points that exceed the specified abnormality threshold.
      *
      * @param isolationForest The pre-trained {@link IsolationForest} engine to use for evaluation.
-     * @param data            The working {@link List} of target {@link DataRecord} instances to scan for anomalies.
+     * @param data            The working {@link List} of target generic rows to scan for anomalies.
      * @param threshold       The statistical contamination sensitivity limit mapping anomaly criteria.
      * @return A {@link List} containing the evaluated {@link AnomalyResult} metrics for elements flagged as anomalous.
      */

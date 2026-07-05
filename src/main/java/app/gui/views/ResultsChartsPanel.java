@@ -11,13 +11,13 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * A panel container that handles standard historical asset value timelines.
+ * A container panel specialized in loading and displaying historical linear time series
+ * of financial asset prices (Opens, Closures, Highs, Lows, Volumes).
  */
 public class ResultsChartsPanel extends AbstractChartsPanel {
 
     /**
-     * Constructs a ResultsChartsPanel, inheriting layout configurations
-     * and the dynamic display grid.
+     * Constructs the panel by inheriting the structural and display behaviors defined in {@link AbstractChartsPanel}.
      */
     public ResultsChartsPanel() {
         super();
@@ -25,8 +25,8 @@ public class ResultsChartsPanel extends AbstractChartsPanel {
     }
 
     /**
-     * Aggregates line plot assets from current application data configurations
-     * and maps them onto the interactive display grid.
+     * Extracts historical market data from the application state, builds the respective
+     * stylized line charts, and injects them into the graphical container for visual rendering.
      */
     public void createCharts() {
         setCharts(Arrays.asList(
@@ -36,6 +36,11 @@ public class ResultsChartsPanel extends AbstractChartsPanel {
         ));
     }
 
+    /**
+     * Creates a composite time-series chart mapping the historical open and close prices.
+     *
+     * @return a configured {@link JFreeChart} instance containing the Opens and Closures datasets
+     */
     private JFreeChart createOpensClosuresChart() {
         TimeSeries opensSerie = new TimeSeries("Opens");
         TimeSeries closuresSerie = new TimeSeries("Closures");
@@ -52,6 +57,11 @@ public class ResultsChartsPanel extends AbstractChartsPanel {
         return new StyledLineChart("Opens and Closures", "Time", "Value", dataset);
     }
 
+    /**
+     * Creates a composite time-series chart mapping the historical high and low peak prices.
+     *
+     * @return a configured {@link JFreeChart} instance containing the Highs and Lows datasets
+     */
     private JFreeChart createHighsLowsChart() {
         TimeSeries highsSerie = new TimeSeries("Highs");
         TimeSeries lowsSerie = new TimeSeries("Lows");
@@ -68,6 +78,11 @@ public class ResultsChartsPanel extends AbstractChartsPanel {
         return new StyledLineChart("Highs and Lows", "Time", "Value", dataset);
     }
 
+    /**
+     * Creates a time-series chart mapping the historical traded asset volumes.
+     *
+     * @return a configured {@link JFreeChart} instance containing the Volumes dataset
+     */
     private JFreeChart createVolumesChart() {
         TimeSeries volumesSerie = new TimeSeries("Volumes");
 

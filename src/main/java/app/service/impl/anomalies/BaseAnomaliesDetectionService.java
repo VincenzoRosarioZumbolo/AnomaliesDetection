@@ -1,7 +1,6 @@
 package app.service.impl.anomalies;
 
 import app.model.AnomalyResult;
-import app.model.DataRecord;
 import app.model.TimeSeriesRow;
 import app.service.AnomaliesDetectionService;
 import smile.anomaly.IsolationForest;
@@ -14,10 +13,12 @@ import java.util.Map;
 /**
  * Concrete implementation of {@link app.service.AnomaliesDetectionService} that utilizes
  * the Smile library's {@link IsolationForest} algorithm to detect structural deviations
- * and pricing anomalies within financial datasets.
- * * <p>This service tracks the historical training context data used for each initialized model instance,
- * maps multidimensional records into double primitives, evaluates anomaly scores against a percentage
+ * and anomalies within financial datasets.
+ * <p>This service tracks the historical training context data used for each initialized model instance,
+ * maps multidimensional generic records into double primitives, evaluates anomaly scores against a percentage
  * sensitivity ceiling, and calculates feature impact contributions to explain detected anomalies.</p>
+ *
+ * @param <T> The underlying time-series data row type under evaluation, extending {@link TimeSeriesRow}.
  */
 public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> implements AnomaliesDetectionService<T> {
 
@@ -31,7 +32,7 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
      * Fits and builds an Isolation Forest mathematical model configured with an optimized tree ceiling profile
      * based on the size of the incoming collection and the given number of trees. Stores the initialized training context on completion.
      *
-     * @param data A {@link List} of historical {@link DataRecord} instances used to establish normal behavior bounds.
+     * @param data A {@link List} of historical generic time-series instances used to establish normal behavior bounds.
      * @param treesNumber The number of trees to build during the anomaly detection process.
      * @return A fully trained, structurally optimized {@link IsolationForest} model instance.
      */
@@ -54,7 +55,7 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
      * to identify elements exceeding the anomaly threshold.
      *
      * @param isolationForest The pre-trained {@link IsolationForest} engine used for scoring.
-     * @param data            The working {@link List} of target {@link DataRecord} instances to scan for anomalies.
+     * @param data            The working {@link List} of target generic rows to scan for anomalies.
      * @param threshold       The contamination sensitivity ceiling. Records with scores greater than this value are flagged.
      * @return A {@link List} containing parsed {@link AnomalyResult} items detailing the feature contribution breakages for flagged records.
      */
@@ -78,14 +79,14 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
 
     /**
      * Computes the algorithmic feature contribution percentage breakdown explaining how heavily each
-     * independent variable (Open, High, Low, Close, Volume) influenced a specific anomaly score.
-     * * <p>Calculations evaluate spatial distance impacts by substituting one variable at a time
+     * independent variable influenced a specific anomaly score.
+     * <p>Calculations evaluate spatial distance impacts by substituting one variable at a time
      * against the aggregate mean markers derived from the associated baseline training collection.</p>
      *
      * @param isolationForest The active {@link IsolationForest} model context evaluating scores.
-     * @param record          An array containing the 5 primitive parameters of the specific data row under review.
+     * @param record          An array containing the primitive parameters of the specific data row under review.
      * @param trainingData    The collection of historical baseline records matching the active model's state.
-     * @return A {@link Map} pairing string feature labels (e.g., "Open", "Volume") to their computed impact contribution weight percentages.
+     * @return A {@link Map} pairing string feature labels to their computed impact contribution weight percentages.
      */
     abstract protected Map<String, Double> calculateContributions(IsolationForest isolationForest, double[] record, List<T> trainingData);
 
@@ -93,8 +94,8 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
      * Computes the mathematical mean values across all financial data dimensions from
      * a collection of data records to form a centralized operational reference point.
      *
-     * @param data The baseline source list of {@link DataRecord} structures.
-     * @return An array of 5 indices tracking sequentially the calculated average for Open, High, Low, Close, and Volume.
+     * @param data The baseline source list of generic data structures.
+     * @return An array tracking sequentially the calculated average for the specific mapped dimensions.
      */
     abstract protected double[] calculateMeans(List<T> data);
 
@@ -102,8 +103,8 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
      * Transforms a generic collection list of financial domain record objects into a primitive 2D matrix structure
      * format compatible with the underlying mathematical library matrices.
      *
-     * @param data The working {@link List} containing {@link DataRecord} instances.
-     * @return A primitive 2D double matrix tracking rows mapped to Open, High, Low, Close, and Volume values sequentially.
+     * @param data The working {@link List} containing generic time-series instances.
+     * @return A primitive 2D double matrix tracking dimensional mapped values.
      */
     abstract protected double[][] parseData(List<T> data);
 }

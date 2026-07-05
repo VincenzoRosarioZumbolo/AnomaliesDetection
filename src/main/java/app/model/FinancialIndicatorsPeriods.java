@@ -32,6 +32,10 @@ public class FinancialIndicatorsPeriods {
      */
     int CMFPeriod;
 
+    /**
+     * A standard default template bundle containing classical, industry-standard period sizes
+     * (RSI: 14, MACD: 12/26/9, ATR: 14, CMF: 20) used as a baseline across systems.
+     */
     public static final FinancialIndicatorsPeriods STANDARD_PERIODS = new FinancialIndicatorsPeriods
             ("14", new String[]{"12", "26", "9"}, "14", "20");
 

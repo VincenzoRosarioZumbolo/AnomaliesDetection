@@ -5,15 +5,17 @@ import lombok.Data;
 import java.util.Map;
 
 /**
- * Represents the structured result of an anomaly detection evaluation on a specific data record.
- * <p>This model contains the analyzed record, its abnormality score, and an algorithmic mapping
- * explaining the structural feature contributions toward the score.</p>
+ * Represents the structured result of an anomaly detection evaluation on a specific financial data row.
+ * <p>This model contains the analyzed generic record (such as raw price records or computed technical indicators),
+ * its abnormality score, and an algorithmic mapping explaining the structural feature contributions toward the score.</p>
+ *
+ * @param <T> The underlying time-series data type under evaluation, implementing {@link TimeSeriesRow}.
  */
 @Data
 public class AnomalyResult<T> {
 
     /**
-     * The targeted financial data record that underwent anomaly evaluation.
+     * The targeted financial data record or indicator snapshot that underwent anomaly evaluation.
      */
     private T dataRecord;
 
@@ -30,7 +32,7 @@ public class AnomalyResult<T> {
     /**
      * Constructs a fully initialized AnomalyResult entity.
      *
-     * @param dataRecord    The evaluated data record.
+     * @param dataRecord    The evaluated data row instance.
      * @param score         The computed anomaly degree score.
      * @param contributions The structural parameter feature contribution weights map.
      */

@@ -8,8 +8,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Concrete implementation of the {@link QuantumAnomaliesDetectionService} specialized for processing
+ * computed technical analysis metrics structured as {@link FinancialIndicators}.
+ * <p>It initializes a 4-qubit quantum simulation state specifically tailored to encode RSI, MACD,
+ * ATR, and CMF values, while seamlessly bypassing uncalculated historical initialization rows.</p>
+ */
 public class QuantumFinancialIndicatorsAnomaliesDetectionService extends QuantumAnomaliesDetectionService<FinancialIndicators> {
 
+    /**
+     * Instantiates the quantum anomaly service and prepares internal 4-feature state structures
+     * aligning directly with the core technical analysis indicators evaluated.
+     */
     public QuantumFinancialIndicatorsAnomaliesDetectionService() {
 
         FEATURE_NAMES = new String[]{"RSI", "MACD", "ATR", "CMF"};
@@ -18,6 +28,12 @@ public class QuantumFinancialIndicatorsAnomaliesDetectionService extends Quantum
         QUANTUM_STATE_SIZE = 1 << QUBITS;
     }
 
+    /**
+     * Ensures the mathematical quantum models are not disrupted by empty sliding-window periods.
+     *
+     * @param data The chronological raw sequence of evaluated indicator records.
+     * @return A trimmed sub-list excluding null historical rows.
+     */
     private List<FinancialIndicators> filterWarmupData(List<FinancialIndicators> data) {
         if (data == null || data.isEmpty()) return data;
 
@@ -32,11 +48,20 @@ public class QuantumFinancialIndicatorsAnomaliesDetectionService extends Quantum
         return data.subList(startIndex, data.size());
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>Purges empty technical warmup parameters before triggering simulated quantum states during training.</p>
+     */
     @Override
     public IsolationForest trainIsolationForest(List<FinancialIndicators> data, int treesNumber) {
         return super.trainIsolationForest(filterWarmupData(data), treesNumber);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>Calculates the quantum deviations and restores the empty initialization points into the timeline stream
+     * prior to charting result distributions.</p>
+     */
     @Override
     public List<AnomalyResult<FinancialIndicators>> searchForAnomaly(IsolationForest isolationForest, List<FinancialIndicators> data, double threshold) {
         List<FinancialIndicators> validData = filterWarmupData(data);
@@ -54,6 +79,10 @@ public class QuantumFinancialIndicatorsAnomaliesDetectionService extends Quantum
         return fullResults;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>Extracts the sequential parsed metrics (RSI, MACD, ATR, CMF) array from the source entities.</p>
+     */
     @Override
     protected double[][] parseData(List<FinancialIndicators> data) {
         double[][] parsedData = new double[data.size()][ORIGINAL_FEATURE_COUNT];
