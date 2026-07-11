@@ -1,7 +1,7 @@
 package app.gui.views;
 
 import app.gui.components.StyledLineChart;
-import app.model.AppState;
+import app.dto.AppState;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.TimeSeries;

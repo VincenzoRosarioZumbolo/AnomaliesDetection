@@ -1,7 +1,7 @@
 package app.service.impl.anomalies;
 
-import app.model.AnomalyResult;
-import app.model.TimeSeriesRow;
+import app.dto.AnomalyResult;
+import app.dto.TimeSeriesRow;
 import app.service.AnomaliesDetectionService;
 import smile.anomaly.IsolationForest;
 
@@ -16,7 +16,7 @@ import java.util.Map;
  * <p>The public API is intentionally identical to the classical implementation:
  * {@link #trainIsolationForest(List, int)} still receives historical generic records
  * and returns a Smile {@link IsolationForest}; {@link #searchForAnomaly(IsolationForest, List, double)}
- * still receives that model, the target records and the UI threshold.</p>
+ * still receives that dto, the target records and the UI threshold.</p>
  *
  * <p>The difference is the representation used internally. Before fitting/scoring, each structural time-series row
  * (e.g., OHLCV pricing or technical indicators) is encoded into a simulated multi-qubit quantum feature map:</p>
@@ -86,7 +86,7 @@ public abstract class QuantumAnomaliesDetectionService<T extends TimeSeriesRow> 
      * <p>The method returns one {@link AnomalyResult} per input record, preserving the current GUI behavior where
      * the threshold is drawn as a chart marker and the full score series is displayed.</p>
      *
-     * @param isolationForest model returned by {@link #trainIsolationForest(List, int)}
+     * @param isolationForest dto returned by {@link #trainIsolationForest(List, int)}
      * @param data target records to score
      * @param threshold UI threshold; validated to keep API semantics, but not used to remove chart points
      * @return scored records with feature contribution percentages

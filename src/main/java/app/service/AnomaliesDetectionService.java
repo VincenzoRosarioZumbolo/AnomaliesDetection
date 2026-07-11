@@ -1,8 +1,8 @@
 package app.service;
 
 import app.exception.ValidationException;
-import app.model.AnomalyResult;
-import app.model.TimeSeriesRow;
+import app.dto.AnomalyResult;
+import app.dto.TimeSeriesRow;
 import smile.anomaly.IsolationForest;
 import java.util.List;
 
@@ -15,16 +15,16 @@ import java.util.List;
 public interface AnomaliesDetectionService<T extends TimeSeriesRow> {
 
     /**
-     * Trains an Isolation Forest model using the provided baseline context training dataset.
+     * Trains an Isolation Forest dto using the provided baseline context training dataset.
      *
      * @param data A {@link List} of generic historical time-series rows used to establish normal behavior.
      * @param treesNumber The number of trees to build during the anomaly detection process.
-     * @return A trained {@link IsolationForest} model instance.
+     * @return A trained {@link IsolationForest} dto instance.
      */
     IsolationForest trainIsolationForest(List<T> data, int treesNumber);
 
     /**
-     * Evaluates a list of target financial records against a trained Isolation Forest model
+     * Evaluates a list of target financial records against a trained Isolation Forest dto
      * to identify data points that exceed the specified abnormality threshold.
      *
      * @param isolationForest The pre-trained {@link IsolationForest} engine to use for evaluation.

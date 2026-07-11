@@ -1,6 +1,6 @@
 package app.util;
 
-import app.model.DataRecord;
+import app.dto.DataRecord;
 
 import java.io.*;
 import java.time.Instant;

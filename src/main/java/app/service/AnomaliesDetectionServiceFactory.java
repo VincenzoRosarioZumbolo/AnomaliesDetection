@@ -2,9 +2,9 @@ package app.service;
 
 import app.exception.AnomalyDetectionException;
 import app.exception.ValidationException;
-import app.model.AppState;
-import app.model.DataRecord;
-import app.model.FinancialIndicators;
+import app.dto.AppState;
+import app.dto.DataRecord;
+import app.dto.FinancialIndicators;
 import app.service.impl.anomalies.BaseDataRecordAnomaliesDetectionService;
 import app.service.impl.anomalies.BaseFinancialIndicatorsAnomaliesDetectionService;
 import app.service.impl.anomalies.QuantumDataRecordAnomaliesDetectionService;

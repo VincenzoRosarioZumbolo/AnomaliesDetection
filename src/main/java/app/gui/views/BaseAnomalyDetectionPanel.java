@@ -4,8 +4,8 @@ import app.exception.*;
 import app.gui.components.*;
 import app.gui.style.AppColors;
 import app.gui.style.PaddingConstants;
-import app.model.AnomalyResult;
-import app.model.TimeSeriesRow;
+import app.dto.AnomalyResult;
+import app.dto.TimeSeriesRow;
 import app.util.LoggerUtil;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import org.jfree.chart.JFreeChart;
@@ -194,7 +194,7 @@ public abstract class BaseAnomalyDetectionPanel<T extends TimeSeriesRow> extends
     /**
      * Abstract method tasked with interfacing with the application's controller layer to actually start the anomaly detection calculations.
      *
-     * @param implementation the descriptive string of the selected algorithmic model
+     * @param implementation the descriptive string of the selected algorithmic dto
      * @param startDate      the start date and time of the training subset
      * @param threshold      the string containing the sensitivity coefficient
      * @param treesNumber    the string indicating the density of the estimators (trees)

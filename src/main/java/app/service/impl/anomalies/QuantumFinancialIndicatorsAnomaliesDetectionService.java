@@ -1,7 +1,7 @@
 package app.service.impl.anomalies;
 
-import app.model.AnomalyResult;
-import app.model.FinancialIndicators;
+import app.dto.AnomalyResult;
+import app.dto.FinancialIndicators;
 import smile.anomaly.IsolationForest;
 
 import java.util.ArrayList;

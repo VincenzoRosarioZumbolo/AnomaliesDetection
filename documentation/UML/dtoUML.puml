@@ -10,7 +10,7 @@ skinparam ClassHeaderBackgroundColor #EBF3FC
 skinparam ClassBorderColor #1F60B4
 skinparam ArrowColor #555555
 
-package model {
+package DTO {
 
     class AppState {
     - {static} AppState instance

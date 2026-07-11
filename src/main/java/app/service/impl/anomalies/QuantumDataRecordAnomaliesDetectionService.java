@@ -1,6 +1,6 @@
 package app.service.impl.anomalies;
 
-import app.model.DataRecord;
+import app.dto.DataRecord;
 import java.util.List;
 
 /**

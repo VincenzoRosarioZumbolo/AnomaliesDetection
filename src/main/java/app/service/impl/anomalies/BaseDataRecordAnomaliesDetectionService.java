@@ -1,6 +1,6 @@
 package app.service.impl.anomalies;
 
-import app.model.DataRecord;
+import app.dto.DataRecord;
 import smile.anomaly.IsolationForest;
 
 import java.util.HashMap;

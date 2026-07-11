@@ -4,7 +4,7 @@ import app.client.ApiClient;
 import app.exception.ApiException;
 import app.exception.DataParsingException;
 import app.exception.NetworkException;
-import app.model.DataRecord;
+import app.dto.DataRecord;
 import app.service.DataSourceService;
 import app.util.CsvStorageService;
 import app.util.LoggerUtil;

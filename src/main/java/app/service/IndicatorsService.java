@@ -1,7 +1,7 @@
 package app.service;
 
-import app.model.FinancialIndicators;
-import app.model.FinancialIndicatorsPeriods;
+import app.dto.FinancialIndicators;
+import app.dto.FinancialIndicatorsPeriods;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface IndicatorsService {
      * Simultaneously computes RSI, MACD, ATR, and CMF technical indicators.
      *
      * @param periods     A container holding the explicit period configurations for each indicator.
-     * @return A populated {@link List} containing the model entities {@link FinancialIndicators} containing the results.
+     * @return A populated {@link List} containing the dto entities {@link FinancialIndicators} containing the results.
      */
     List<FinancialIndicators> calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods periods);
 }

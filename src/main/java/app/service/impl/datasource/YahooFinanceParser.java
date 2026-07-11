@@ -1,7 +1,7 @@
 package app.service.impl.datasource;
 
 import app.exception.DataParsingException;
-import app.model.DataRecord;
+import app.dto.DataRecord;
 import app.service.DataSourceParser;
 import app.util.LoggerUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,7 +22,7 @@ public class YahooFinanceParser implements DataSourceParser {
      * hierarchical JSON structural document tree, mapping valid lines into a continuous index.
      *
      * @param data The root Jackson {@link JsonNode} representing the raw server payload.
-     * @return A mapped chronological {@link List} of entity model {@link DataRecord} instances.
+     * @return A mapped chronological {@link List} of entity dto {@link DataRecord} instances.
      * @throws DataParsingException If structural elements fail schema validation constraints or if expected sub-nodes are missing.
      */
     @Override

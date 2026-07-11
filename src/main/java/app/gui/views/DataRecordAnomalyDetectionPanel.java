@@ -1,9 +1,9 @@
 package app.gui.views;
 
 import app.controller.Controller;
-import app.model.AnomalyResult;
-import app.model.AppState;
-import app.model.DataRecord;
+import app.dto.AnomalyResult;
+import app.dto.AppState;
+import app.dto.DataRecord;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,9 +1,9 @@
 package app.gui.views;
 
 import app.controller.Controller;
-import app.model.AnomalyResult;
-import app.model.AppState;
-import app.model.FinancialIndicators;
+import app.dto.AnomalyResult;
+import app.dto.AppState;
+import app.dto.FinancialIndicators;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +28,7 @@ public class FinancialIndicatorsAnomalyDetectionPanel extends BaseAnomalyDetecti
     /**
      * {@inheritDoc}
      * <p>
-     * Retrieves the computed output data collections for the {@link FinancialIndicators} model from the application state.
+     * Retrieves the computed output data collections for the {@link FinancialIndicators} dto from the application state.
      * </p>
      */
     @Override

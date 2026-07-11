@@ -1,11 +1,11 @@
-package app.model;
+package app.dto;
 
 import lombok.Builder;
 import lombok.Data;
 import java.time.Instant;
 
 /**
- * A data transfer and storage model object representing a single snapshot of financial OHLCV
+ * A data transfer and storage dto object representing a single snapshot of financial OHLCV
  * (Open, High, Low, Close, Volume) data for a given timestamp.
  * <p>Equipped with Lombok's Builder pattern capabilities for flexible initialization.</p>
  */

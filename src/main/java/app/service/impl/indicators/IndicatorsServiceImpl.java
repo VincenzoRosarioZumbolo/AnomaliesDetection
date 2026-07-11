@@ -1,9 +1,9 @@
 package app.service.impl.indicators;
 
-import app.model.AppState;
-import app.model.DataRecord;
-import app.model.FinancialIndicators;
-import app.model.FinancialIndicatorsPeriods;
+import app.dto.AppState;
+import app.dto.DataRecord;
+import app.dto.FinancialIndicators;
+import app.dto.FinancialIndicatorsPeriods;
 import app.service.IndicatorsService;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class IndicatorsServiceImpl implements IndicatorsService {
     /**
      * Overloaded calculation route designed to compute technical indicators using an explicitly
      * supplied list of data records and the fallback baseline {@link FinancialIndicatorsPeriods#STANDARD_PERIODS}.
-     * <p>Typically utilized during background processing routines like model training preparation where
+     * <p>Typically utilized during background processing routines like dto training preparation where
      * localized historical contextual sub-lists are processed.</p>
      *
      * @param records The sequential list of raw {@link DataRecord} instances to analyze.
@@ -365,7 +365,7 @@ public class IndicatorsServiceImpl implements IndicatorsService {
          * Computes active Money Flow Multiplier metrics, scaling values against structural volume sizes,
          * and rolls buffer ring configurations forward.
          *
-         * @param current The active transactional data model snapshot containing price and volume attributes.
+         * @param current The active transactional data dto snapshot containing price and volume attributes.
          */
         void update(DataRecord current) {
             double high = current.getHigh();

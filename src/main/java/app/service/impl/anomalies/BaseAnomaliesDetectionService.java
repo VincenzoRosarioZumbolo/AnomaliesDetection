@@ -1,7 +1,7 @@
 package app.service.impl.anomalies;
 
-import app.model.AnomalyResult;
-import app.model.TimeSeriesRow;
+import app.dto.AnomalyResult;
+import app.dto.TimeSeriesRow;
 import app.service.AnomaliesDetectionService;
 import smile.anomaly.IsolationForest;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  * Concrete implementation of {@link app.service.AnomaliesDetectionService} that utilizes
  * the Smile library's {@link IsolationForest} algorithm to detect structural deviations
  * and anomalies within financial datasets.
- * <p>This service tracks the historical training context data used for each initialized model instance,
+ * <p>This service tracks the historical training context data used for each initialized dto instance,
  * maps multidimensional generic records into double primitives, evaluates anomaly scores against a percentage
  * sensitivity ceiling, and calculates feature impact contributions to explain detected anomalies.</p>
  *
@@ -29,12 +29,12 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
     private final Map<IsolationForest, List<T>> trainingDataMap = new HashMap<>();
 
     /**
-     * Fits and builds an Isolation Forest mathematical model configured with an optimized tree ceiling profile
+     * Fits and builds an Isolation Forest mathematical dto configured with an optimized tree ceiling profile
      * based on the size of the incoming collection and the given number of trees. Stores the initialized training context on completion.
      *
      * @param data A {@link List} of historical generic time-series instances used to establish normal behavior bounds.
      * @param treesNumber The number of trees to build during the anomaly detection process.
-     * @return A fully trained, structurally optimized {@link IsolationForest} model instance.
+     * @return A fully trained, structurally optimized {@link IsolationForest} dto instance.
      */
     public IsolationForest trainIsolationForest(List<T> data, int treesNumber) {
 
@@ -51,7 +51,7 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
     }
 
     /**
-     * Evaluates a collection of active target financial records against the specified pre-trained model
+     * Evaluates a collection of active target financial records against the specified pre-trained dto
      * to identify elements exceeding the anomaly threshold.
      *
      * @param isolationForest The pre-trained {@link IsolationForest} engine used for scoring.
@@ -83,9 +83,9 @@ public abstract class BaseAnomaliesDetectionService<T extends TimeSeriesRow> imp
      * <p>Calculations evaluate spatial distance impacts by substituting one variable at a time
      * against the aggregate mean markers derived from the associated baseline training collection.</p>
      *
-     * @param isolationForest The active {@link IsolationForest} model context evaluating scores.
+     * @param isolationForest The active {@link IsolationForest} dto context evaluating scores.
      * @param record          An array containing the primitive parameters of the specific data row under review.
-     * @param trainingData    The collection of historical baseline records matching the active model's state.
+     * @param trainingData    The collection of historical baseline records matching the active dto's state.
      * @return A {@link Map} pairing string feature labels to their computed impact contribution weight percentages.
      */
     abstract protected Map<String, Double> calculateContributions(IsolationForest isolationForest, double[] record, List<T> trainingData);

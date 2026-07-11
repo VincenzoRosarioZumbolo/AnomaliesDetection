@@ -1,10 +1,10 @@
 package app.controller;
 
 import app.exception.*;
-import app.model.AppState;
-import app.model.DataRecord;
-import app.model.FinancialIndicators;
-import app.model.FinancialIndicatorsPeriods;
+import app.dto.AppState;
+import app.dto.DataRecord;
+import app.dto.FinancialIndicators;
+import app.dto.FinancialIndicatorsPeriods;
 import app.service.AnomaliesDetectionService;
 import app.service.AnomaliesDetectionServiceFactory;
 import app.service.DataSourceService;
@@ -92,7 +92,7 @@ public class Controller {
     /**
      * Performs anomaly detection on the active price dataset. It dynamically builds the chosen detection service,
      * queries history for an isolated training dataset context up until the first recorded timestamp of active data,
-     * fits an Isolation Forest model, evaluates the raw price rows against the given threshold, and stores the anomalies in {@link AppState}.
+     * fits an Isolation Forest dto, evaluates the raw price rows against the given threshold, and stores the anomalies in {@link AppState}.
      *
      * @param implementation The identifier key for the anomaly detection algorithm implementation strategy.
      * @param startDate      The starting point from which to fetch training data historical context.
@@ -137,7 +137,7 @@ public class Controller {
     /**
      * Performs anomaly detection on the generated financial technical indicators dataset.
      * It queries historical data records, computes the relative technical indicators to establish a background baseline context,
-     * fits an Isolation Forest model, evaluates the technical indicators series against the designated threshold,
+     * fits an Isolation Forest dto, evaluates the technical indicators series against the designated threshold,
      * and stores the resulting breakages inside the {@link AppState}.
      *
      * @param implementation The identifier key for the anomaly detection algorithm implementation strategy.

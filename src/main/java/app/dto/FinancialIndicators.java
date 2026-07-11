@@ -1,4 +1,4 @@
-package app.model;
+package app.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.time.Instant;
 
 /**
  * A storage container entity grouping calculated strategic technical analysis indicator metrics.
- * <p>This model simultaneously captures values for Relative Strength Index (RSI), Moving Average Convergence
+ * <p>This dto simultaneously captures values for Relative Strength Index (RSI), Moving Average Convergence
  * Divergence (MACD), Average True Range (ATR), and Chaikin Money Flow (CMF) metrics.</p>
  */
 @Data

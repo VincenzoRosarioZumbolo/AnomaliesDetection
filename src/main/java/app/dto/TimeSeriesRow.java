@@ -1,4 +1,4 @@
-package app.model;
+package app.dto;
 
 import java.time.Instant;
 

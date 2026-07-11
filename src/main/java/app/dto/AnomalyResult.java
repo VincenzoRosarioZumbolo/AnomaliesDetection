@@ -1,4 +1,4 @@
-package app.model;
+package app.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * Represents the structured result of an anomaly detection evaluation on a specific financial data row.
- * <p>This model contains the analyzed generic record (such as raw price records or computed technical indicators),
+ * <p>This dto contains the analyzed generic record (such as raw price records or computed technical indicators),
  * its abnormality score, and an algorithmic mapping explaining the structural feature contributions toward the score.</p>
  *
  * @param <T> The underlying time-series data type under evaluation, implementing {@link TimeSeriesRow}.

@@ -1,7 +1,7 @@
 package app.service;
 
 import app.exception.DataParsingException;
-import app.model.DataRecord;
+import app.dto.DataRecord;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;

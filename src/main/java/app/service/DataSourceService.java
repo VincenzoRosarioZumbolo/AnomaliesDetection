@@ -3,7 +3,7 @@ package app.service;
 import app.exception.ApiException;
 import app.exception.DataParsingException;
 import app.exception.NetworkException;
-import app.model.DataRecord;
+import app.dto.DataRecord;
 
 import java.time.LocalDateTime;
 import java.util.List;
