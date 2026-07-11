@@ -1,6 +1,6 @@
-<mxfile host="drawio-plugin" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" modified="2026-07-11T17:27:17.582Z" version="22.1.22" etag="_kxOYb4SHP1AL5DBJmY4" type="embed">
+<mxfile host="drawio-plugin" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" modified="2026-07-11T17:35:28.163Z" etag="u4biw_kOKm8xnRYAX3gm" version="22.1.22" type="embed">
   <diagram name="Pagina-1" id="kLBbo58DcJyUfdwkvZ8-">
-    <mxGraphModel dx="1880" dy="1395" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1690" dy="730" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -109,6 +109,33 @@
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="740" y="560" as="sourcePoint" />
             <mxPoint x="990" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2" value="CSV" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#6c8ebf;shadow=0;dashed=0;shape=mxgraph.ios7.icons.box;fillColor=#dae8fc;gradientColor=#7ea6e0;" vertex="1" parent="1">
+          <mxGeometry x="937" y="760" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Log" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#6c8ebf;shadow=0;dashed=0;shape=mxgraph.ios7.icons.box;fillColor=#dae8fc;gradientColor=#7ea6e0;" vertex="1" parent="1">
+          <mxGeometry x="937" y="930" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://s.yimg.com/cv/apiv2/myc/finance/Finance_icon_0919_250x252.png;" vertex="1" parent="1">
+          <mxGeometry x="350.4" y="1221" width="99.21" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;rounded=0;" edge="1" parent="1" source="wYJFISTpzyWWCG92uR3R-4" target="10">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="683" y="985" as="sourcePoint" />
+            <mxPoint x="843" y="985" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;rounded=0;" edge="1" parent="1" source="wYJFISTpzyWWCG92uR3R-6" target="3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="693" y="995" as="sourcePoint" />
+            <mxPoint x="853" y="995" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="14" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;rounded=0;" edge="1" parent="1" source="wYJFISTpzyWWCG92uR3R-6" target="2">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="703" y="1005" as="sourcePoint" />
+            <mxPoint x="863" y="1005" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
