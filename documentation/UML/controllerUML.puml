@@ -16,7 +16,8 @@ class controller.Controller {
 + {static} Controller getInstance()
 + void searchData(String,String,LocalDateTime,LocalDateTime)
 + void calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods)
-+ void searchForAnomaly(String,LocalDateTime,String)
++ void searchForDataRecordAnomaly(String,LocalDateTime,String,String)
++ void searchForFinancialIndicatorsAnomaly(String,LocalDateTime,String,String)
 }
 
 

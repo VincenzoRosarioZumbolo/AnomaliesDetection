@@ -10,135 +10,207 @@ skinparam ClassHeaderBackgroundColor #EBF3FC
 skinparam ClassBorderColor #1F60B4
 skinparam ArrowColor #555555
 
-interface service.AnomaliesDetectionService {
-~ IsolationForest trainIsolationForest(List<DataRecord>)
-~ List<AnomalyResult> searchForAnomaly(IsolationForest,List<DataRecord>,double)
+package service {
+
+    interface AnomaliesDetectionService {
+    ~ IsolationForest trainIsolationForest(List<T>,int)
+    ~ List<AnomalyResult<T>> searchForAnomaly(IsolationForest,List<T>,double)
+    ~ {static} double validateThreshold(String)
+    ~ {static} int validateTreesNumber(String)
+    }
+
+    class impl.anomalies.QuantumFinancialIndicatorsAnomaliesDetectionService {
+    + <<Create>> QuantumFinancialIndicatorsAnomaliesDetectionService()
+    - List<FinancialIndicators> filterWarmupData(List<FinancialIndicators>)
+    + IsolationForest trainIsolationForest(List<FinancialIndicators>,int)
+    + List<AnomalyResult<FinancialIndicators>> searchForAnomaly(IsolationForest,List<FinancialIndicators>,double)
+    # double[][] parseData(List<FinancialIndicators>)
+    }
+
+    class AnomaliesDetectionServiceFactory {
+    + {static} AnomaliesDetectionService<DataRecord> buildDataRecordAnomalyDetectionService(String,LocalDateTime)
+    + {static} AnomaliesDetectionService<FinancialIndicators> buildFinancialIndicatorsAnomalyDetectionService(String,LocalDateTime)
+    }
+
+    class impl.anomalies.QuantumDataRecordAnomaliesDetectionService {
+    + <<Create>> QuantumDataRecordAnomaliesDetectionService()
+    # double[][] parseData(List<DataRecord>)
+    }
+
+    abstract class impl.anomalies.QuantumAnomaliesDetectionService {
+    # {static} int ORIGINAL_FEATURE_COUNT
+    # {static} int QUBITS
+    # {static} int QUANTUM_STATE_SIZE
+    - {static} double EPSILON
+    # {static} String[] FEATURE_NAMES
+    - Map<IsolationForest,QuantumTrainingContext> trainingContextMap
+    + IsolationForest trainIsolationForest(List<T>,int)
+    + List<AnomalyResult<T>> searchForAnomaly(IsolationForest,List<T>,double)
+    - Map<String,Double> calculateContributions(IsolationForest,double[],QuantumTrainingContext)
+    - void validateTrainingData(List<T>)
+    # {abstract}double[][] parseData(List<T>)
+    }
+
+
+    class impl.anomalies.QuantumAnomaliesDetectionService$QuantumTrainingContext {
+    - double[] means
+    - double[] standardDeviations
+    - <<Create>> QuantumTrainingContext(double[],double[])
+    ~ {static} QuantumTrainingContext from(double[][])
+    ~ double[] meanRawValues()
+    ~ double[][] encode(double[][])
+    ~ double[] encode(double[])
+    - double[] toQuantumAngles(double[])
+    - double[] simulateCircuitAndMeasure(double[])
+    - {static} double[] calculateMeans(double[][])
+    - {static} double[] calculateStandardDeviations(double[][],double[])
+    - {static} void applyRy(double[],double[],int,double)
+    - {static} void applyControlledPhase(double[],double[],int,int,double)
+    + double[] means()
+    + double[] standardDeviations()
+    }
+
+
+    class impl.datasource.YahooFinanceService {
+    + List<DataRecord> fetchData(String,String,LocalDateTime,LocalDateTime)
+    - String mapGranularityToInterval(String)
+    - String mapAssetToTicker(String)
+    + boolean isCacheSufficient(List<DataRecord>,LocalDateTime,LocalDateTime,String)
+    }
+
+    class impl.anomalies.BaseDataRecordAnomaliesDetectionService {
+    # double[][] parseData(List<DataRecord>)
+    # double[] calculateMeans(List<DataRecord>)
+    # Map<String,Double> calculateContributions(IsolationForest,double[],List<DataRecord>)
+    }
+
+    interface DataSourceParser {
+    ~ List<DataRecord> parseData(JsonNode)
+    }
+
+    class impl.anomalies.BaseFinancialIndicatorsAnomaliesDetectionService {
+    - List<FinancialIndicators> filterWarmupData(List<FinancialIndicators>)
+    + IsolationForest trainIsolationForest(List<FinancialIndicators>,int)
+    + List<AnomalyResult<FinancialIndicators>> searchForAnomaly(IsolationForest,List<FinancialIndicators>,double)
+    # double[][] parseData(List<FinancialIndicators>)
+    # double[] calculateMeans(List<FinancialIndicators>)
+    # Map<String,Double> calculateContributions(IsolationForest,double[],List<FinancialIndicators>)
+    }
+
+    class impl.datasource.YahooFinanceParser {
+    + List<DataRecord> parseData(JsonNode)
+    }
+
+    class impl.indicators.IndicatorsServiceImpl {
+    + List<FinancialIndicators> calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods)
+    + List<FinancialIndicators> calculateRSInMACDnATRnCMF(List<DataRecord>)
+    - List<FinancialIndicators> calculate(List<DataRecord>,FinancialIndicatorsPeriods)
+    }
+
+    class impl.indicators.IndicatorsServiceImpl$RsiCalculator {
+    - int period
+    - int count
+    - double sumGain
+    - double sumLoss
+    - double avgGain
+    - double avgLoss
+    ~ <<Create>> RsiCalculator(int)
+    ~ void update(DataRecord,DataRecord)
+    ~ boolean isReady()
+    ~ double getValue()
+    }
+
+
+    class impl.indicators.IndicatorsServiceImpl$MacdCalculator {
+    - EmaCalculator fastEma
+    - EmaCalculator slowEma
+    ~ <<Create>> MacdCalculator(int,int)
+    ~ void update(DataRecord)
+    ~ boolean isReady()
+    ~ double getValue()
+    }
+
+
+    class impl.indicators.IndicatorsServiceImpl$MacdCalculator$EmaCalculator {
+    - int period
+    - double k
+    - int count
+    - double sum
+    - double ema
+    ~ <<Create>> EmaCalculator(int)
+    ~ void update(double)
+    ~ boolean isReady()
+    ~ double getValue()
+    }
+
+
+    class impl.indicators.IndicatorsServiceImpl$AtrCalculator {
+    - int period
+    - int count
+    - double sumTr
+    - double atr
+    ~ <<Create>> AtrCalculator(int)
+    ~ void update(DataRecord,DataRecord)
+    ~ boolean isReady()
+    ~ double getValue()
+    }
+
+
+    class impl.indicators.IndicatorsServiceImpl$CmfCalculator {
+    - int period
+    - double[] mfvBuffer
+    - long[] volBuffer
+    - int index
+    - int count
+    - double sumMfv
+    - long sumVol
+    ~ <<Create>> CmfCalculator(int)
+    ~ void update(DataRecord)
+    ~ boolean isReady()
+    ~ double getValue()
+    }
+
+
+    abstract class impl.anomalies.BaseAnomaliesDetectionService {
+    - Map<IsolationForest,List<T>> trainingDataMap
+    + IsolationForest trainIsolationForest(List<T>,int)
+    + List<AnomalyResult<T>> searchForAnomaly(IsolationForest,List<T>,double)
+    # {abstract}Map<String,Double> calculateContributions(IsolationForest,double[],List<T>)
+    # {abstract}double[] calculateMeans(List<T>)
+    # {abstract}double[][] parseData(List<T>)
+    }
+
+
+    interface IndicatorsService {
+    ~ List<FinancialIndicators> calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods)
+    }
+
+    interface DataSourceService {
+    ~ List<DataRecord> fetchData(String,String,LocalDateTime,LocalDateTime)
+    }
+
+
+
+    impl.anomalies.QuantumAnomaliesDetectionService <|-- impl.anomalies.QuantumFinancialIndicatorsAnomaliesDetectionService
+    impl.anomalies.QuantumAnomaliesDetectionService <|-- impl.anomalies.QuantumDataRecordAnomaliesDetectionService
+    AnomaliesDetectionService <|.. impl.anomalies.QuantumAnomaliesDetectionService
+    impl.anomalies.QuantumAnomaliesDetectionService +.. impl.anomalies.QuantumAnomaliesDetectionService$QuantumTrainingContext
+    DataSourceService <|.. impl.datasource.YahooFinanceService
+    impl.anomalies.BaseAnomaliesDetectionService <|-- impl.anomalies.BaseDataRecordAnomaliesDetectionService
+    impl.anomalies.BaseAnomaliesDetectionService <|-- impl.anomalies.BaseFinancialIndicatorsAnomaliesDetectionService
+    DataSourceParser <|.. impl.datasource.YahooFinanceParser
+    IndicatorsService <|.. impl.indicators.IndicatorsServiceImpl
+    impl.indicators.IndicatorsServiceImpl +.. impl.indicators.IndicatorsServiceImpl$RsiCalculator
+    impl.indicators.IndicatorsServiceImpl +.. impl.indicators.IndicatorsServiceImpl$MacdCalculator
+    impl.indicators.IndicatorsServiceImpl$MacdCalculator +.. impl.indicators.IndicatorsServiceImpl$MacdCalculator$EmaCalculator
+    impl.indicators.IndicatorsServiceImpl +.. impl.indicators.IndicatorsServiceImpl$AtrCalculator
+    impl.indicators.IndicatorsServiceImpl +.. impl.indicators.IndicatorsServiceImpl$CmfCalculator
+    AnomaliesDetectionService <|.. impl.anomalies.BaseAnomaliesDetectionService
+    AnomaliesDetectionServiceFactory .up.> AnomaliesDetectionService : <<use>>
+    AnomaliesDetectionServiceFactory .up.> BaseFinancialIndicatorsAnomaliesDetectionService : <<create>>
+    AnomaliesDetectionServiceFactory .up.> QuantumFinancialIndicatorsAnomaliesDetectionService : <<create>>
+    AnomaliesDetectionServiceFactory .up.> BaseDataRecordAnomaliesDetectionService : <<create>>
+    AnomaliesDetectionServiceFactory .up.> QuantumDataRecordAnomaliesDetectionService : <<create>>
 }
 
-class service.AnomaliesDetectionServiceFactory {
-+ {static} service.AnomaliesDetectionService buildAnomaliesDetectionService(String,String,LocalDateTime)
-}
-
-class service.impl.indicators.CMFCalculator {
-+ {static} double calculateCMF(int,List<Double>,List<Double>,List<Double>,List<Long>)
-- {static} List<Double> calculateMFVs(List<Double>,List<Double>,List<Double>,List<Long>,int)
-- {static} double calculateCMFFromMFVs(List<Double>,List<Long>,int)
-}
-
-class service.impl.anomalies.QuantumAnomaliesDetectionService {
-- {static} int ORIGINAL_FEATURE_COUNT
-- {static} int QUBITS
-- {static} int QUANTUM_STATE_SIZE
-- {static} double EPSILON
-- {static} String[] FEATURE_NAMES
-- Map<IsolationForest,QuantumTrainingContext> trainingContextMap
-+ IsolationForest trainIsolationForest(List<DataRecord>)
-+ List<AnomalyResult> searchForAnomaly(IsolationForest,List<DataRecord>,double)
-- Map<String,Double> calculateContributions(IsolationForest,double[],QuantumTrainingContext)
-- {static} void validateTrainingData(List<DataRecord>)
-- {static} double[][] parseData(List<DataRecord>)
-}
-
-
-class service.impl.anomalies.QuantumAnomaliesDetectionService$QuantumTrainingContext {
-- double[] means
-- double[] standardDeviations
-- <<Create>> QuantumTrainingContext(double[],double[])
-~ {static} QuantumTrainingContext from(List<DataRecord>)
-~ double[] meanRawValues()
-~ double[][] encode(double[][])
-~ double[] encode(double[])
-- double[] toQuantumAngles(double[])
-- double[] simulateCircuitAndMeasure(double[])
-- {static} double[] calculateMeans(double[][])
-- {static} double[] calculateStandardDeviations(double[][],double[])
-- {static} void applyRy(double[],double[],int,double)
-- {static} void applyControlledPhase(double[],double[],int,int,double)
-+ double[] standardDeviations()
-+ double[] means()
-}
-
-
-class service.impl.datasource.YahooFinanceService {
-+ List<DataRecord> fetchData(String,String,LocalDateTime,LocalDateTime)
-- String mapGranularityToInterval(String)
-- String mapAssetToTicker(String)
-+ boolean isCacheSufficient(List<DataRecord>,LocalDateTime,LocalDateTime,String)
-}
-
-interface service.DataSourceParser {
-~ List<DataRecord> parseData(JsonNode)
-}
-
-class service.impl.datasource.YahooFinanceParser {
-+ List<DataRecord> parseData(JsonNode)
-}
-
-class service.impl.indicators.IndicatorsCalculator {
-- {static} IndicatorsCalculator instance
-- {static} int STD_RSI
-- {static} int[] STD_MACD
-- {static} int STD_ATR
-- {static} int STD_CMF
-- <<Create>> IndicatorsCalculator()
-+ {static} IndicatorsCalculator getInstance()
-+ FinancialIndicators calculateRSInMACDnATRnCMF(String,String,FinancialIndicatorsPeriods)
-- FinancialIndicators calculateIndicators(FinancialIndicatorsPeriods)
-- FinancialIndicators getIndicatorsFromCsv(String)
-- boolean isStandard(FinancialIndicatorsPeriods)
-- void saveIndicators(String)
-}
-
-
-class service.impl.anomalies.BaseAnomaliesDetectionService {
-- Map<IsolationForest,List<DataRecord>> trainingDataMap
-+ IsolationForest trainIsolationForest(List<DataRecord>)
-+ List<AnomalyResult> searchForAnomaly(IsolationForest,List<DataRecord>,double)
-- Map<String,Double> calculateContributions(IsolationForest,double[],List<DataRecord>)
-- {static} double[] calculateMeans(List<DataRecord>)
-- double[][] parseData(List<DataRecord>)
-}
-
-
-interface service.IndicatorsService {
-~ FinancialIndicators calculateRSInMACDnATRnCMF(String,String,FinancialIndicatorsPeriods)
-}
-
-class service.impl.indicators.ATRCalculator {
-+ {static} double calculateATR(int,List<Double>,List<Double>,List<Double>)
-- {static} List<Double> calculateTRs(List<Double>,List<Double>,List<Double>)
-- {static} double calculateATRFromTRs(List<Double>,int)
-}
-
-class service.impl.indicators.RSICalculator {
-+ {static} double calculateRSI(int,List<Double>)
-- {static} void calculateUpsAndDowns(List<Double>,List<Double>,List<Double>)
-- {static} double[] calculateBaseAverages(int,List<Double>,List<Double>)
-- {static} double[] calculateRecursiveAverages(double[],List<Double>,List<Double>,int)
-}
-
-interface service.DataSourceService {
-~ List<DataRecord> fetchData(String,String,LocalDateTime,LocalDateTime)
-}
-
-class service.impl.indicators.MACDCalculator {
-+ {static} double calculateMACD(int[],List<Double>)
-- {static} double calculateEMA(int,List<Double>)
-}
-
-
-
-service.AnomaliesDetectionService <|.. service.impl.anomalies.QuantumAnomaliesDetectionService
-service.impl.anomalies.QuantumAnomaliesDetectionService +.. service.impl.anomalies.QuantumAnomaliesDetectionService$QuantumTrainingContext
-service.DataSourceService <|.. service.impl.datasource.YahooFinanceService
-service.DataSourceParser <|.. service.impl.datasource.YahooFinanceParser
-service.IndicatorsService <|.. service.impl.indicators.IndicatorsCalculator
-service.AnomaliesDetectionService <|.. service.impl.anomalies.BaseAnomaliesDetectionService
-
-service.impl.indicators.IndicatorsCalculator ..> service.impl.indicators.ATRCalculator : <<call>>
-service.impl.indicators.IndicatorsCalculator ..> service.impl.indicators.CMFCalculator : <<call>>
-service.impl.indicators.IndicatorsCalculator ..> service.impl.indicators.MACDCalculator : <<call>>
-service.impl.indicators.IndicatorsCalculator ..> service.impl.indicators.RSICalculator : <<call>>
-service.AnomaliesDetectionServiceFactory ..> service.impl.anomalies.BaseAnomaliesDetectionService : <<create>>
-service.AnomaliesDetectionServiceFactory ..> service.impl.anomalies.QuantumAnomaliesDetectionService : <<create>>
 @enduml

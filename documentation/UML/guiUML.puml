@@ -10,19 +10,19 @@ skinparam ClassHeaderBackgroundColor #EBF3FC
 skinparam ClassBorderColor #1F60B4
 skinparam ArrowColor #555555
 
-package gui {
+package gui{
 
     package components {
-        note as N_comp
-          <b>Black Box: components</b>
-          Contains reusable graphical components:
-          * InvisiblePanel, CardPanel, ScrollablePanel
-          * PrimaryButton, MenuTabButton, FullScreenFrame
-          * UnderlinedComboBox, UnderlinedTextField, UnderlinedDateTimePicker
-          * StyledChart, StyledLineChart, StyledBarChart, StyledChartPanel
-          * DynamicChartContainer, FloatingMessage, TitleLabel, BoldLabel
-          * LabeledComponent
-        end note
+            note as N_comp
+              <b>Black Box: components</b>
+              Contains reusable graphical components:
+              * InvisiblePanel, CardPanel, ScrollablePanel
+              * PrimaryButton, MenuTabButton, FullScreenFrame
+              * UnderlinedComboBox, UnderlinedTextField, UnderlinedDateTimePicker
+              * StyledChart, StyledLineChart, StyledBarChart, StyledChartPanel
+              * DynamicChartContainer, FloatingMessage, TitleLabel, BoldLabel
+              * LabeledComponent
+            end note
     }
 
     package style {
@@ -34,7 +34,28 @@ package gui {
         end note
     }
 
-    class MainPage {
+    package views {
+        class ResultsChartsPanel {
+        + <<Create>> ResultsChartsPanel()
+        + void createCharts()
+        - JFreeChart createOpensClosuresChart()
+        - JFreeChart createHighsLowsChart()
+        - JFreeChart createVolumesChart()
+        }
+
+        abstract class AbstractChartsPanel {
+        # DynamicChartContainer chartContainer
+        + <<Create>> AbstractChartsPanel()
+        # void setCharts(List<JFreeChart>)
+        }
+
+        class FinancialIndicatorsAnomalyDetectionPanel {
+        # void performSearch(String,LocalDateTime,String,String)
+        # List<AnomalyResult<FinancialIndicators>> getAnomalyResults()
+        # String[] getFeatureNames()
+        }
+
+        class MainPage {
         - JFrame mainFrame
         - JPanel mainPanel
         - MenuPanel menuPanel
@@ -45,23 +66,9 @@ package gui {
         - void addSearchPanel()
         - void addResultsCharts()
         + void createCharts()
-    }
+        }
 
-    class MenuPanel {
-        - ButtonPanelPair[] components
-        + <<Create>> MenuPanel()
-        - void addComponents()
-        + void createCharts()
-        - void showPair(int)
-    }
-
-    class MenuPanel$ButtonPanelPair {
-        ~ MenuTabButton button
-        ~ JPanel panel
-        + <<Create>> ButtonPanelPair(MenuTabButton, JPanel)
-    }
-
-    class SearchPanel {
+        class SearchPanel {
         - MainPage mainPage
         - JComboBox<String> assetComboBox
         - {static} String[] ASSETS
@@ -77,25 +84,51 @@ package gui {
         - void addEndDatePicker()
         - void addSearchButton()
         - void search()
-    }
+        }
 
-    class AnomaliesDetectionPanel {
+
+        class DataRecordAnomalyDetectionPanel {
+        # void performSearch(String,LocalDateTime,String,String)
+        # List<AnomalyResult<DataRecord>> getAnomalyResults()
+        # String[] getFeatureNames()
+        }
+
+        class MenuPanel {
+        - ButtonPanelPair[] components
+        + <<Create>> MenuPanel()
+        - void addComponents()
+        + void createCharts()
+        - void showPair(int)
+        }
+
+
+        class MenuPanel$ButtonPanelPair {
+        ~ MenuTabButton button
+        ~ JPanel panel
+        + <<Create>> ButtonPanelPair(MenuTabButton,JPanel)
+        }
+
+        abstract class BaseAnomalyDetectionPanel {
         - DynamicChartContainer chartContainer
         - JTextField thresholdTextField
+        - JTextField treesNumberTextField
         - DateTimePicker startDatePicker
         - JComboBox<String> implementationComboBox
         - {static} String[] implementations
         - JButton searchButton
-        + <<Create>> AnomaliesDetectionPanel()
+        + <<Create>> BaseAnomalyDetectionPanel()
         - void addComponents()
         - void addControlPanel()
-        - void searchForAnomaly()
+        - void executeSearch()
         - void updateChartsView()
-        - JFreeChart createScoreChart(List<AnomalyResult>, double)
-        - JFreeChart createContributionChart(List<AnomalyResult>, String)
-    }
+        - JFreeChart createScoreChart(List<AnomalyResult<T>>,double)
+        - JFreeChart createContributionChart(List<AnomalyResult<T>>,String)
+        # {abstract}void performSearch(String,LocalDateTime,String,String)
+        # {abstract}List<AnomalyResult<T>> getAnomalyResults()
+        # {abstract}String[] getFeatureNames()
+        }
 
-    class FinancialValuesPanel {
+        class FinancialValuesPanel {
         - JTextField RSIPeriodTextField
         - JTextField fastEMAPeriodTextField
         - JTextField slowEMAPeriodTextField
@@ -104,49 +137,34 @@ package gui {
         - JTextField CMFPeriodTextField
         - JButton calculateButton
         + <<Create>> FinancialValuesPanel()
-        - void addRSIComponents()
-        - void addMACDComponents()
-        - void addATRComponents()
-        - void addCMFComponents()
-        - void addCalculateButton()
+        - void addRSIComponents(JPanel)
+        - void addMACDComponents(JPanel)
+        - void addATRComponents(JPanel)
+        - void addCMFComponents(JPanel)
+        - void addCalculateButton(JPanel)
         - void calculate()
+        - void createCharts()
+        - JFreeChart createRSIChart()
+        - JFreeChart createMACDChart()
+        - JFreeChart createATRChart()
+        - JFreeChart createCMFChart()
+        }
+
+        AbstractChartsPanel <|-- ResultsChartsPanel
+        BaseAnomalyDetectionPanel <|-- FinancialIndicatorsAnomalyDetectionPanel
+        BaseAnomalyDetectionPanel <|-- DataRecordAnomalyDetectionPanel
+        MenuPanel +.. MenuPanel$ButtonPanelPair
+        AbstractChartsPanel <|-- FinancialValuesPanel
+        MenuPanel ..> DataRecordAnomalyDetectionPanel : <<create>>
+        MenuPanel ..> FinancialIndicatorsAnomalyDetectionPanel : <<create>>
+        MenuPanel ..> FinancialValuesPanel : <<create>>
+        MenuPanel ..> ResultsChartsPanel : <<create>>
+        SearchPanel ..> MainPage : <<use>>
+        MainPage ..> SearchPanel : <<create>>
+        MainPage ..> MenuPanel : <<create>>
     }
 
-    class ResultsChartsPanel {
-        - DynamicChartContainer chartContainer
-        + <<Create>> ResultsChartsPanel()
-        + void createCharts()
-        - JFreeChart createOpensClosuresChart()
-        - JFreeChart createHighsLowsChart()
-        - JFreeChart createVolumesChart()
-    }
-
-    class VariablesResultsDialog {
-        + <<Create>> VariablesResultsDialog(JFrame)
-        - void addResultsLabels()
-    }
-
+    views ..> components : <<use>>
+    views ..> style : <<use>>
 }
-
-MenuPanel +.. MenuPanel$ButtonPanelPair
-MainPage "1" *-- "1" MenuPanel : contains
-SearchPanel "1" o-- "1" MainPage : communicates with
-
-ResultsChartsPanel -left-|> components : <<extends InvisiblePanel>>
-AnomaliesDetectionPanel -left-|> components : <<extends InvisiblePanel>>
-FinancialValuesPanel -left-|> components : <<extends InvisiblePanel>>
-MenuPanel -left-|> components : <<extends CardPanel>>
-SearchPanel -left-|> components : <<extends CardPanel>>
-
-MainPage .left.> components : <<uses JComponents>>
-ResultsChartsPanel .left.> components : <<uses DynamicChartContainer>>
-AnomaliesDetectionPanel .left.> components : <<uses DynamicChartContainer>>
-
-MainPage .right.> style : <<uses AppColors>>
-MenuPanel .right.> style : <<uses AppColors>>
-SearchPanel .right.> style : <<uses AppColors>>
-AnomaliesDetectionPanel .right.> style : <<uses AppColors/Padding>>
-FinancialValuesPanel .right.> style : <<uses AppColors/Padding>>
-ResultsChartsPanel .right.> style : <<uses AppColors/Padding>>
-
 @enduml

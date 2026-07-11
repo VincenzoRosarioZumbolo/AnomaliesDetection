@@ -1,5 +1,4 @@
 @startuml
-class model.AppState {
 
 skinparam ClassAttributeIconSize 0
 skinparam BackgroundColor #FFFFFF
@@ -11,54 +10,82 @@ skinparam ClassHeaderBackgroundColor #EBF3FC
 skinparam ClassBorderColor #1F60B4
 skinparam ArrowColor #555555
 
-- {static} AppState instance
-- String granularity
-- String asset
-- List<DataRecord> dataRecords
-- List<AnomalyResult> anomalyResults
-- FinancialIndicators financialIndicators
-- <<Create>> AppState()
-+ {static} AppState getInstance()
-+ List<Instant> getInstants()
-+ List<Double> getOpens()
-+ List<Double> getClosures()
-+ List<Double> getHighs()
-+ List<Double> getLows()
-+ List<Long> getVolumes()
-}
+package model {
+
+    class AppState {
+    - {static} AppState instance
+    - String granularity
+    - String asset
+    - List<DataRecord> dataRecords
+    - List<FinancialIndicators> financialIndicators
+    - List<AnomalyResult<DataRecord>> dataRecordAnomalyResults
+    - List<AnomalyResult<FinancialIndicators>> financialIndicatorsAnomalyResults
+    - <<Create>> AppState()
+    + {static} AppState getInstance()
+    + List<Instant> getDataRecordsInstants()
+    + List<Instant> getFinancialIndicatorsInstants()
+    + List<Double> getOpens()
+    + List<Double> getClosures()
+    + List<Double> getHighs()
+    + List<Double> getLows()
+    + List<Long> getVolumes()
+    + List<Double> getMACDs()
+    + List<Double> getATRs()
+    + List<Double> getRSIs()
+    + List<Double> getCMFs()
+    }
 
 
-class model.FinancialIndicatorsPeriods {
-~ int RSIPeriod
-~ int[] MACDPeriod
-~ int ATRPeriod
-~ int CMFPeriod
-+ <<Create>> FinancialIndicatorsPeriods(String,String[],String,String)
-}
+    interface TimeSeriesRow {
+    ~ Instant getTimestamp()
+    }
+
+    class FinancialIndicatorsPeriods {
+    ~ int RSIPeriod
+    ~ int[] MACDPeriod
+    ~ int ATRPeriod
+    ~ int CMFPeriod
+    + {static} FinancialIndicatorsPeriods STANDARD_PERIODS
+    + <<Create>> FinancialIndicatorsPeriods(String,String[],String,String)
+    }
 
 
-class model.DataRecord {
-- Instant timestamp
-- double open
-- double high
-- double low
-- double close
-- long volume
-}
-
-class model.AnomalyResult {
-- DataRecord dataRecord
-- double score
-- Map<String,Double> contributions
-+ <<Create>> AnomalyResult(DataRecord,double,Map<String,Double>)
-}
+    class DataRecord {
+    - Instant timestamp
+    - double open
+    - double high
+    - double low
+    - double close
+    - long volume
+    + Instant getTimestamp()
+    }
 
 
-class model.FinancialIndicators {
-- double RSI
-- double MACD
-- double ATR
-- double CMF
+    class AnomalyResult {
+    - T dataRecord
+    - double score
+    - Map<String,Double> contributions
+    + <<Create>> AnomalyResult(T,double,Map<String,Double>)
+    }
+
+
+    class FinancialIndicators {
+    - Instant timestamp
+    - double RSI
+    - double MACD
+    - double ATR
+    - double CMF
+    + Instant getTimestamp()
+    }
+
+
+
+
+    TimeSeriesRow <|.. DataRecord
+    TimeSeriesRow <|.. FinancialIndicators
+    AppState ..> FinancialIndicators : <<use>>
+    AppState ..> DataRecord : <<use>>
+    AppState ..> AnomalyResult : <<use>>
 }
 
 @enduml
