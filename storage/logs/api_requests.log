@@ -1166,3 +1166,69 @@ Jul 11, 2026 7:03:15 PM app.util.LoggerUtil logApiRequest
 INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
 Jul 11, 2026 7:03:15 PM app.util.LoggerUtil logApiRequest
 INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 13, 2026 11:06:36 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 13, 2026 11:07:37 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 13, 2026 11:09:18 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 13, 2026 11:14:05 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 13, 2026 11:14:13 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 13, 2026 11:33:44 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1782864000&period2=1783900800&interval=1m
+Jul 13, 2026 11:33:44 AM app.util.LoggerUtil logError
+SEVERE: [API_CLIENT] ERROR: Status: 422 | Body: {"chart":{"result":null,"error":{"code":"Unprocessable Entity","description":"1m data not available for startTime=1782864000 and endTime=1783900800. Only 8 days worth of 1m granularity data are allowed to be fetched per request."}}}
+Jul 13, 2026 11:33:44 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Server returned an error (Status code: 422)
+Jul 13, 2026 11:33:47 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1782864000&period2=1783900800&interval=1m
+Jul 13, 2026 11:33:47 AM app.util.LoggerUtil logError
+SEVERE: [API_CLIENT] ERROR: Status: 422 | Body: {"chart":{"result":null,"error":{"code":"Unprocessable Entity","description":"1m data not available for startTime=1782864000 and endTime=1783900800. Only 8 days worth of 1m granularity data are allowed to be fetched per request."}}}
+Jul 13, 2026 11:33:47 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Server returned an error (Status code: 422)
+Jul 13, 2026 11:33:50 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1782864000&period2=1783900800&interval=1m
+Jul 13, 2026 11:33:50 AM app.util.LoggerUtil logError
+SEVERE: [API_CLIENT] ERROR: Status: 422 | Body: {"chart":{"result":null,"error":{"code":"Unprocessable Entity","description":"1m data not available for startTime=1782864000 and endTime=1783900800. Only 8 days worth of 1m granularity data are allowed to be fetched per request."}}}
+Jul 13, 2026 11:33:50 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Server returned an error (Status code: 422)
+Jul 13, 2026 11:34:15 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Start date cannot be after end date.
+Jul 13, 2026 11:34:23 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783814400&period2=1783900800&interval=1m
+Jul 13, 2026 11:34:29 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783728000&period2=1783900800&interval=1m
+Jul 13, 2026 11:34:32 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783641600&period2=1783900800&interval=1m
+Jul 13, 2026 11:34:37 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783209600&period2=1783900800&interval=1m
+Jul 13, 2026 11:35:00 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783036800&period2=1783900800&interval=1m
+Jul 13, 2026 11:35:00 AM app.util.LoggerUtil logError
+SEVERE: [API_CLIENT] ERROR: Status: 422 | Body: {"chart":{"result":null,"error":{"code":"Unprocessable Entity","description":"1m data not available for startTime=1783036800 and endTime=1783900800. Only 8 days worth of 1m granularity data are allowed to be fetched per request."}}}
+Jul 13, 2026 11:35:00 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Server returned an error (Status code: 422)
+Jul 13, 2026 11:35:07 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783123200&period2=1783900800&interval=1m
+Jul 13, 2026 11:35:07 AM app.util.LoggerUtil logError
+SEVERE: [API_CLIENT] ERROR: Status: 422 | Body: {"chart":{"result":null,"error":{"code":"Unprocessable Entity","description":"1m data not available for startTime=1783123200 and endTime=1783900800. Only 8 days worth of 1m granularity data are allowed to be fetched per request."}}}
+Jul 13, 2026 11:35:07 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Server returned an error (Status code: 422)
+Jul 13, 2026 11:35:16 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
+Jul 13, 2026 11:35:39 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783123200&period2=1783900800&interval=1m
+Jul 13, 2026 11:35:39 AM app.util.LoggerUtil logError
+SEVERE: [API_CLIENT] ERROR: Status: 422 | Body: {"chart":{"result":null,"error":{"code":"Unprocessable Entity","description":"1m data not available for startTime=1783123200 and endTime=1783900800. Only 8 days worth of 1m granularity data are allowed to be fetched per request."}}}
+Jul 13, 2026 11:35:39 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Server returned an error (Status code: 422)
+Jul 13, 2026 11:35:45 AM app.util.LoggerUtil logInfo
+INFO: Sending request to:https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=1783123200&period2=1783900800&interval=1m
+Jul 13, 2026 11:35:45 AM app.util.LoggerUtil logError
+SEVERE: [API_CLIENT] ERROR: Status: 422 | Body: {"chart":{"result":null,"error":{"code":"Unprocessable Entity","description":"1m data not available for startTime=1783123200 and endTime=1783900800. Only 8 days worth of 1m granularity data are allowed to be fetched per request."}}}
+Jul 13, 2026 11:35:45 AM app.util.LoggerUtil logInfo
+INFO: Search interrupted: Server returned an error (Status code: 422)
+Jul 13, 2026 11:35:51 AM app.util.LoggerUtil logApiRequest
+INFO: [Cache] Symbol: Bitcoin | Response: Data fetched from local cache.
