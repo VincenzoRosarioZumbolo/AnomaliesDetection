@@ -1,0 +1,94 @@
+@startuml
+
+skinparam ClassAttributeIconSize 0
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+package service {
+
+    interface IndicatorsService
+
+    package impl {
+        package indicators {
+            class IndicatorsServiceImpl {
+            + List<FinancialIndicators> calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods)
+            + List<FinancialIndicators> calculateRSInMACDnATRnCMF(List<DataRecord>)
+            - List<FinancialIndicators> calculate(List<DataRecord>,FinancialIndicatorsPeriods)
+            }
+
+            class IndicatorsServiceImpl$RsiCalculator {
+            - int period
+            - int count
+            - double sumGain
+            - double sumLoss
+            - double avgGain
+            - double avgLoss
+            ~ <<Create>> RsiCalculator(int)
+            ~ void update(DataRecord,DataRecord)
+            ~ boolean isReady()
+            ~ double getValue()
+            }
+
+            class IndicatorsServiceImpl$MacdCalculator {
+            - EmaCalculator fastEma
+            - EmaCalculator slowEma
+            ~ <<Create>> MacdCalculator(int,int)
+            ~ void update(DataRecord)
+            ~ boolean isReady()
+            ~ double getValue()
+            }
+
+            class IndicatorsServiceImpl$MacdCalculator$EmaCalculator {
+            - int period
+            - double k
+            - int count
+            - double sum
+            - double ema
+            ~ <<Create>> EmaCalculator(int)
+            ~ void update(double)
+            ~ boolean isReady()
+            ~ double getValue()
+            }
+
+            class IndicatorsServiceImpl$AtrCalculator {
+            - int period
+            - int count
+            - double sumTr
+            - double atr
+            ~ <<Create>> AtrCalculator(int)
+            ~ void update(DataRecord,DataRecord)
+            ~ boolean isReady()
+            ~ double getValue()
+            }
+
+            class IndicatorsServiceImpl$CmfCalculator {
+            - int period
+            - double[] mfvBuffer
+            - long[] volBuffer
+            - int index
+            - int count
+            - double sumMfv
+            - long sumVol
+            ~ <<Create>> CmfCalculator(int)
+            ~ void update(DataRecord)
+            ~ boolean isReady()
+            ~ double getValue()
+            }
+
+            IndicatorsService <|.. IndicatorsServiceImpl
+            IndicatorsServiceImpl +.. IndicatorsServiceImpl$RsiCalculator
+            IndicatorsServiceImpl +.. IndicatorsServiceImpl$MacdCalculator
+            IndicatorsServiceImpl$MacdCalculator +.. IndicatorsServiceImpl$MacdCalculator$EmaCalculator
+            IndicatorsServiceImpl +.. IndicatorsServiceImpl$AtrCalculator
+            IndicatorsServiceImpl +.. IndicatorsServiceImpl$CmfCalculator
+        }
+    }
+}
+
+@enduml

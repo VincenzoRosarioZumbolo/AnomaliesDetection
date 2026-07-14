@@ -1,0 +1,53 @@
+@startuml
+
+skinparam ClassAttributeIconSize 0
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+package service {
+
+    interface AnomaliesDetectionService {
+    ~ IsolationForest trainIsolationForest(List<T>,int)
+    ~ List<AnomalyResult<T>> searchForAnomaly(IsolationForest,List<T>,double)
+    ~ {static} double validateThreshold(String)
+    ~ {static} int validateTreesNumber(String)
+    }
+
+    class AnomaliesDetectionServiceFactory {
+    + {static} AnomaliesDetectionService<DataRecord> buildDataRecordAnomalyDetectionService(String,LocalDateTime)
+    + {static} AnomaliesDetectionService<FinancialIndicators> buildFinancialIndicatorsAnomalyDetectionService(String,LocalDateTime)
+    }
+
+    interface DataSourceParser {
+    ~ List<DataRecord> parseData(JsonNode)
+    }
+
+    interface IndicatorsService {
+    ~ List<FinancialIndicators> calculateRSInMACDnATRnCMF(FinancialIndicatorsPeriods)
+    }
+
+    interface DataSourceService {
+    ~ List<DataRecord> fetchData(String,String,LocalDateTime,LocalDateTime)
+    }
+
+    package impl {
+        package indicators {}
+        package anomalies {}
+        package datasource {}
+    }
+
+    DataSourceService <|.. impl.datasource
+    DataSourceParser <|.. impl.datasource
+    IndicatorsService <|.. impl.indicators
+    AnomaliesDetectionService <|.. impl.anomalies
+    AnomaliesDetectionServiceFactory ..> AnomaliesDetectionService : <<use>>
+    AnomaliesDetectionServiceFactory ..> impl.anomalies : <<create>>
+}
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+
+skinparam ClassAttributeIconSize 0
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+package service {
+
+    interface DataSourceParser
+    interface DataSourceService
+
+    package impl {
+        package datasource {
+
+            class YahooFinanceService {
+            + List<DataRecord> fetchData(String,String,LocalDateTime,LocalDateTime)
+            - String mapGranularityToInterval(String)
+            - String mapAssetToTicker(String)
+            + boolean isCacheSufficient(List<DataRecord>,LocalDateTime,LocalDateTime,String)
+            }
+
+            class YahooFinanceParser {
+            + List<DataRecord> parseData(JsonNode)
+            }
+
+            DataSourceService <|.. YahooFinanceService
+            DataSourceParser <|.. YahooFinanceParser
+        }
+    }
+}
+
+@enduml

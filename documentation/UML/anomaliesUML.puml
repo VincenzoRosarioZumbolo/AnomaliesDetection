@@ -1,0 +1,100 @@
+@startuml
+
+skinparam ClassAttributeIconSize 0
+skinparam BackgroundColor #FFFFFF
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #CCCCCC
+skinparam PackageFontName "Segoe UI"
+skinparam ClassFontName "Segoe UI"
+skinparam ClassHeaderBackgroundColor #EBF3FC
+skinparam ClassBorderColor #1F60B4
+skinparam ArrowColor #555555
+
+package service {
+
+    interface AnomaliesDetectionService
+
+    package impl {
+        package anomalies {
+
+            abstract class BaseAnomaliesDetectionService {
+            - Map<IsolationForest,List<T>> trainingDataMap
+            + IsolationForest trainIsolationForest(List<T>,int)
+            + List<AnomalyResult<T>> searchForAnomaly(IsolationForest,List<T>,double)
+            # {abstract}Map<String,Double> calculateContributions(IsolationForest,double[],List<T>)
+            # {abstract}double[] calculateMeans(List<T>)
+            # {abstract}double[][] parseData(List<T>)
+            }
+
+            class QuantumFinancialIndicatorsAnomaliesDetectionService {
+            + <<Create>> QuantumFinancialIndicatorsAnomaliesDetectionService()
+            - List<FinancialIndicators> filterWarmupData(List<FinancialIndicators>)
+            + IsolationForest trainIsolationForest(List<FinancialIndicators>,int)
+            + List<AnomalyResult<FinancialIndicators>> searchForAnomaly(IsolationForest,List<FinancialIndicators>,double)
+            # double[][] parseData(List<FinancialIndicators>)
+            }
+
+            class QuantumDataRecordAnomaliesDetectionService {
+            + <<Create>> QuantumDataRecordAnomaliesDetectionService()
+            # double[][] parseData(List<DataRecord>)
+            }
+
+            abstract class QuantumAnomaliesDetectionService {
+            # {static} int ORIGINAL_FEATURE_COUNT
+            # {static} int QUBITS
+            # {static} int QUANTUM_STATE_SIZE
+            - {static} double EPSILON
+            # {static} String[] FEATURE_NAMES
+            - Map<IsolationForest,QuantumTrainingContext> trainingContextMap
+            + IsolationForest trainIsolationForest(List<T>,int)
+            + List<AnomalyResult<T>> searchForAnomaly(IsolationForest,List<T>,double)
+            - Map<String,Double> calculateContributions(IsolationForest,double[],QuantumTrainingContext)
+            - void validateTrainingData(List<T>)
+            # {abstract}double[][] parseData(List<T>)
+            }
+
+            class QuantumAnomaliesDetectionService$QuantumTrainingContext {
+            - double[] means
+            - double[] standardDeviations
+            - <<Create>> QuantumTrainingContext(double[],double[])
+            ~ {static} QuantumTrainingContext from(double[][])
+            ~ double[] meanRawValues()
+            ~ double[][] encode(double[][])
+            ~ double[] encode(double[])
+            - double[] toQuantumAngles(double[])
+            - double[] simulateCircuitAndMeasure(double[])
+            - {static} double[] calculateMeans(double[][])
+            - {static} double[] calculateStandardDeviations(double[][],double[])
+            - {static} void applyRy(double[],double[],int,double)
+            - {static} void applyControlledPhase(double[],double[],int,int,double)
+            + double[] means()
+            + double[] standardDeviations()
+            }
+
+            class BaseDataRecordAnomaliesDetectionService {
+            # double[][] parseData(List<DataRecord>)
+            # double[] calculateMeans(List<DataRecord>)
+            # Map<String,Double> calculateContributions(IsolationForest,double[],List<DataRecord>)
+            }
+
+            class BaseFinancialIndicatorsAnomaliesDetectionService {
+            - List<FinancialIndicators> filterWarmupData(List<FinancialIndicators>)
+            + IsolationForest trainIsolationForest(List<FinancialIndicators>,int)
+            + List<AnomalyResult<FinancialIndicators>> searchForAnomaly(IsolationForest,List<FinancialIndicators>,double)
+            # double[][] parseData(List<FinancialIndicators>)
+            # double[] calculateMeans(List<FinancialIndicators>)
+            # Map<String,Double> calculateContributions(IsolationForest,double[],List<FinancialIndicators>)
+            }
+
+            AnomaliesDetectionService <|.. BaseAnomaliesDetectionService
+            QuantumAnomaliesDetectionService <|-- QuantumFinancialIndicatorsAnomaliesDetectionService
+            QuantumAnomaliesDetectionService <|-- QuantumDataRecordAnomaliesDetectionService
+            AnomaliesDetectionService <|.. QuantumAnomaliesDetectionService
+            QuantumAnomaliesDetectionService +.. QuantumAnomaliesDetectionService$QuantumTrainingContext
+            BaseAnomaliesDetectionService <|-- BaseDataRecordAnomaliesDetectionService
+            BaseAnomaliesDetectionService <|-- BaseFinancialIndicatorsAnomaliesDetectionService
+        }
+    }
+}
+
+@enduml
