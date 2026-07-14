@@ -10,8 +10,7 @@ import java.util.*;
 
 /**
  * Service utility layer responsible for handling persistent disk input/output operations.
- * <p>Manages saving, merging, and retrieving historical asset market pricing blocks and calculated
- * technical financial indicator metrics using local CSV storage files.</p>
+ * <p>Manages saving, merging, and retrieving historical asset market pricing blocks using local CSV storage files.</p>
  */
 public class CsvStorageService {
 
